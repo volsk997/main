@@ -1,0 +1,1040 @@
+type: grid
+cards:
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Статусная строка
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: >-
+              {% if is_state_attr(config.entity,'alice_state', 'LISTENING') %}
+              mdi:ear-hearing  {% elif is_state_attr(config.entity,
+              'alice_state', 'SPEAKING') %} mdi:account-voice {% elif
+              is_state(config.entity, 'playing')%} mdi:speaker-wireless {% else
+              %} mdi:sleep {% endif %}
+            icon_color: disabled
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: media_player.yandex_station_cyan
+          - type: spacer
+          - type: template
+            icon: mdi:information
+            icon_color: disabled
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: media_player.yandex_station_cyan
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }  
+        alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              opacity:1000%;
+              --chip-height: 50px;
+              --chip-background: none;
+              --chip-border-radius: 50px;
+              --primary-text-color: rgba(var(--rgb-disabled)); ;
+              --chip-border-width: 0px;
+
+              background-color: transparent !important;
+              }
+            ha-card:hover {
+               opacity: 100%; }
+            ha-card > .chip-container {
+              flex-wrap: nowrap;
+              overflow-x: scroll;
+              overflow-y: hidden;
+              --chip-spacing: 0px;
+              --chip-height: 45px;
+              --chip-font-weight: bolder; 
+
+              padding-bottom: 40px;
+              padding-right: 10px;
+              padding-top: 10px;
+              margin-bottom: 20px;
+            }
+            ha-card > .chip-container > * {
+              flex-shrink: 0;
+            }
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 100px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(100% - 40px) !important;
+          max-width: 950px !important;
+          height: calc(100% - 40px) !important;
+          max-height: 60px !important;  /* 30px - отступ от краёв */
+          min-height: 50px !important;  /* Минимальная высота */
+          
+
+
+          height: 100vh !important;
+          z-index: 1 !important;
+          --chip-height: 60px;
+          --chip-spacing: 20px;
+          --chip-background: transparent;
+          --chip-icon-size: 35px; 
+          --chip-border-radius: 100px;
+          --chip-padding: 12px;
+          /* Визуальные стили ha-card */
+          background: rgba(0,0,0,0) !important;
+          border-width: 0px;
+
+
+          padding: 0px 0px !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Плеер
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+              - color: red
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |+
+
+            secondary: ""
+            icon: ""
+            entity: media_player.yandex_station_cyan
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: more-info
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card:before {
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  
+                  content: "";
+                  background: url('/local/cards_img/idle_art_cyan.png') center no-repeat;
+                  {% if not is_state(config.entity, 'idle') %}
+                    {% if  state_attr(config.entity, 'entity_picture') == None %}
+                    {% else %}
+                    background: url( '{{ state_attr(config.entity, "entity_picture")|replace("400x400","1000x1000") }}') center no-repeat;
+                    {% endif %}
+                  {% endif %}
+                  background-size: contain;
+                  margin: 0px 0px -20px 0px;
+                  aspect-ratio: 1 / 1; 
+                  border-radius: 30px;
+                  }
+                ha-card {
+                  border-radius: 30px; 
+                  border: 2px outset rgba(0,0,0,0);}
+                  border-width: 0px;
+          - type: custom:stack-in-card
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: |+
+
+                    secondary: ""
+                    icon: ""
+                    entity: media_player.yandex_station_cyan
+                    picture: ""
+                    badge_icon: ""
+                    badge_color: ""
+                    layout: vertical
+                    icon_color: ""
+                    tap_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    fill_container: true
+                    card_mod:
+                      style: |
+                        ha-card:before {
+                          transform: translate3d(0,0,0);
+                          -webkit-transform: translate3d(0,0,0);
+                          content: "";
+                          background: url('/local/cards_img/idle_art_cyan.png') center no-repeat;
+                          filter:  opacity(50%)  !important;
+                            {% if  state_attr(config.entity, 'entity_picture') == None %}
+                            {% else %}
+                            background: url( '{{ state_attr(config.entity, "entity_picture")|replace("400x400","1000x1000") }}') center no-repeat;
+                            filter:  opacity(50%)  !important;
+                            {% endif %}
+                          background-size: cover;
+                          margin: 0px 0px -20px 0px;              
+                          aspect-ratio: 1 / 1; 
+                          border-radius: 30px;
+                          }
+                        ha-card {
+                          border-radius: 30px; 
+                          border: 2px outset rgba(0,0,0,0);}
+                          border-width: 0px;
+                          }
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-color: rgba(var(--rgb-primary-background-color, 120, 120, 120), 1) !important;  /* Исходный цвет фона */
+                      border-radius: 30px;
+                      border-width: 0px;
+                      }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: spacer
+                  - type: template
+                    icon: mdi:skip-previous
+                    icon_color: "1"
+                    tap_action:
+                      action: call-service
+                      service: media_player.media_previous_track
+                      target:
+                        entity_id: media_player.yandex_station_cyan
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ha-card {
+                          --chip-padding: -20px;
+                          background: rgba(var(--rgb-card-background-color), 0.5) !important;
+                          backdrop-filter: blur(10px) !important;
+                          -webkit-backdrop-filter: blur(10px) !important; /* Для Safari */
+                          box-shadow: 0px 20px 40px 5px rgba(0, 0, 0, 0.7) !important;
+                          border: 1px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                          display: flex !important;
+                          flex-direction: column !important;
+                          justify-content: center !important;
+                          align-items: center !important;
+                            /* Анимация */
+                          transition: all 0.3s ease !important;
+                          }
+                        ha-card:hover {
+                          scale: 1.1;
+                          }
+                  - type: spacer
+                  - type: template
+                    entity: media_player.yandex_station_cyan
+                    tap_action:
+                      action: perform-action
+                      perform_action: script.turn_on
+                      target:
+                        entity_id: script.yandex_station_play_pause_extended
+                      data:
+                        variables:
+                          entity: media_player.yandex_station_cyan
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    icon: >-
+                      {% if is_state(config.entity, 'playing') %}mdi:pause   {%
+                      elif is_state(config.entity, 'paused') %}mdi:play   {%
+                      elif is_state(config.entity, 'idle') %}mdi:play   {% else 
+                      %} mdi:alert-circle {% endif %}
+                    icon_color: "1"
+                    card_mod:
+                      style: |
+                        ha-card {
+                          margin: -55px 0px 0px 0px;
+                          --chip-height: 220px;  /* Значение для ПК */
+                          --chip-padding: -20px;
+                          background: rgba(var(--rgb-card-background-color), 0.5) !important;
+                          backdrop-filter: blur(10px) !important;
+                          -webkit-backdrop-filter: blur(10px) !important;
+                          box-shadow: 0px 20px 40px 5px rgba(0, 0, 0, 0.7) !important;
+                          border: 1px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                          display: flex !important;
+                          flex-direction: column !important;
+                          justify-content: center !important;
+                          align-items: center !important;
+                          transition: all 0.3s ease !important;
+                          }
+                        ha-card:hover {
+                          scale: 1.1;
+                          }
+
+                          /* Для мобильных (ширина экрана ≤ 600px) */
+                        @media (max-width: 1150px) {
+                          ha-card {
+                            --chip-height: 125px !important;
+                            margin: -30px 0px 0px 0px;
+                            }
+                        }
+                  - type: spacer
+                  - type: template
+                    icon: mdi:skip-next
+                    icon_color: "1"
+                    tap_action:
+                      action: call-service
+                      service: media_player.media_next_track
+                      target:
+                        entity_id: media_player.yandex_station_cyan
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ha-card {
+                          --chip-padding: -20px;
+                          /* Визуальные стили ha-card */
+                          background: rgba(var(--rgb-card-background-color), 0.5) !important;
+                          backdrop-filter: blur(10px) !important;
+                          -webkit-backdrop-filter: blur(10px) !important; /* Для Safari */
+                          box-shadow: 0px 20px 40px 5px rgba(0, 0, 0, 0.7) !important;
+                          border: 1px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                          display: flex !important;
+                          flex-direction: column !important;
+                          justify-content: center !important;
+                          align-items: center !important;
+                            /* Анимация */
+                          transition: all 0.3s ease !important;
+                        }
+                        ha-card:hover {
+                          scale: 1.1;
+                          }
+                  - type: spacer
+                alignment: center
+                card_mod:
+                  style: |
+                    ha-card {
+                      margin: 20px 12px 20px 12px;
+                      --chip-border-radius: 100%;
+                      --chip-spacing: 25px;
+                      position: absolute !important;
+                      left: 0px;
+                      right: 0px;
+                      top: 53% !important;
+                      transform: translate(0%, -70%);
+                      background-color: none !important;
+                      --chip-height: 110px; /* Значение по умолчанию (для ПК) */
+                      }
+                      /* Для узких экранов (телефонов) */
+                    @media (max-width: 1150px) {
+                      ha-card {
+                        --chip-height: 65px !important;
+                        top: 50% !important;
+                      }
+                    }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: conditional
+                    conditions:
+                      - condition: user
+                        users:
+                          - 1a1897c1b5d24702ae00645a47e23e99
+                    chip:
+                      type: template
+                      icon: mdi:thumb-down
+                      icon_color: "1"
+                      tap_action:
+                        action: perform-action
+                        perform_action: media_player.play_media
+                        target:
+                          entity_id: media_player.yandex_station_cyan
+                        data:
+                          media_content_type: command
+                          media_content_id: дизлайк
+                      hold_action:
+                        action: none
+                      double_tap_action:
+                        action: none
+                      card_mod:
+                        style: |
+                          ha-card {
+                            --chip-padding: -20px;
+                            background: rgba(var(--rgb-card-background-color), 0.5) !important;
+                            backdrop-filter: blur(10px) !important;
+                            -webkit-backdrop-filter: blur(10px) !important; /* Для Safari */
+                            border-radius: 50px !important;
+                            border: 1px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                            display: flex !important;
+                            flex-direction: column !important;
+                            justify-content: center !important;
+                            align-items: center !important;
+                              /* Анимация */
+                            transition: all 0.3s ease !important;
+                            }
+                          ha-card:hover {
+                            scale: 1.1;
+                            }
+                  - type: conditional
+                    conditions:
+                      - condition: user
+                        users:
+                          - 1a1897c1b5d24702ae00645a47e23e99
+                    chip:
+                      type: template
+                      icon: mdi:thumb-up
+                      icon_color: "1"
+                      tap_action:
+                        action: perform-action
+                        perform_action: media_player.play_media
+                        target:
+                          entity_id: media_player.yandex_station_cyan
+                        data:
+                          media_content_type: command
+                          media_content_id: лайк
+                      hold_action:
+                        action: none
+                      double_tap_action:
+                        action: none
+                      card_mod:
+                        style: |
+                          ha-card {
+                            --chip-padding: -20px;
+                            background: rgba(var(--rgb-card-background-color), 0.5) !important;
+                            backdrop-filter: blur(10px) !important;
+                            -webkit-backdrop-filter: blur(10px) !important; /* Для Safari */
+                            border: 1px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                            display: flex !important;
+                            flex-direction: column !important;
+                            justify-content: center !important;
+                            align-items: center !important;
+                              /* Анимация */
+                            transition: all 0.3s ease !important;
+                            }
+                          ha-card:hover {
+                            scale: 1.1;
+                            }
+                alignment: justify
+                card_mod:
+                  style: |
+                    ha-card {
+                      margin: 20px 12px;
+                      --chip-height: 50px;
+                      --chip-border-radius: 100%;
+                      --chip-spacing: 25px;
+                      --chip-border-width: 0px;
+                      position: absolute !important;
+                      left: 0;
+                      right: 0;
+                      bottom: 8px !important;
+                      background-color: transparent !important;
+                      }
+            card_mod:
+              style: |
+                ha-card {
+                  opacity:0%;
+                  --chip-height: 50px;
+                  position: absolute !important;
+                  border-radius: 30px;
+                  top: 0px !important;
+                  left: 0px;
+                  right: 0px;
+                  background-color: transparent !important;
+                  border-width: 0px;
+                  }
+                ha-card:hover {
+                   opacity: 100%; }
+          - type: custom:mushroom-template-card
+            primary: >
+              {% if state_attr(config.entity,'media_title') is none %}
+              Неизвестно
+
+              {% else%} {{state_attr(config.entity, 'media_title')}}
+
+              {% endif %}
+            secondary: >
+              {% if  state_attr(config.entity,'media_artist') is none %}
+              Неизвестно
+
+              {% else%} {{state_attr(config.entity, 'media_artist')}}
+
+              {% endif %}
+            icon: ""
+            entity: media_player.yandex_station_cyan
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style:
+                .: |
+                  ha-card { 
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    background: none !important ;
+                    border-width: 0px;
+                    }
+                mushroom-state-info$: |
+                  .container {
+                   --card-secondary-font-size: 15px;
+                   --card-primary-font-size: 20px;
+                   --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+                  }
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: media_player.yandex_station_cyan
+                state_not: unavailable
+              - condition: state
+                entity: media_player.yandex_station_cyan
+                state_not: unavailable
+            card:
+              entity: media_player.yandex_station_cyan
+              tap_action: none
+              hide:
+                icon: true
+                name: true
+                runtime: true
+                source: true
+                power: true
+                state_label: true
+                volume: true
+                info: true
+                progress: false
+                controls: true
+              more_info: false
+              type: custom:mini-media-player
+              toggle_power: false
+              group: true
+              volume_stateless: false
+              card_mod:
+                style:
+                  .: |
+                    ha-card {
+                      margin-bottom: 10px;
+                      margin-left: 20px;
+                      margin-right: 20px;
+                      height: var(--mmp-progress-height);
+                      --mmp-accent-color: #008f8f;
+                      --ha-card-border-width: 0;
+                    }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                tap_action:
+                  action: navigate
+                  navigation_path: "#cyan"
+                icon: mdi:dots-horizontal
+                icon_color: disabled
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      }
+            alignment: end
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style: |
+                ha-card {
+                  margin-top: 0px;
+                  --chip-font-size: 0.3em;
+                  --chip-icon-size: 0.55em;
+                  --chip-height: 55px;
+                  --chip-background: transparent;
+                  --chip-icon-size: 40px;
+                  --chip-padding: 8px;
+                  --chip-border-radius: 100px;
+                  --chip-spacing: 5px;
+                    }
+        grid_options:
+          columns: 24
+          rows: auto
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: transparent !important;
+              filter: blur(0px) saturate(200%);
+              background-size: 100% 100%;
+            }
+            ha-card {
+
+            background-color: transparent !important;
+            padding: 0px;
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+
+            }
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 160px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          z-index: 1 !important;
+          /* Визуальные стили ha-card */
+          background: transparent !important;
+          border-width: 0px;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#cyan"
+        margin_top_mobile: calc(100vh - 450px)
+        margin_top_desktop: calc(100vh - 400px)
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
+        show_header: false
+        close_by_clicking_outside: false
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                content: Станция Лайт (Кухня)
+                double_tap_action:
+                  action: none
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                icon: ""
+              - type: spacer
+              - type: back
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style:
+                mushroom-back-chip:nth-child(3)$: |
+                  ha-state-icon {
+                    --card-mod-icon: mdi:close;
+                  }
+                .: |
+                  ha-card {
+                    margin: 12px 0px 0px;
+                    --chip-background: none;
+                    --chip-border-width: 0;
+                    --chip-box-shadow: none;
+                    --chip-border-radius: 12px;
+                    --chip-height: 40px;
+                    --chip-padding: 14px;
+                    --chip-spacing: -35px;
+                    --chip-icon-size: 0.7em;
+                    --chip-font-size: 0.6em;
+                    
+                  }
+                  }
+      - type: custom:bubble-card
+        card_type: separator
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+        name: Громкость
+        icon: mdi:volume-high
+      - type: custom:mushroom-media-player-card
+        entity: media_player.yandex_station_cyan
+        volume_controls:
+          - volume_set
+        layout: horizontal
+        primary_info: none
+        secondary_info: none
+        icon_type: none
+        card_mod:
+          style:
+            mushroom-media-player-volume-control$: |
+              mushroom-slider {
+                --main-color: #008f8f !important;
+                --bg-color: #008f8f55 !important;
+                --control-height: 25px !important;
+
+              }
+            .: |
+              ha-card {
+                background: transparent;
+                opacity: 100%;
+                margin-top: 0px;
+                border-width: 0px;
+                  }
+              ha-card:hover {
+                opacity: 100%;
+                }
+      - type: custom:bubble-card
+        card_type: separator
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+        name: Функции
+        icon: mdi:cog
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:play
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.play_media
+                  target:
+                    entity_id: media_player.yandex_station_cyan
+                  data:
+                    media_content_type: command
+                    media_content_id: другие треки этого исполнителя
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: media_player.yandex_station_cyan
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+              - type: custom:mushroom-template-card
+                primary: "{{state_attr(config.entity, 'media_artist')}}"
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.play_media
+                  target:
+                    entity_id: media_player.yandex_station_cyan
+                  data:
+                    media_content_type: command
+                    media_content_id: другие треки этого исполнителя
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                entity: media_player.yandex_station_cyan
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  background: url('{{ state_attr("media_player.yandex_station_cyan", "entity_picture") }}') center no-repeat;
+                  background-size: 1000%;
+                  filter: blur(30px) saturate(200%) opacity(55%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:heart
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.play_media
+                  target:
+                    entity_id: media_player.yandex_station_cyan
+                  data:
+                    media_content_type: command
+                    media_content_id: включи любимое
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: media_player.yandex_station_cyan
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+              - type: custom:mushroom-template-card
+                primary: Любимое
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.play_media
+                  target:
+                    entity_id: media_player.yandex_station_cyan
+                  data:
+                    media_content_type: command
+                    media_content_id: включи любимое
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                  }  
+                  ha-card:hover {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                  }  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:chart-timeline-variant-shimmer
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.play_media
+                  target:
+                    entity_id: media_player.yandex_station_cyan
+                  data:
+                    media_content_type: command
+                    media_content_id: включи популярное
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: media_player.yandex_station_cyan
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+              - type: custom:mushroom-template-card
+                primary: Популярное
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.play_media
+                  target:
+                    entity_id: media_player.yandex_station_cyan
+                  data:
+                    media_content_type: command
+                    media_content_id: включи популярное
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                  }  
+                  ha-card:hover {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                  }  
+        columns: 4
+    grid_options:
+      columns: full
+  - type: heading
+    icon: yandex:station-lite
+    heading: 2.0b3
+    heading_style: title
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+  - type: markdown
+    content: |+
+      **2.0rc**
+      1. Добавлена адаптация под широкие экраны
+      2. Добавлено фиксированное положение на экране
+      3. Новый дизайн меню функций
+
+
+
+
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+    text_only: true

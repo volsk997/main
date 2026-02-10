@@ -1,0 +1,473 @@
+type: grid
+cards:
+  - type: heading
+    heading: "2024.8"
+    heading_style: title
+    icon: yandex:music
+  - type: custom:stack-in-card
+    cards:
+      - type: custom:mushroom-template-card
+        primary: |+
+
+        secondary: ""
+        icon: ""
+        entity: media_player.yandex_station_m00en2100jayck
+        picture: ""
+        badge_icon: ""
+        badge_color: ""
+        layout: vertical
+        icon_color: ""
+        tap_action:
+          action: more-info
+        double_tap_action:
+          action: none
+        fill_container: true
+        card_mod:
+          style: |
+
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+
+              background: url('/local/idle_art_black.png') center no-repeat;
+              {% if not is_state(config.entity, 'idle') %}
+                {% if is_state('input_boolean.karaoke_gostinaia', 'on' )%}
+              background: url('/local/black.png') center no-repeat;
+                {% else %}
+                background: url( '{{ state_attr(config.entity, "entity_picture") }}') center no-repeat;
+                {% endif %}
+              {% endif %}
+
+              background-size: contain;
+              margin: 0px 0px -20px 0px;
+              aspect-ratio: 1 / 1;
+      - show_state: false
+        show_name: false
+        camera_view: live
+        type: picture-entity
+        image: https://demo.home-assistant.io/stub_config/bedroom.png
+        entity: camera.yandex_station_m00en2100jayck_lyrics
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        camera_image: camera.yandex_station_m00en2100jayck_lyrics
+        card_mod:
+          style: |
+            ha-card {
+              position: absolute !important;
+              top: 135px;
+              height: 250px !important;
+              left: 10%;
+              background-color: rgba(var(--rgb-card-background-color),0);
+              width: {{ '80%' if (is_state('input_boolean.karaoke_gostinaia', 'on')) else '0%' }};
+      - type: conditional
+        conditions:
+          - condition: state
+            entity: media_player.yandex_station_m00en2100jayck
+            state_not: unavailable
+          - entity: media_player.yandex_station_m00en2100jayck
+            state_not: idle
+        card:
+          entity: media_player.yandex_station_m00en2100jayck
+          hide:
+            icon: true
+            name: true
+            runtime: true
+            source: true
+            power: true
+            state_label: true
+            volume: true
+            info: true
+            progress: false
+            controls: true
+          more_info: false
+          type: custom:mini-media-player
+          toggle_power: false
+          group: true
+          volume_stateless: false
+          card_mod:
+            style:
+              mmp-progress$: |
+                paper-progress {
+                  {{ '--paper-progress-container-color: rgba(var(--rgb-indigo-color), 1) !important;' if is_state('media_player.yandex_station_m00en2100jayck', 'playing') }}
+                }
+              .: |
+                ha-card {
+                  margin: -20px 0px 0px;
+                  height: var(--mmp-progress-height);
+                  --mmp-accent-color: #505050;
+                  --ha-card-border-width: 0;
+                }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: >-
+              {% set g =
+              state_attr('media_player.yandex_station_m00en2100jayck','media_position')|float(0)|round(0)
+              %}
+
+              {% set b =
+              state_attr('media_player.yandex_station_beige','media_position')|float(0)|round(0)
+              %}
+
+              {% set p =
+              state_attr('media_player.yandex_station_purple','media_position')|float(0)|round(0)
+              %}
+
+              {% set c =
+              state_attr('media_player.yandex_station_cyan','media_position')|float(0)|round(0)
+              %}
+
+
+              {% if is_state('media_player.yandex_station_m00en2100jayck',
+              'unavailable') %}
+
+              {% else %} 
+                 {% if is_state('binary_sensor.multirum_sostoianie','on')%} 
+                   {% set time = ([g, b, p, c]|max) %} 
+                   {{as_timestamp(as_datetime(time))| timestamp_custom('%-M:%S') }}
+                 {% else %} {{as_timestamp(as_datetime(g))| timestamp_custom('%-M:%S') }}
+                 {% endif %}
+              {% endif %}
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+          - type: spacer
+          - type: template
+            content: >-
+              {% set g =
+              state_attr('media_player.yandex_station_m00en2100jayck','media_duration')|float(0)|round(0)
+              %}
+
+              {% set b =
+              state_attr('media_player.yandex_station_beige','media_duration')|float(0)|round(0)
+              %}
+
+              {% set p =
+              state_attr('media_player.yandex_station_purple','media_duration')|float(0)|round(0)
+              %}
+
+              {% set c =
+              state_attr('media_player.yandex_station_purple','media_duration')|float(0)|round(0)
+              %}
+
+              {% if is_state('media_player.yandex_station_m00en2100jayck',
+              'unavailable') %}
+
+              {% else %} 
+                 {% if is_state('binary_sensor.multirum_sostoianie','on')%} 
+                   {% set time = ([g, b, p, c]|max) %} 
+                   {{as_timestamp(as_datetime(time))| timestamp_custom('%-M:%S') }}
+                 {% else %} {{as_timestamp(as_datetime(g))| timestamp_custom('%-M:%S') }}
+                 {% endif %}
+              {% endif %}
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+        alignment: center
+        card_mod:
+          style: |
+            ha-card {
+                 margin: -20px 10px 0px 10px;
+                  --chip-background: none;
+                  --chip-border-radius: 12px;
+                  --chip-font-weight: normal; 
+                  --chip-font-size: 13px;
+            }
+      - type: custom:mushroom-template-card
+        primary: >
+          {% if
+          state_attr('media_player.yandex_station_m00en2100jayck','media_title')
+          is none %} Неизвестно
+
+          {% else%} {{state_attr('media_player.yandex_station_m00en2100jayck',
+          'media_title')}}
+
+          {% endif %}
+        secondary: >
+          {% if
+          state_attr('media_player.yandex_station_m00en2100jayck','media_artist')
+          is none %} Неизвестно
+
+          {% else%} {{state_attr('media_player.yandex_station_m00en2100jayck',
+          'media_artist')}}
+
+          {% endif %}
+        icon: ""
+        entity: media_player.yandex_station_m00en2100jayck
+        picture: ""
+        badge_icon: ""
+        badge_color: ""
+        layout: vertical
+        icon_color: ""
+        tap_action:
+          action: more-info
+        double_tap_action:
+          action: none
+        fill_container: true
+        card_mod:
+          style:
+            mushroom-state-info$: |
+              .container {
+               --card-secondary-font-size: 15px;
+               --card-primary-font-size: 17px;
+              }
+            .: |
+              ha-card { 
+                margin-top: -20px;
+                margin-bottom: 15px;
+                background-color: rgba(255,255,255,0) }};
+              }  
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: conditional
+            conditions:
+              - condition: user
+                users:
+                  - 1a1897c1b5d24702ae00645a47e23e99
+            chip:
+              type: template
+              icon: mdi:thumb-up
+              tap_action:
+                action: call-service
+                service: media_player.play_media
+                target:
+                  entity_id: media_player.yandex_station_m00en2100jayck
+                data:
+                  media_content_type: command
+                  media_content_id: лайк
+          - type: spacer
+          - type: template
+            icon: mdi:rewind
+            tap_action:
+              action: call-service
+              service: media_player.media_previous_track
+              target:
+                entity_id: media_player.yandex_station_m00en2100jayck
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+          - type: template
+            tap_action:
+              action: call-service
+              service: media_player.media_play_pause
+              target:
+                entity_id: media_player.yandex_station_m00en2100jayck
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            icon: >-
+              {% if is_state('media_player.yandex_station_m00en2100jayck',
+              'playing') %}mdi:pause {% elif
+              is_state('media_player.yandex_station_m00en2100jayck', 'paused')
+              %}mdi:play {% else %}mdi:alert-circle {% endif %}
+            icon_color: black
+            card_mod:
+              style: |
+                ha-card {
+                  margin: -15px 0px 0px 0px;
+                     --chip-background: white;
+                     --chip-border-radius: 200px;
+                     --chip-height: 75px;
+                     --chip-padding: 20px;
+                }
+          - type: template
+            icon: mdi:fast-forward
+            tap_action:
+              action: call-service
+              service: media_player.media_next_track
+              target:
+                entity_id: media_player.yandex_station_m00en2100jayck
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+          - type: spacer
+          - type: conditional
+            conditions:
+              - condition: user
+                users:
+                  - 1a1897c1b5d24702ae00645a47e23e99
+            chip:
+              type: template
+              icon: mdi:thumb-down
+              tap_action:
+                action: call-service
+                service: media_player.play_media
+                target:
+                  entity_id: media_player.yandex_station_m00en2100jayck
+                data:
+                  media_content_id: дизлайк
+                  media_content_type: command
+        alignment: center
+        card_mod:
+          style: |
+            ha-card {
+                 margin: 10px 12px 12px 12px;
+                  --chip-background: none;
+                  --chip-height: 45px;
+                  --chip-padding: 20px;
+                  --chip-spacing: 5px;
+            }
+      - type: custom:mushroom-media-player-card
+        entity: media_player.yandex_station_m00en2100jayck
+        volume_controls:
+          - volume_set
+        layout: horizontal
+        primary_info: none
+        secondary_info: none
+        icon_type: none
+        card_mod:
+          style:
+            mushroom-media-player-volume-control$: |
+              mushroom-slider {
+                --main-color: #505050 !important;
+                --bg-color: #50505055 !important;
+                --control-height: 20px !important;
+              }
+            .: |
+              ha-card {
+              margin-left: 10px;
+              margin-right: 10px;
+                }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            entity: input_boolean.karaoke_gostinaia
+            icon: mdi:format-letter-case
+            tap_action:
+              action: toggle
+            content: ""
+            icon_color: >
+              {% if is_state('input_boolean.karaoke_gostinaia', 'on')%}
+              blue     
+
+              {% else %} 1 
+
+              {% endif%}
+            card_mod:
+              style: |
+                ha-card {
+                  --chip-background: 
+                    {% if is_state('input_boolean.karaoke_gostinaia', 'on')%} white     
+                    {% else %} rgba(255,255,255,0.05) 
+                    {% endif%}
+                }
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: binary_sensor.multirum_sostoianie
+                state: "off"
+            chip:
+              type: template
+              tap_action:
+                action: perform-action
+                perform_action: media_player.play_media
+                target:
+                  entity_id: media_player.yandex_station_m00en2100jayck
+                data:
+                  media_content_type: command
+                  media_content_id: продолжи везде
+              icon: mdi:play
+              content: Везде
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+        alignment: center
+        card_mod:
+          style: |
+            ha-card {
+              margin-top: 10px;
+              margin-bottom: 25px;
+              --chip-font-size: 0.3em;
+              --chip-height: 50px;
+              --chip-padding: 40px;
+              --chip-border-radius: 100px;
+              --chip-background: rgba(255,255,255,0.05) 
+
+            }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: >-
+              {% if is_state_attr(config.entity,'alice_state', 'LISTENING') %}
+              mdi:ear-hearing 
+
+              {% elif is_state_attr(config.entity, 'alice_state', 'SPEAKING') %}
+              mdi:account-voice
+
+              {% else %} 
+
+              {% endif %}
+            icon_color: 150,150,150,0.5
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: media_player.yandex_station_m00en2100jayck
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: binary_sensor.multirum_sostoianie
+                state: "on"
+            chip:
+              type: template
+              icon: yandex:station-mini-2-stereo
+              icon_color: 150,150,150,0.5
+          - type: template
+            icon: mdi:information
+            icon_color: 150,150,150,0.5
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: media_player.yandex_station_m00en2100jayck
+        alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              position: absolute !important;
+              bottom: 6px !important;
+              right: 0px !important;
+              background-color: none !important;
+              --chip-spacing: 0px;
+              --chip-background: none !important;
+              --chip-height: 50px !important;
+              
+    card_mod:
+      style: |
+        ha-card:before {
+          transform: translate3d(0,0,0);
+          -webkit-transform: translate3d(0,0,0);
+          content: "";
+          position: absolute;
+          height: 100%;
+          width: 100%;
+
+          background: url('/local/idle_art_black.png') center no-repeat;
+          {% if not is_state('media_player.yandex_station_m00en2100jayck', 'idle') %}
+            background: url( '{{ state_attr('media_player.yandex_station_m00en2100jayck', "entity_picture") }}' ) center no-repeat;
+          {% endif %}
+
+          filter: blur(250px) saturate(200%);
+          background-size: 100% 100%;
+        }
+        ha-card {
+          transform: translate3d(0,0,0);
+          -webkit-transform: translate3d(0,0,0);
+        }

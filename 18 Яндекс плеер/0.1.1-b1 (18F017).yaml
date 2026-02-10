@@ -1,0 +1,802 @@
+type: grid
+cards:
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: template
+        icon: >-
+          {% if is_state_attr(config.entity,'alice_state', 'LISTENING') %}
+          mdi:ear-hearing  {% elif is_state_attr(config.entity, 'alice_state',
+          'SPEAKING') %} mdi:account-voice {% elif is_state(config.entity,
+          'playing')%} mdi:speaker-wireless {% else %} mdi:sleep {% endif %}
+        icon_color: disabled
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        entity: media_player.yandex_station_m00en2100jayck
+      - type: template
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        icon: >-
+          {% if
+          state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')
+          is none %} mdi:alarm-off
+
+          {% else %} mdi:alarm
+
+          {% endif %}
+        icon_color: disabled
+        content: |
+          {% if state_attr(config.entity,'start_time') is none %} 
+          {% else %} 
+              {% if state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time') is none %} 
+              {% else %} 
+                  {% if (as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%d')|float(0) == as_timestamp(now()) |timestamp_custom('%d')|float(0))
+                  and 
+                  (as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%m')|float(0) == as_timestamp(now()) |timestamp_custom('%m')|float(0)) %} Сегодня
+                  {% elif (as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%d')|float(0) - as_timestamp(now()) |timestamp_custom('%d')|float(0)) == 1%} Завтра
+                  {% else %} {{ as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%-d.%m') }}
+                      {% if (as_timestamp(now()) |timestamp_custom('%Y')| int) == (as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%Y')| int )%} 
+                      {% else %} {{as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%Y')}}
+                      {% endif %}
+                  {% endif %}
+                  в {{ as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%H:%M') }}
+              {% endif %}
+          {% endif %}
+        entity: calendar.yandex_station_m00en2100jayck_calendar
+      - type: spacer
+      - type: template
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        icon: >-
+          {% if is_state_attr(config.entity, 'source', 'Станция') %}
+          yandex:station-mini-2
+
+          {% elif is_state_attr(config.entity, 'source', 'SamsungTV') %}
+          mdi:television
+
+          {% else %}
+
+          {% endif %}
+        entity: media_player.yandex_station_m00en2100jayck
+        icon_color: disabled
+      - type: conditional
+        conditions:
+          - condition: state
+            entity: binary_sensor.multirum_sostoianie
+            state: "on"
+        chip:
+          type: template
+          icon: yandex:station-mini-2-stereo
+          icon_color: disabled
+          tap_action:
+            action: navigate
+            navigation_path: /dashboard-iphone/multiroom
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+          card_mod:
+            style: |
+              ha-card:hover {
+                --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                scale: 1.1;}
+      - type: template
+        icon: mdi:dots-horizontal
+        icon_color: disabled
+        tap_action:
+          action: navigate
+          navigation_path: "#station"
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        card_mod:
+          style: |
+            ha-card:hover {
+              --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+              scale: 1.1;}
+      - type: template
+        icon: mdi:information
+        icon_color: disabled
+        tap_action:
+          action: more-info
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        entity: media_player.yandex_station_m00en2100jayck
+        card_mod:
+          style: |
+            ha-card:hover {
+              --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+              scale: 1.1;}     
+    alignment: end
+    card_mod:
+      style: |
+        ha-card {
+          opacity:1000%;
+          --chip-height: 50px;
+          --chip-background: none;
+          --chip-border-radius: 50px;
+          --primary-text-color: rgba(var(--rgb-disabled)); ;
+
+          background-color: transparent !important;
+          }
+        ha-card:hover {
+           opacity: 100%; }
+        ha-card > .chip-container {
+          flex-wrap: nowrap;
+          overflow-x: scroll;
+          overflow-y: hidden;
+          --chip-spacing: 0px;
+          --chip-height: 45px;
+          --chip-font-weight: bolder; 
+          --primary-tet-color: white;
+          margin-top: 5px;
+          margin-left: 0px;  
+          margin-right: 0px;
+          margin-bottom: 0px; 
+          padding-bottom: 0px;
+        }
+        ha-card > .chip-container > * {
+          flex-shrink: 0;
+        }
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-template-card
+        primary: |+
+
+        secondary: ""
+        icon: ""
+        entity: media_player.yandex_station_m00en2100jayck
+        picture: ""
+        badge_icon: ""
+        badge_color: ""
+        layout: vertical
+        icon_color: ""
+        tap_action:
+          action: more-info
+        double_tap_action:
+          action: none
+        fill_container: true
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              
+              content: "";
+              background: url('/local/cards_img/idle_art_black.png') center no-repeat;
+              {% if not is_state(config.entity, 'idle') %}
+                {% if is_state('input_boolean.karaoke_gostinaia', 'on' ) %}
+                background: url('/local/cards_img/black.png') center no-repeat;
+                {% elif  state_attr(config.entity, 'entity_picture') == None %}
+                {% else %}
+                background: url( '{{ state_attr(config.entity, "entity_picture")|replace("400x400","1000x1000") }}') center no-repeat;
+                {% endif %}
+              {% endif %}
+              background-size: contain;
+              margin: 0px 0px -20px 0px;
+              aspect-ratio: 1 / 1; 
+              border-radius: 30px;
+              }
+            ha-card {
+              border-radius: 30px; 
+              border: 2px outset rgba(0,0,0,0);}
+              border-width: 0px;
+      - show_state: false
+        show_name: false
+        camera_view: live
+        type: picture-entity
+        image: https://demo.home-assistant.io/stub_config/bedroom.png
+        entity: camera.yandex_station_m00en2100jayck_lyrics
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        camera_image: camera.yandex_station_m00en2100jayck_lyrics
+        card_mod:
+          style: |
+            ha-card {
+              position: absolute !important;
+              top: 100px;
+              height: 290px !important;
+
+              left: 5px;
+              right: 5px;
+              background-color: rgba(var(--rgb-card-background-color),0);
+              opacity: {{ '80%' if (is_state('input_boolean.karaoke_gostinaia', 'on')) else '0%' }};
+      - type: custom:mushroom-template-card
+        primary: >
+          {% if
+          state_attr('media_player.yandex_station_m00en2100jayck','media_title')
+          is none %} Неизвестно
+
+          {% else%} {{state_attr('media_player.yandex_station_m00en2100jayck',
+          'media_title')}}
+
+          {% endif %}
+        secondary: >
+          {% if 
+          state_attr('media_player.yandex_station_m00en2100jayck','media_artist')
+          is none %} Неизвестно
+
+          {% else%} {{state_attr('media_player.yandex_station_m00en2100jayck',
+          'media_artist')}}
+
+          {% endif %}
+        icon: ""
+        entity: media_player.yandex_station_m00en2100jayck
+        picture: ""
+        badge_icon: ""
+        badge_color: ""
+        layout: vertical
+        icon_color: ""
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        fill_container: true
+        card_mod:
+          style:
+            .: |
+              ha-card { 
+                margin-top: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
+                background: none !important ;
+                }
+            mushroom-state-info$: |
+              .container {
+               --card-secondary-font-size: 15px;
+               --card-primary-font-size: 20px;
+               --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+              }
+      - type: conditional
+        conditions:
+          - condition: state
+            entity: media_player.yandex_station_m00en2100jayck
+            state_not: unavailable
+          - condition: state
+            entity: media_player.yandex_station_m00en2100jayck
+            state_not: unavailable
+        card:
+          entity: media_player.yandex_station_m00en2100jayck
+          tap_action: none
+          hide:
+            icon: true
+            name: true
+            runtime: true
+            source: true
+            power: true
+            state_label: true
+            volume: true
+            info: true
+            progress: false
+            controls: true
+          more_info: false
+          type: custom:mini-media-player
+          toggle_power: false
+          group: true
+          volume_stateless: false
+          card_mod:
+            style:
+              mmp-progress$: |
+                paper-progress {
+                  {{ '--paper-progress-container-color: rgba(var(--rgb-indigo-color), 1) !important;' if is_state('media_player.yandex_station_beige', 'playing') }}
+                }
+              .: |
+                ha-card {
+                  margin-bottom: 0px;
+                  margin-left: 20px;
+                  margin-right: 20px;
+                  height: var(--mmp-progress-height);
+                  --mmp-accent-color: #505050;
+                  --ha-card-border-width: 0;
+                }
+      - type: custom:stack-in-card
+        cards:
+          - type: custom:stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: |+
+
+                secondary: ""
+                icon: ""
+                entity: media_player.yandex_station_m00en2100jayck
+                picture: ""
+                badge_icon: ""
+                badge_color: ""
+                layout: vertical
+                icon_color: ""
+                tap_action:
+                  action: more-info
+                double_tap_action:
+                  action: none
+                fill_container: true
+                card_mod:
+                  style: |
+                    ha-card:before {
+                      transform: translate3d(0,0,0);
+                      -webkit-transform: translate3d(0,0,0);
+                      
+                      content: "";
+                      background: url('/local/cards_img/idle_art_black.png') center no-repeat;
+                      {% if not is_state(config.entity, 'idle') %}
+                        {% if is_state('input_boolean.karaoke_gostinaia', 'on' ) %}
+                        background: url('/local/cards_img/black.png') center no-repeat;
+                        {% elif  state_attr(config.entity, 'entity_picture') == None %}
+                        {% else %}
+                        background: url( '{{ state_attr(config.entity, "entity_picture")|replace("400","800") }}') center no-repeat;
+                        {% endif %}
+                      {% endif %}
+                      background-size: cover;
+                      filter: blur(0px) saturate(100%) brightness(50%);
+                      margin: 0px 0px -20px 0px;              
+                      aspect-ratio: 1 / 1; 
+                      border-radius: 30px;
+                      }
+                    ha-card {
+                      border-radius: 30px; 
+                      border: 2px outset rgba(0,0,0,0);}
+                      border-width: 0px;
+                    }
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 35px; 
+                     }
+          - show_state: false
+            show_name: false
+            camera_view: live
+            type: picture-entity
+            image: https://demo.home-assistant.io/stub_config/bedroom.png
+            entity: camera.yandex_station_m00en2100jayck_lyrics
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            camera_image: camera.yandex_station_m00en2100jayck_lyrics
+            card_mod:
+              style: |
+                ha-card {
+                  position: absolute !important;
+                  top: 100px;
+                  height: 290px !important;
+
+                  left: 5px;
+                  right: 5px;
+                  background-color: rgba(var(--rgb-card-background-color),0);
+                  opacity: {{ '80%' if (is_state('input_boolean.karaoke_gostinaia', 'on')) else '0%' }};
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: spacer
+              - type: template
+                icon: mdi:skip-previous
+                icon_color: white
+                tap_action:
+                  action: call-service
+                  service: media_player.media_previous_track
+                  target:
+                    entity_id: media_player.yandex_station_m00en2100jayck
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;}
+              - type: spacer
+              - type: template
+                tap_action:
+                  action: call-service
+                  service: media_player.media_play_pause
+                  target:
+                    entity_id: media_player.yandex_station_m00en2100jayck
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: >-
+                  {% if is_state('media_player.yandex_station_m00en2100jayck',
+                  'playing') %}mdi:pause {% elif
+                  is_state('media_player.yandex_station_m00en2100jayck',
+                  'paused') %}mdi:play {% else %}mdi:alert-circle {% endif %}
+                icon_color: white
+                card_mod:
+                  style: |
+                    ha-card {
+                      margin: -30px 0px 0px 0px;
+                         --chip-border-radius: 50%;
+                         --chip-height: 125px;
+                      weight: 0px; }
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;}
+              - type: spacer
+              - type: template
+                icon: mdi:skip-next
+                icon_color: white
+                tap_action:
+                  action: call-service
+                  service: media_player.media_next_track
+                  target:
+                    entity_id: media_player.yandex_station_m00en2100jayck
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;
+                      }
+              - type: spacer
+            alignment: center
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 20px 12px 20px 12px;
+                      opacity: 100%;
+                      --chip-background: rgba({{states('input_text.player_card_button_color')}});
+                      --chip-height: 65px;
+                      --chip-border-radius: 50%;
+                      --chip-spacing: 25px;
+                      position: absolute !important;
+                      left: 0px;
+                      right: 0px;
+                      top: 195px !important;
+                      background-color: none !important; }
+                ha-card:hover {
+                   opacity: 100%;
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: conditional
+                conditions:
+                  - condition: user
+                    users:
+                      - 1a1897c1b5d24702ae00645a47e23e99
+                chip:
+                  type: template
+                  icon: mdi:thumb-down
+                  icon_color: white
+                  tap_action:
+                    action: perform-action
+                    perform_action: media_player.play_media
+                    target:
+                      entity_id: media_player.yandex_station_m00en2100jayck
+                    data:
+                      media_content_type: command
+                      media_content_id: дизлайк
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style: |
+                      ha-card:hover {
+                        --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                        scale: 1.1;}
+              - type: template
+                entity: input_boolean.karaoke_gostinaia
+                icon: mdi:format-letter-case
+                tap_action:
+                  action: toggle
+                content: ""
+                icon_color: >
+                  {% if is_state('input_boolean.karaoke_gostinaia', 'on')%}
+                  blue     
+
+                  {% else %} white
+
+                  {% endif%}
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      scale: 1.1;
+                      --chip-background: 
+                        {% if is_state('input_boolean.karaoke_gostinaia', 'on')%} rgba({{states('input_text.player_card_button_hover_active_color')}});  
+                        {% else %} rgba({{states('input_text.player_card_button_hover_color')}})
+                        {% endif%}
+                     
+                        }
+                    ha-card {
+                      --chip-background: 
+                        {% if is_state('input_boolean.karaoke_gostinaia', 'on')%} rgba({{states('input_text.player_card_button_active_color')}})     
+                        {% else %} rgba({{states('input_text.player_card_button_color')}});
+                        {% endif%}
+              - type: conditional
+                conditions:
+                  - condition: user
+                    users:
+                      - 1a1897c1b5d24702ae00645a47e23e99
+                chip:
+                  type: template
+                  icon: mdi:thumb-up
+                  icon_color: white
+                  tap_action:
+                    action: perform-action
+                    perform_action: media_player.play_media
+                    target:
+                      entity_id: media_player.yandex_station_m00en2100jayck
+                    data:
+                      media_content_type: command
+                      media_content_id: лайк
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style: |
+                      ha-card:hover {
+                        scale: 1.1;
+                        --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});}
+            alignment: justify
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 20px 12px 20px 12px;
+                      opacity: 100%;
+                      --chip-height: 50px;
+                      --chip-background: rgba({{states('input_text.player_card_button_color')}});
+                      --chip-border-radius: 50%;
+                      --chip-spacing: 25px;
+                      position: absolute !important;
+                      left: 0px;
+                      right: 0px;
+                      top: 418px !important;
+                      background-color: transparent !important;
+                      }
+                ha-card:hover {
+                   opacity: 100%;
+        card_mod:
+          style: |
+            ha-card {
+              opacity:0%;
+              --chip-height: 50px;
+              --chip-background: rgba({{states('input_text.player_card_button_color')}});
+              --chip-border-radius: 30px;
+              position: absolute !important;
+              border-radius: 30px;
+              top: 0px !important;
+              left: 0px;
+              right: 0px;
+              background-color: transparent !important;
+              }
+            ha-card:hover {
+               opacity: 100%; }
+    grid_options:
+      columns: 24
+      rows: auto
+    card_mod:
+      style: |
+        ha-card:before {
+          transform: translate3d(0,0,0);
+          -webkit-transform: translate3d(0,0,0);
+          content: "";
+          position: absolute;
+          height: 100%;
+          width: 100%;
+
+          background: transparent !important;
+          filter: blur(0px) saturate(200%);
+          background-size: 100% 100%;
+        }
+        ha-card {
+
+        background-color: transparent !important;
+        padding: 0px;
+          transform: translate3d(0,0,0);
+          -webkit-transform: translate3d(0,0,0);
+
+        }
+  - type: heading
+    icon: yandex:station-mini
+    heading_style: title
+    heading: 1.1-b1
+    visibility:
+      - condition: state
+        entity: sensor.balkon_window_l_battery
+        state: "890"
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#station"
+        name: Яндекс Станция Мини
+        icon: yandex:station-mini-2
+        margin_top_mobile: calc(100vh - 400px)
+        margin_top_desktop: calc(100vh - 400px)
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: ""
+            content: ""
+            icon_color: ""
+            card_mod:
+              style: |
+                ha-card {
+                  weight: 2%;
+                  --chip-background: transparent;
+                  --chip-height: 2px;
+                }
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: binary_sensor.multirum_sostoianie
+                state: "off"
+            chip:
+              type: template
+              tap_action:
+                action: perform-action
+                perform_action: media_player.play_media
+                target:
+                  entity_id: media_player.yandex_station_m00en2100jayck
+                data:
+                  media_content_type: command
+                  media_content_id: продолжи везде
+              icon: mdi:play
+              icon_color: white
+              content: Продолжить везде
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              card_mod:
+                style: |
+                  ha-card:hover {
+                    --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                    }
+          - type: conditional
+            conditions:
+              - condition: user
+                users:
+                  - 1a1897c1b5d24702ae00645a47e23e99
+            chip:
+              type: template
+              icon: mdi:heart
+              tap_action:
+                action: perform-action
+                perform_action: media_player.play_media
+                target:
+                  entity_id: media_player.yandex_station_m00en2100jayck
+                data:
+                  media_content_type: command
+                  media_content_id: включи моё любимое
+              content: Включить любимое
+              icon_color: white
+              card_mod:
+                style: |
+                  ha-card:hover {
+                    --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                    }
+          - type: template
+            icon: mdi:chart-timeline-variant-shimmer
+            content: Включить популярное
+            tap_action:
+              action: perform-action
+              perform_action: media_player.play_media
+              target:
+                entity_id: media_player.yandex_station_m00en2100jayck
+              data:
+                media_content_type: command
+                media_content_id: включи популярное
+              icon_color: white
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                  }
+          - type: template
+            icon: ""
+            content: ""
+            icon_color: ""
+            card_mod:
+              style: |
+                ha-card {
+                  weight: 10%;
+                  --chip-background: transparent;
+                  --chip-height: 10px;
+                }
+        alignment: start
+        card_mod:
+          style: |
+            ha-card {
+              opacity:100%;
+              --chip-height: 50px;
+              --chip-background: rgba({{states('input_text.player_card_button_color')}});
+              --chip-border-radius: 50px;
+              background-color: transparent !important;
+              }
+            ha-card:hover {
+               opacity: 100%; }
+            ha-card > .chip-container {
+              flex-wrap: nowrap;
+              overflow-x: scroll;
+              overflow-y: hidden;
+              --chip-spacing: 10px;
+              --chip-height: 45px;
+              --chip-font-weight: bolder; 
+              --primary-text-color: white;
+              margin-top: 5px;
+              margin-left: -10px;  
+              margin-right: -20px;
+              margin-bottom: -10px; 
+              padding-bottom: 20px;
+            }
+            ha-card > .chip-container > * {
+              flex-shrink: 0;
+            }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:dots-horizontal
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+        alignment: center
+        grid_options:
+          columns: 24
+          rows: auto
+        card_mod:
+          style: |
+            ha-card {
+              margin: 0px 0px 0px;
+              --chip-background: none;
+              --chip-border-width: 0;
+              --chip-box-shadow: none;
+              --chip-border-radius: 12px;
+              --chip-height: 40px;
+              --chip-padding: 14px;
+              --chip-spacing: -35px;
+              --chip-icon-size: 1em;
+              --chip-font-size: 0.7em;
+            }
+      - type: custom:mushroom-media-player-card
+        entity: media_player.yandex_station_m00en2100jayck
+        volume_controls:
+          - volume_set
+        layout: horizontal
+        primary_info: none
+        secondary_info: none
+        icon_type: none
+        card_mod:
+          style:
+            mushroom-media-player-volume-control$: |
+              mushroom-slider {
+                --main-color: #505050 !important;
+                --bg-color: #50505055 !important;
+                --control-height: 25px !important;
+
+              }
+            .: |
+              ha-card {
+                background: transparent;
+                opacity: 100%;
+                margin-left: -5px;
+                margin-right: -8px;
+                margin-top: 0px;
+                  }
+              ha-card:hover {
+                opacity: 100%;
+                width: 100%;
+                }
+column_span: 1

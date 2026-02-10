@@ -1,0 +1,680 @@
+type: grid
+cards:
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Статусная строка
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: >-
+              {% if is_state_attr(config.entity,'alice_state', 'LISTENING') %}
+              mdi:ear-hearing  {% elif is_state_attr(config.entity,
+              'alice_state', 'SPEAKING') %} mdi:account-voice {% elif
+              is_state(config.entity, 'playing')%} mdi:speaker-wireless {% else
+              %} mdi:sleep {% endif %}
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: media_player.yandex_station_m00en2100jayck
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+          - type: template
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            icon: >-
+              {% if
+              state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')
+              is none %} mdi:alarm-off
+
+              {% else %} mdi:alarm
+
+              {% endif %}
+            content: |
+              {% if state_attr(config.entity,'start_time') is none %} 
+              {% else %} 
+                  {% if state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time') is none %} 
+                  {% else %} 
+                      {% if (as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%d')|float(0) == as_timestamp(now()) |timestamp_custom('%d')|float(0))
+                      and 
+                      (as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%m')|float(0) == as_timestamp(now()) |timestamp_custom('%m')|float(0)) %} Сегодня
+                      {% elif (as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%d')|float(0) - as_timestamp(now()) |timestamp_custom('%d')|float(0)) == 1%} Завтра
+                      {% else %} {{ as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%-d.%m') }}
+                          {% if (as_timestamp(now()) |timestamp_custom('%Y')| int) == (as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%Y')| int )%} 
+                          {% else %} {{as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%Y')}}
+                          {% endif %}
+                      {% endif %}
+                      в {{ as_timestamp(state_attr('calendar.yandex_station_m00en2100jayck_calendar','start_time')) |timestamp_custom('%H:%M') }}
+                  {% endif %}
+              {% endif %}
+            entity: calendar.yandex_station_m00en2100jayck_calendar
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+          - type: spacer
+          - type: template
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            icon: >-
+              {% if is_state_attr(config.entity, 'source', 'Станция') %}
+              yandex:station-mini-2
+
+              {% elif is_state_attr(config.entity, 'source', 'SamsungTV') %}
+              mdi:television
+
+              {% else %}
+
+              {% endif %}
+            entity: media_player.yandex_station_m00en2100jayck
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: binary_sensor.multirum_sostoianie
+                state: "on"
+            chip:
+              type: template
+              icon: yandex:station-mini-2-stereo
+              tap_action:
+                action: navigate
+                navigation_path: /dashboard-iphone/multiroom
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              card_mod:
+                style: |
+                  ha-card {
+                    opacity: 0.4 }   
+                  ha-card:hover {
+                    opacity: 1 }     
+                  ha-card:active {
+                    scale: 0.8;
+                  }  
+          - type: template
+            icon: mdi:information
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: media_player.yandex_station_m00en2100jayck
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+                ha-card:hover {
+                  opacity: 1 }     
+                ha-card:active {
+                  scale: 0.8;
+                }  
+        alignment: end
+        card_mod:
+          style: |
+            {% set top = 7 %}
+            {% set chip_height = 48 %}
+            {% include 'title_chips_scrollable.jinja' %}
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 90px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          height: calc(100% - 40px) !important;
+          max-height: 60px !important;  /* 30px - отступ от краёв */
+          min-height: 50px !important;  /* Минимальная высота */
+          
+
+
+          height: 100vh !important;
+          z-index: 1 !important;
+          --chip-height: 60px;
+          --chip-spacing: 20px;
+          --chip-background: transparent !important;
+          --chip-icon-size: 35px; 
+          --chip-border-radius: 100px;
+          --chip-padding: 12px;
+          /* Визуальные стили ha-card */
+          background: rgba(0,0,0,0) !important;
+          border-width: 0px;
+
+
+          padding: 0px 0px !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Плеер
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+              - color: red
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |+
+
+            secondary: ""
+            icon: ""
+            entity: media_player.yandex_station_m00en2100jayck
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            hold_action:
+              action: none
+            card_mod:
+              style: |
+                {% set domain = 'media' %}
+                {% set file = '/local/cards_img/idle_art_black.png' %}
+                {% set entity = 'media_player.yandex_station_m00en2100jayck' %}
+                {% set state_on = 'playing' %}
+
+                {% include 'cover_card_cover.jinja' %}
+          - type: custom:mushroom-template-card
+            primary: >
+              {% if state_attr(config.entity,'media_title') is none %}
+              Неизвестно
+
+              {% else%} {{state_attr(config.entity, 'media_title')}}
+
+              {% endif %}
+            secondary: >
+              {% if  state_attr(config.entity,'media_artist') is none %}
+              Неизвестно
+
+              {% else%} {{state_attr(config.entity, 'media_artist')}}
+
+              {% endif %}
+            icon: ""
+            entity: media_player.yandex_station_m00en2100jayck
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style:
+                .: |
+                  ha-card { 
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    background: none !important ;
+                    border-width: 0px;
+                    }
+                  @media (min-width: 1150px) {
+                  ha-card {
+                    scale: 1.2;
+                  }
+                mushroom-state-info$: |
+                  .container {
+                   --card-secondary-font-size: 15px;
+                   --card-primary-font-size: 20px;
+                   --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+                  }
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: media_player.yandex_station_m00en2100jayck
+                state_not: unavailable
+              - condition: state
+                entity: media_player.yandex_station_m00en2100jayck
+                state_not: unavailable
+            card:
+              entity: media_player.yandex_station_m00en2100jayck
+              tap_action: none
+              hide:
+                icon: true
+                name: true
+                runtime: true
+                source: true
+                power: true
+                state_label: true
+                volume: true
+                info: true
+                progress: false
+                controls: true
+              more_info: false
+              type: custom:mini-media-player
+              toggle_power: false
+              group: true
+              volume_stateless: false
+              card_mod:
+                style:
+                  .: |
+                    ha-card {
+                      margin: 0px 20px 10px 20px;
+                      height: var(--mmp-progress-height);
+                      --mmp-accent-color: rgba(var(--rgb-primary-text-color),1);;
+                      --ha-card-border-width: 0;
+                    }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: conditional
+                conditions:
+                  - condition: user
+                    users:
+                      - 1a1897c1b5d24702ae00645a47e23e99
+                chip:
+                  type: template
+                  tap_action:
+                    action: perform-action
+                    perform_action: media_player.play_media
+                    target:
+                      entity_id: media_player.yandex_station_m00en2100jayck
+                    data:
+                      media_content_type: command
+                      media_content_id: дизлайк
+                  icon: mdi:heart-broken
+                  icon_color: "1"
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'false' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: template
+                tap_action:
+                  action: call-service
+                  service: media_player.media_previous_track
+                  target:
+                    entity_id: media_player.yandex_station_m00en2100jayck
+                icon: fas:backward-step
+                icon_color: "1"
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                entity: media_player.yandex_station_m00en2100jayck
+                tap_action:
+                  action: perform-action
+                  perform_action: script.turn_on
+                  target:
+                    entity_id: script.yandex_station_play_pause_extended
+                  data:
+                    variables:
+                      entity: media_player.yandex_station_m00en2100jayck
+                icon: >-
+                  {% if is_state(config.entity, 'playing') %}fas:pause-circle 
+                  {% elif is_state(config.entity, 'paused') %}fas:play-circle  
+                  {% elif is_state(config.entity, 'idle') %}fas:play-circle  {%
+                  else  %} mdi:alert-circle {% endif %}
+                icon_color: 250,210,62
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set scale = '1.5' %}
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                tap_action:
+                  action: call-service
+                  service: media_player.media_next_track
+                  target:
+                    entity_id: media_player.yandex_station_m00en2100jayck
+                icon: fas:forward-step
+                icon_color: "1"
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: conditional
+                conditions:
+                  - condition: user
+                    users:
+                      - 1a1897c1b5d24702ae00645a47e23e99
+                chip:
+                  type: template
+                  tap_action:
+                    action: perform-action
+                    perform_action: media_player.play_media
+                    target:
+                      entity_id: media_player.yandex_station_m00en2100jayck
+                    data:
+                      media_content_type: command
+                      media_content_id: дизлайк
+                  icon: mdi:heart
+                  icon_color: "1"
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'false' %}
+                        {% include 'chip_settings_style.jinja' %}
+            alignment: justify
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style:
+                .: |
+                  {% include 'chip_buttons_big.jinja' %}
+          - type: custom:mushroom-media-player-card
+            entity: media_player.yandex_station_m00en2100jayck
+            volume_controls:
+              - volume_set
+            layout: horizontal
+            primary_info: none
+            secondary_info: none
+            icon_type: none
+            card_mod:
+              style:
+                mushroom-media-player-volume-control$: |
+                  mushroom-slider {
+                    --main-color: #505050 !important;
+                    --bg-color: #50505055 !important;
+                    --control-height: 25px !important;
+                  }
+                .: |
+                  ha-card {
+                    background: transparent !important;
+                    opacity: 100%;
+                    margin-top: 0px;
+                    border-width: 0px;
+                    margin: 20px 0px 20px;
+                  }
+
+
+                  @media (pointer: fine) {
+                    ha-card:hover {
+                      background: {{(states('input_text.s_card_background_off_hover')) }};
+                  }
+                  @media (min-width: 1150px) {
+                  ha-card {
+                    margin: 20px {{space|default(150)}}px 20px  ;
+                  }
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.play_media
+                  target:
+                    entity_id: media_player.yandex_station_m00en2100jayck
+                  data:
+                    media_content_type: command
+                    media_content_id: другие треки этого исполнителя
+                icon: mdi:account-music
+                icon_color: "1"
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.play_media
+                  target:
+                    entity_id: media_player.yandex_station_m00en2100jayck
+                  data:
+                    media_content_type: command
+                    media_content_id: включи любимое
+                icon: mdi:heart-multiple
+                icon_color: "1"
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.play_media
+                  target:
+                    entity_id: media_player.yandex_station_m00en2100jayck
+                  data:
+                    media_content_type: command
+                    media_content_id: включи популярное
+                icon: mdi:chart-timeline-variant-shimmer
+                icon_color: "1"
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: binary_sensor.multirum_sostoianie
+                    state: "off"
+                chip:
+                  type: template
+                  tap_action:
+                    action: perform-action
+                    perform_action: media_player.play_media
+                    target:
+                      entity_id: media_player.yandex_station_m00en2100jayck
+                    data:
+                      media_content_type: command
+                      media_content_id: продолжи везде
+                  icon: mdi:arrow-right
+                  icon_color: "1"
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'false' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: binary_sensor.multirum_sostoianie
+                    state: "on"
+                chip:
+                  type: template
+                  tap_action:
+                    action: perform-action
+                    perform_action: media_player.play_media
+                    target:
+                      entity_id: media_player.yandex_station_m00en2100jayck
+                    data:
+                      media_content_type: command
+                      media_content_id: продолжи в гостиной
+                  icon: mdi:arrow-down
+                  icon_color: "1"
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'false' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: tem1plate
+                tap_action:
+                  action: navigate
+                  navigation_path: "#station"
+                icon: mdi:dots-horizontal
+                icon_color: "1"
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+            alignment: center
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style:
+                .: |
+                  {% include 'chip_buttons_small.jinja' %}
+        grid_options:
+          columns: 24
+          rows: auto
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 160px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          z-index: 1 !important;
+          /* Визуальные стили ha-card */
+          background: transparent !important;
+          border-width: 0px;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: heading
+    icon: yandex:station-lite
+    heading: 0.3.3
+    heading_style: title
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+  - type: markdown
+    content: |+
+      **0.3.3**
+
+      1. Новый дизайн
+
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+    text_only: true

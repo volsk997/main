@@ -1,0 +1,966 @@
+type: grid
+cards:
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Статусная строка
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:power
+            icon_color: |-
+              {% if is_state(config.entity, 'on')%} red
+              {% else %} disabled
+              {% endif %}
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: fan.ac_switch
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: conditional
+            conditions:
+              - condition: user
+                users:
+                  - 1a1897c1b5d24702ae00645a47e23e99
+            chip:
+              type: template
+              tap_action:
+                action: more-info
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              entity: sensor.vremia_raboty_konditsionera
+              content: |
+                {% set x = states(config.entity)|float(0) %}
+                {% set y = (x % 1  * 60)|int(0)%}
+                {% if x | int > 0 %}
+                  {{ x | int }} ч.
+                {% else %}
+                {% endif %}
+                {% if y | int > 0 %}
+                {{ y}} мин
+                {% endif %}
+              icon: mdi:fan-clock
+              icon_color: disabled
+              card_mod:
+                style: |
+                  ha-card:hover {
+                    --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                    }
+          - type: spacer
+          - type: template
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            icon: mdi:thermometer
+            entity: sensor.ble_temperature_a4c1387e6730
+            content: >-
+              {{states('sensor.ble_temperature_a4c1387e6730')| replace (".",",")
+              }}°
+            icon_color: disabled
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: template
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: sensor.ble_humidity_a4c1387e6730
+            content: "{{states(config.entity)| replace (\".\",\",\") }}%"
+            icon: mdi:water
+            icon_color: disabled
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: climate.ac_fan
+                state_not: "off"
+            chip:
+              type: template
+              entity: climate.ac_fan
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              icon: |
+                {% if states(config.entity) != 'off' %}
+                  {% if is_state_attr(config.entity, 'fan_mode', 'auto') %} mdi:fan-auto
+                  {% elif is_state_attr(config.entity, 'fan_mode', 'low') %} mdi:fan-speed-1
+                  {% elif is_state_attr(config.entity, 'fan_mode', 'mid') %} mdi:fan-speed-2
+                  {% elif is_state_attr(config.entity, 'fan_mode', 'high') %} mdi:fan-speed-3
+                  {% else %} 
+                  {% endif %}
+                {% else %} 
+                {% endif %}
+              icon_color: disabled
+          - type: template
+            icon: mdi:information
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: climate.ac_fan
+            icon_color: disabled
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+        alignment: start
+        card_mod:
+          style: |
+            {% set top = 7 %}
+            {% set chip_height = 48 %}
+            {% set text_color = 'grey' %}
+            {% include 'title_chips_scrollable.jinja' %}
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 100px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          height: calc(100% - 40px) !important;
+          max-height: 60px !important;  /* 30px - отступ от краёв */
+          min-height: 50px !important;  /* Минимальная высота */
+          
+
+
+          height: 100vh !important;
+          z-index: 1 !important;
+          --chip-height: 60px;
+          --chip-spacing: 20px;
+          --chip-background: transparent;
+          --chip-icon-size: 35px; 
+          --chip-border-radius: 100px;
+          --chip-padding: 12px;
+          /* Визуальные стили ha-card */
+          background: rgba(0,0,0,0) !important;
+
+
+          padding: 0px 0px !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Карта
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+              - color: red
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |+
+
+            secondary: ""
+            icon: ""
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: more-info
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style: |
+                {% set domain = '' %}
+                {% set file = '/local/cards_img/ac2.png' %}
+                {% include 'cover_card_cover.jinja' %}
+          - type: custom:stack-in-card
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: |+
+
+                    secondary: ""
+                    icon: ""
+                    picture: ""
+                    badge_icon: ""
+                    badge_color: ""
+                    layout: vertical
+                    icon_color: ""
+                    tap_action:
+                      action: more-info
+                    double_tap_action:
+                      action: none
+                    fill_container: true
+                    card_mod:
+                      style: >
+                        {% set domain = '' %}
+
+                        {% set file = '/local/cards_img/ac2.png' %}
+
+                        {% set opacity_variable = 'filter:  opacity(50%) 
+                        !important;'%}
+
+                        {% include 'cover_card_cover.jinja' %}
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-color: rgba(var(--rgb-primary-background-color, 0, 0, 0), 1) !important;  /* Исходный цвет фона */
+                      border-radius: 30px;
+                      border-width: 0px;
+                      }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: spacer
+                  - type: template
+                    icon_color: |-
+                      {% if is_state('climate.ac_fan','cool')%} blue
+                      {% else %} '1'
+                      {% endif %}
+                    icon: mdi:snowflake
+                    tap_action:
+                      action: perform-action
+                      perform_action: climate.set_hvac_mode
+                      target:
+                        entity_id: climate.ac_fan
+                      data:
+                        hvac_mode: cool
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        {% set entity = 'climate.ac_fan' %}
+                        {% set state_on = 'cool' %}
+                        {% include 'cover_card_side_button.jinja' %}
+                  - type: spacer
+                  - type: template
+                    entity: fan.ac_switch
+                    tap_action:
+                      action: toggle
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    icon: mdi:power
+                    icon_color: |2-
+                        {% if is_state('fan.ac_switch', 'on')%} 
+                           {% if is_state('climate.ac_fan','cool')%} blue
+                           {% elif is_state('climate.ac_fan','heat')%} red
+                           {% elif is_state('climate.ac_fan','on')%} indigo
+                           {% endif %}
+                        {% else %} 1
+                        {% endif %}
+                    card_mod:
+                      style: |
+                        {% set entity = 'fan.ac_switch' %}
+                        {% set state_on = 'on' %}
+                        {% set margin_mobile = '-30px 0px 0px 0px' %}
+                        {% set margin = '-55px 0px 0px 0px' %}
+                        {% include 'cover_card_center_button.jinja' %}
+                  - type: spacer
+                  - type: template
+                    icon: mdi:fire
+                    icon_color: |-
+                      {% if is_state('climate.ac_fan','heat')%} red
+                      {% else %} '1'
+                      {% endif %}
+                    tap_action:
+                      action: perform-action
+                      perform_action: climate.set_hvac_mode
+                      target:
+                        entity_id: climate.ac_fan
+                      data:
+                        hvac_mode: heat
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        {% set entity = 'climate.ac_fan' %}
+                        {% set state_on = 'heat' %}
+                        {% include 'cover_card_side_button.jinja' %} 
+                  - type: spacer
+                alignment: center
+                card_mod:
+                  style:
+                    mushroom-template-chip:nth-child(2)$: |
+                      {% if is_state('climate.ac_fan', 'cool') %}
+                      {% set opacity = 0 %}
+                      {% else %}
+                      {% set opacity = 0.3 %}
+                      {% endif %}
+                      {% include 'shadow_chip_icon.jinja' %}
+                    mushroom-template-chip:nth-child(4)$: |
+                      {% if is_state('fan.ac_switch', 'on' %}
+                      {% set opacity = 0 %}
+                      {% else %}
+                      {% set opacity = 0.3 %}
+                      {% endif %}
+                      {% include 'shadow_chip_icon.jinja' %}
+                    mushroom-template-chip:nth-child(6)$: |
+                      {% if is_state('climate.ac_fan', 'heat') %}
+                      {% set opacity = 0 %}
+                      {% else %}
+                      {% set opacity = 0.3 %}
+                      {% endif %}
+                      {% include 'shadow_chip_icon.jinja' %}
+                    .: |
+                      {% include 'cover_card_all_buttons_settings.jinja' %}
+            card_mod:
+              style: |
+                {% include 'cover_card_hover_stack.jinja' %}
+          - type: custom:mushroom-template-card
+            primary: Кондиционер
+            secondary: |-
+              {% if is_state(config.entity, 'off') %} Выключен
+              {% else %}
+                {% if states(config.entity) in ['unknown', 'unavailable', 'none']  %}
+                {% elif is_state(config.entity, 'cool') %} Охлаждение
+                {% elif is_state(config.entity, 'heat') %} Обогрев
+                {% elif is_state(config.entity, 'auto') %} Авторежим
+                {% elif is_state(config.entity, 'on') %} Включен
+                {% endif %} 
+              {% endif %} • {{state_attr(config.entity, 'temperature')}}°
+            icon: ""
+            entity: climate.ac_fan
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            hold_action:
+              action: none
+            card_mod:
+              style:
+                .: |
+                  ha-card { 
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    background: none !important ;
+                    }
+                mushroom-state-info$: |
+                  .container {
+                   --card-secondary-font-size: 15px;
+                   --card-primary-font-size: 20px;
+                   --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+                  }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                tap_action:
+                  action: navigate
+                  navigation_path: "#climate"
+                icon: mdi:dots-horizontal
+                icon_color: disabled
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      }
+            alignment: end
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style: |
+                {% include 'cover_card_options_button.jinja' %}
+        grid_options:
+          columns: 24
+          rows: auto
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: transparent !important;
+              filter: blur(0px) saturate(200%);
+              background-size: 100% 100%;
+            }
+            ha-card {
+
+            background-color: transparent !important;
+            padding: 0px;
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+
+            }
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 160px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          z-index: 1 !important;
+          /* Визуальные стили ha-card */
+          background: transparent !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#climate"
+        name: Кондиционер
+        icon: mdi:air-conditioner
+        margin_top_mobile: calc(100vh - 580px)
+        margin_top_desktop: calc(100vh - 530px)
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
+        force_icon: false
+        show_header: false
+        close_by_clicking_outside: false
+        backdrop_blur: "5"
+        bg_blur: "100"
+        bg_opacity: "88"
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: Кондиционер
+            double_tap_action:
+              action: none
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            icon: ""
+          - type: spacer
+          - type: back
+        layout_options:
+          grid_columns: full
+        card_mod:
+          style:
+            mushroom-back-chip:nth-child(3)$: |
+              ha-state-icon {
+                --card-mod-icon: mdi:close;
+              }
+            .: |
+              ha-card {
+                margin: 12px 0px 0px;
+                --chip-background: none;
+                --chip-border-width: 0;
+                --chip-box-shadow: none;
+                --chip-border-radius: 12px;
+                --chip-height: 40px;
+                --chip-padding: 14px;
+                --chip-spacing: -35px;
+                --chip-icon-size: 0.7em;
+                --chip-font-size: 0.6em;
+              }
+      - type: custom:mushroom-climate-card
+        entity: climate.ac_fan
+        show_temperature_control: true
+        primary_info: none
+        secondary_info: none
+        icon_type: none
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        card_mod:
+          style:
+            mushroom-media-player-volume-control$: |
+              mushroom-slider {
+                --main-color: #505050 !important;
+                --bg-color: #50505055 !important;
+                --control-height: 20px !important;
+
+              }
+            .: |
+              ha-card {
+                background: transparent;
+                opacity: 100%;
+                border-width: 0px;
+                
+                  }
+              ha-card:hover {
+                opacity: 100%;
+                }
+      - type: custom:bubble-card
+        card_type: separator
+        name: Скорость вентиляции
+        icon: mdi:fan
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+        sub_button: []
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:fan-auto
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: climate.set_fan_mode
+                  target:
+                    entity_id: climate.ac_fan
+                  data:
+                    fan_mode: auto
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: Авто
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: climate.set_fan_mode
+                  target:
+                    entity_id: climate.ac_fan
+                  data:
+                    fan_mode: auto
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'sensor.ac_fan_mode'%}
+                  {% set state_on = 'auto' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:fan-speed-1
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: climate.set_fan_mode
+                  target:
+                    entity_id: climate.ac_fan
+                  data:
+                    fan_mode: low
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: Низкая
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: climate.set_fan_mode
+                  target:
+                    entity_id: climate.ac_fan
+                  data:
+                    fan_mode: low
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'sensor.ac_fan_mode'%}
+                  {% set state_on = 'low' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:fan-speed-2
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: climate.set_fan_mode
+                  target:
+                    entity_id: climate.ac_fan
+                  data:
+                    fan_mode: mid
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: Средняя
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: climate.set_fan_mode
+                  target:
+                    entity_id: climate.ac_fan
+                  data:
+                    fan_mode: mid
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'sensor.ac_fan_mode'%}
+                  {% set state_on = 'mid' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:fan-speed-3
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: climate.set_fan_mode
+                  target:
+                    entity_id: climate.ac_fan
+                  data:
+                    fan_mode: high
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: Высокая
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: climate.set_fan_mode
+                  target:
+                    entity_id: climate.ac_fan
+                  data:
+                    fan_mode: high
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'sensor.ac_fan_mode'%}
+                  {% set state_on = 'high' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+        columns: 4
+      - type: custom:bubble-card
+        card_type: separator
+        name: Настройки
+        icon: mdi:cog
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+        sub_button: []
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:fan-auto
+                badge_icon: ""
+                tap_action:
+                  action: toggle
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: automation.konditsioner_vkl_vykl_temp
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                entity: automation.konditsioner_vkl_vykl_temp
+                primary: Мониторинг
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: toggle
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'automation.konditsioner_vkl_vykl_temp'%}
+                  {% set state_on = 'on' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+        columns: 4
+    grid_options:
+      columns: full
+  - type: heading
+    icon: mdi:air-conditioner
+    heading: 2.1.3
+    heading_style: title
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+  - type: markdown
+    content: >+
+      **2.1.3**
+
+      1. Исправлена строка состояния
+
+
+      **2.1.1**
+
+      1. Кнопки в обложке подчиняются теме
+
+
+      **2.1**
+
+      1. Добавлена теню вокруг пиктограмм кнопок управления плеером для
+      читаемости на высоких уровнях прозрачности
+
+      2. Добавлено затенение при наведении на обложку
+
+      3. Вынесение стилей кнопок выпажающего в отдельные файлы
+
+      4. Интеграция в системную тему
+
+      5. Вынесение стилей в отдельные файлы
+
+
+      **2.0.2**
+
+      1. Мелкие исправления
+
+
+      **2.0.1**
+
+      1. Испрвлена вёрстка кнопок управления на мобильных устройствах
+
+
+      **2.0**
+
+      1. Добавлена адаптация под широкие экраны
+
+      2. Добавлено фиксированное положение на экране
+
+      3. Новый дизайн меню функций
+
+
+
+
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+    text_only: true
