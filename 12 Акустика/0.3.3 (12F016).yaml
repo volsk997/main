@@ -1,0 +1,446 @@
+type: grid
+cards:
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Статусная строка
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:power
+            icon_color: |2-
+                    {%if is_state(config.entity,'on')%} red
+                    {%else %} 1
+                    {% endif %}
+            entity: input_boolean.akustika
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+                ha-card:hover {
+                  opacity: 1 }     
+                ha-card:active {
+                  scale: 0.8;
+                }  
+          - type: spacer
+          - type: template
+            icon: mdi:information
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: input_boolean.akustika
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+                ha-card:hover {
+                  opacity: 1 }     
+                ha-card:active {
+                  scale: 0.8;
+                }  
+        alignment: start
+        card_mod:
+          style: |
+            {% set top = 7 %}
+            {% set chip_height = 48 %}
+            {% include 'title_chips_scrollable.jinja' %}
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 100px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          height: calc(100% - 40px) !important;
+          max-height: 60px !important;  /* 30px - отступ от краёв */
+          min-height: 50px !important;  /* Минимальная высота */
+          
+
+
+          height: 100vh !important;
+          z-index: 1 !important;
+          --chip-height: 60px;
+          --chip-spacing: 20px;
+          --chip-background: transparent !important;
+          --chip-icon-size: 35px; 
+          --chip-border-radius: 100px;
+          --chip-padding: 12px;
+          /* Визуальные стили ha-card */
+          background: rgba(0,0,0,0) !important;
+
+
+          padding: 0px 0px !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Карта
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+              - color: red
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: ""
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            hold_action:
+              action: none
+            card_mod:
+              style: |
+                {% set domain = '' %}
+                {% set file = '/local/cards_img/edifier4.png' %}
+                {% set entity = 'input_boolean.akustika' %}
+                {% set state_on = 'on' %}
+
+                {% include 'cover_card_cover.jinja' %}
+          - type: custom:mushroom-template-card
+            primary: Edifier R1280DB
+            secondary: "{{states(config.entity)}}"
+            icon: ""
+            entity: input_select.r1280db_source
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style:
+                .: |
+                  {% include 'cover_device_name.jinja' %}
+                mushroom-state-info$: |
+                  .container {
+                   --card-secondary-font-size: 15px;
+                   --card-primary-font-size: 20px;
+                   --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+                  }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: mdi:volume-medium
+                icon_color: "1"
+                tap_action:
+                  action: perform-action
+                  perform_action: script.turn_on
+                  target:
+                    entity_id: script.edifier
+                  data:
+                    variables:
+                      command: volume_down
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                entity: input_boolean.akustika
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: mdi:power
+                icon_color: |2-
+                    {% if is_state('input_boolean.akustika', 'on')%}blue
+                    {% else %} 1
+                    {% endif %}
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'true' %}
+                      {% set state_on = 'on' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                icon: mdi:volume-high
+                icon_color: "1"
+                tap_action:
+                  action: perform-action
+                  perform_action: script.turn_on
+                  target:
+                    entity_id: script.edifier
+                  data:
+                    variables:
+                      command: volume_up
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+            alignment: justify
+            card_mod:
+              style:
+                .: |
+                  {% include 'chip_buttons_big.jinja' %}
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_boolean.akustika
+                state: "on"
+            card:
+              type: custom:bubble-card
+              card_type: separator
+              styles: |
+                .bubble-line {
+                  background: var(--primary-text-color);
+                  opacity: 0.1;
+                  margin: 40px;
+                }
+              card_mod:
+                style:
+                  .: |
+                    ha-card {
+                      margin: {{left|default(0)}}px 150px 0px;
+                    }
+                    @media (max-width: 1150px) {
+                      ha-card {
+                        margin: {{left|default(0)}}px {{space|default(0)}}px 0px;
+                      }
+                    }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: input_boolean.akustika
+                    state: "on"
+                chip:
+                  type: template
+                  entity: input_select.r1280db_source
+                  tap_action:
+                    action: perform-action
+                    perform_action: script.turn_on
+                    target:
+                      entity_id: script.edifier
+                    data:
+                      variables:
+                        command: line_1
+                  icon: mdi:audio-input-rca
+                  icon_color: |-
+                    {% if is_state(config.entity, 'M-Audio')%} black
+                    {% else %} '1'
+                    {% endif %}
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'true' %}
+                        {% set state_on = 'M-Audio' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: input_boolean.akustika
+                    state: "on"
+                chip:
+                  type: template
+                  entity: input_select.r1280db_source
+                  tap_action:
+                    action: perform-action
+                    perform_action: script.turn_on
+                    target:
+                      entity_id: script.edifier
+                    data:
+                      variables:
+                        command: line_2
+                  icon: fas:computer
+                  icon_color: |-
+                    {% if is_state(config.entity, 'PC')%} blue
+                    {% else %} '1'
+                    {% endif %}
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'true' %}
+                        {% set state_on = 'PC' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: input_boolean.akustika
+                    state: "on"
+                chip:
+                  type: template
+                  entity: input_select.r1280db_source
+                  tap_action:
+                    action: perform-action
+                    perform_action: script.turn_on
+                    target:
+                      entity_id: script.edifier
+                    data:
+                      variables:
+                        command: bt
+                  icon: mdi:bluetooth
+                  icon_color: |-
+                    {% if is_state(config.entity, 'Bluetooth')%} 0,0,255
+                    {% else %} '1'
+                    {% endif %}
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'true' %}
+                        {% set state_on = 'Bluetooth' %}
+                        {% include 'chip_settings_style.jinja' %}
+            alignment: center
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style:
+                .: |
+
+                  {% include 'chip_buttons_small.jinja' %}
+        grid_options:
+          columns: 24
+          rows: auto
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: transparent !important;
+              filter: blur(0px) saturate(200%);
+              background-size: 100% 100%;
+            }
+            ha-card {
+
+            background-color: transparent !important;
+            padding: 0px;
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+
+            }
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 160px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          z-index: 1 !important;
+          /* Визуальные стили ha-card */
+          background: transparent !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: heading
+    icon: mdi:speaker
+    heading_style: title
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+    heading: 0.3.3
+  - type: markdown
+    content: |+
+      **0.3.0**
+
+      1. Новый дизайн
+
+
+
+
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+    text_only: true
