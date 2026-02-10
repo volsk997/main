@@ -1,0 +1,784 @@
+type: grid
+cards:
+  - type: custom:webrtc-camera
+    url: c500
+    muted: true
+    ptz:
+      service: button.press
+      data_left:
+        entity_id: button.balkon_move_left
+      data_right:
+        entity_id: button.balkon_move_right
+      data_up:
+        entity_id: button.balkon_move_up
+      data_down:
+        entity_id: button.balkon_move_down
+    card_mod:
+      style: |
+        ha-card {
+             margin: 0px 0px 0px 0px;
+        }
+    grid_options:
+      columns: full
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: template
+        tap_action:
+          action: navigate
+          navigation_path: "#c500"
+        icon: mdi:dots-horizontal
+        icon_color: disabled
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        card_mod:
+          style: |
+            ha-card:hover {
+              --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+              }
+    alignment: end
+    layout_options:
+      grid_columns: full
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: 0px;
+          --chip-font-size: 0.3em;
+          --chip-icon-size: 0.55em;
+          --chip-height: 55px;
+          --chip-background: transparent;
+          --chip-icon-size: 40px;
+          --chip-padding: 8px;
+          --chip-border-radius: 100px;
+          --chip-spacing: 5px;
+    grid_options:
+      columns: full
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#c500"
+        name: Улица
+        icon: mdi:cctv
+        margin_top_mobile: calc(100vh - 650px)
+        margin_top_desktop: calc(100vh - 600px)
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
+        show_header: false
+        close_by_clicking_outside: false
+        backdrop_blur: "5"
+        bg_blur: "100"
+        bg_opacity: "88"
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: Улица
+            double_tap_action:
+              action: none
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            icon: ""
+          - type: spacer
+          - type: back
+        layout_options:
+          grid_columns: full
+        card_mod:
+          style:
+            mushroom-back-chip:nth-child(3)$: |
+              ha-state-icon {
+                --card-mod-icon: mdi:close;
+              }
+            .: |
+              ha-card {
+                margin: 12px 0px 0px;
+                --chip-background: none;
+                --chip-border-width: 0;
+                --chip-box-shadow: none;
+                --chip-border-radius: 12px;
+                --chip-height: 40px;
+                --chip-padding: 14px;
+                --chip-spacing: -35px;
+                --chip-icon-size: 0.7em;
+                --chip-font-size: 0.6em;
+              }
+              }
+      - type: custom:bubble-card
+        card_type: separator
+        name: Датчики и устройства
+        icon: mdi:information
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: ""
+            content: ""
+            icon_color: ""
+            card_mod:
+              style: |
+                ha-card {
+                  weight: 2%;
+                  --chip-background: transparent;
+                  --chip-border-width: 0px;
+                  --chip-height: 9px;
+                }
+          - type: weather
+            entity: weather.iandeks_pogoda
+            show_conditions: false
+            show_temperature: true
+            tap_action:
+              action: more-info
+            double_tap_action:
+              action: none
+            hold_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: template
+            icon: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} mdi:alert-circle
+
+              {% elif is_state(config.entity,'on')%} mdi:motion
+
+              {% else %} mdi:motion-outline
+
+              {% endif %}
+            icon_color: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} red 
+
+              {% elif is_state(config.entity,'on')%} 1 
+
+              {% else %} disabled
+
+              {% endif %}
+            content: |
+              {% if is_state(config.entity, 'unavailable')%} Недоступно
+              {% else %}
+
+                 {% set time = as_timestamp(now()) - as_timestamp(states.binary_sensor.balkon_cell_motion_detection.last_changed) %}
+                 {% set days = (time // 86400) | int(0)%}
+                 {% set hours = (time % 86400) // 3600 | int(0)%}
+                 {% set minutes = ((time % 86400) % 3600) //60 | int(0)%}
+                 {% set seconds = ((((time % 86400) % 3600) % 60)) | int(0) %}
+
+                 {% if days > 370%} Более года назад
+                 {% elif days > 185%} Более полугода назад
+                 {% elif days > 95%} Более трёх месяцев назад
+                 {% elif days > 62%} Более двух месяцев назад
+                 {% elif days > 31%} Более месяца назад
+                 {% elif days > 0 %} {{days| round()|format(morph='день', as_text=false) }} назад
+                 {% elif days == 0 %}
+                   {% if hours > 0 %} {{hours| round()|format(morph='час', as_text=false) }} назад
+                   {% elif hours == 0 %}
+                     {% if minutes > 0 %} {{minutes | round()|format(morph='минуту', as_text=false) }} назад
+                     {% elif minutes == 0 %}
+                       {% if seconds == 0 %} Только что
+                       {% elif seconds > 0 %} {{seconds| round()|format(morph='секунду', as_text=false) }} назад
+                       {% else %} Неизвестно
+                       {% endif %}
+                     {% endif %}
+                   {% else %} 
+                   {% endif %}
+                 {% else %} 
+                 {% endif %}
+              {% endif %}
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: binary_sensor.balkon_cell_motion_detection
+            card_mod:
+              style: |
+                ha-card {
+                  --text-color: 
+                      {% if is_state(config.entity,'on')%} 1 ;
+                      {% else %} rgba(var(--rgb-disabled), 1);
+                      {% endif %};
+                    }
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+                  
+          - type: template
+            icon: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} mdi:alert-circle
+
+              {% elif is_state(config.entity,'on')%} mdi:run-fast {% else %}
+              mdi:run
+
+              {% endif %}
+            icon_color: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} red 
+
+              {% elif is_state(config.entity,'on')%} 1 
+
+              {% else %} disabled
+
+              {% endif %}
+            content: |
+              {% if is_state(config.entity, 'unavailable')%} Недоступно
+              {% else %}
+
+                 {% set time = as_timestamp(now()) - as_timestamp(states.binary_sensor.balkon_person_detection.last_changed) %}
+                 {% set days = (time // 86400) | int(0)%}
+                 {% set hours = (time % 86400) // 3600 | int(0)%}
+                 {% set minutes = ((time % 86400) % 3600) //60 | int(0)%}
+                 {% set seconds = ((((time % 86400) % 3600) % 60)) | int(0) %}
+
+                 {% if days > 370%} Более года назад
+                 {% elif days > 185%} Более полугода назад
+                 {% elif days > 95%} Более трёх месяцев назад
+                 {% elif days > 62%} Более двух месяцев назад
+                 {% elif days > 31%} Более месяца назад
+                 {% elif days > 0 %} {{days| round()|format(morph='день', as_text=false) }} назад
+                 {% elif days == 0 %}
+                   {% if hours > 0 %} {{hours| round()|format(morph='час', as_text=false) }} назад
+                   {% elif hours == 0 %}
+                     {% if minutes > 0 %} {{minutes | round()|format(morph='минуту', as_text=false) }} назад
+                     {% elif minutes == 0 %}
+                       {% if seconds == 0 %} Только что
+                       {% elif seconds > 0 %} {{seconds| round()|format(morph='секунду', as_text=false) }} назад
+                       {% else %} Неизвестно
+                       {% endif %}
+                     {% endif %}
+                   {% else %} 
+                   {% endif %}
+                 {% else %} 
+                 {% endif %}
+              {% endif %}
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: binary_sensor.balkon_person_detection
+            card_mod:
+              style: |
+                ha-card {
+                  --text-color: 
+                      {% if is_state(config.entity,'on')%} 1 ;
+                      {% else %} rgba(var(--rgb-disabled), 1);
+                      {% endif %};
+                    }
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: template
+            icon: ""
+            content: ""
+            icon_color: ""
+            card_mod:
+              style: |
+                ha-card {
+                  weight: 10%;
+                  --chip-background: transparent;
+                  --chip-border-width: 0px;
+                  --chip-height: 10px;
+                }
+        alignment: start
+        card_mod:
+          style: |
+            ha-card {
+              opacity:100%;
+              --chip-border-radius: 50px;
+              --chip-border-width: {{states('input_number.s_card_border_width')|int(0)}}px  !important;
+              --chip-border-color: var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+
+              }
+            ha-card:hover {
+               opacity: 100%; }
+            ha-card > .chip-container {
+              --chip-background: rgba(var(--rgb-primary-text-color), 0.05);
+              flex-wrap: nowrap;
+              overflow-x: scroll;
+              overflow-y: hidden;
+              --chip-spacing: 10px;
+              --chip-height: 45px;
+              --chip-font-weight: bolder; 
+              margin-top: 5px;
+              margin-left: -17px;  
+              margin-right: -20px;
+              margin-bottom: 0px; 
+              padding-bottom: 10px;
+            }
+            ha-card > .chip-container > * {
+              flex-shrink: 0; 
+            }
+      - type: custom:bubble-card
+        card_type: separator
+        name: Зоны
+        icon: mdi:camera-control
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:car-multiple
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_option
+                  data:
+                    option: парковка
+                  target:
+                    entity_id: select.balkon_move_to_preset
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+              - type: custom:mushroom-template-card
+                primary: Парковка
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_option
+                  data:
+                    option: парковка
+                  target:
+                    entity_id: select.balkon_move_to_preset
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                      border: {{states('input_number.s_card_border_width')|int(0)}}px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                  }  
+                  ha-card:hover {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                  }  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:window-closed-variant
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_option
+                  data:
+                    option: под окном
+                  target:
+                    entity_id: select.balkon_move_to_preset
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+              - type: custom:mushroom-template-card
+                primary: Под окном
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_option
+                  data:
+                    option: под окном
+                  target:
+                    entity_id: select.balkon_move_to_preset
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                      border: {{states('input_number.s_card_border_width')|int(0)}}px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                  }  
+                  ha-card:hover {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                  }  
+        columns: 4
+      - type: custom:bubble-card
+        card_type: separator
+        name: Telegram
+        icon: phu:telegram
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: phu:telegram
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_photo
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: http://localhost:1984/api/frame.jpeg?src=c500
+                    caption: 📷 Сделано сейчас на балконе
+                    target: 787307239
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+              - type: custom:mushroom-template-card
+                primary: Снимок
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_photo
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: http://localhost:1984/api/frame.jpeg?src=c500
+                    caption: 📷 Сделано сейчас на балконе
+                    target: 787307239
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                      border: {{states('input_number.s_card_border_width')|int(0)}}px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                  }  
+                  ha-card:hover {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                  }  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: phu:telegram
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_video
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: >-
+                      http://localhost:1984/api/stream.mp4?src=c500&mp4=flac&duration=20
+                    caption: 🎥Видео с балкона
+                    target: 787307239
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+              - type: custom:mushroom-template-card
+                primary: 20 секунд
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_video
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: >-
+                      http://localhost:1984/api/stream.mp4?src=c500&mp4=flac&duration=20
+                    caption: 🎥Видео с балкона
+                    target: 787307239
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                      border: {{states('input_number.s_card_border_width')|int(0)}}px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                  }  
+                  ha-card:hover {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                  }  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: phu:telegram
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_video
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: >-
+                      http://localhost:1984/api/stream.mp4?src=c500&mp4=flac&duration=60
+                    caption: 🎥Видео с балкона
+                    target: 787307239
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+              - type: custom:mushroom-template-card
+                primary: 60 секунд
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_video
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: >-
+                      http://localhost:1984/api/stream.mp4?src=c500&mp4=flac&duration=60
+                    caption: 🎥Видео с балкона
+                    target: 787307239
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                      border: {{states('input_number.s_card_border_width')|int(0)}}px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                  }  
+                  ha-card:hover {
+                      background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                  }  
+        columns: 4
+    grid_options:
+      columns: full
+  - type: heading
+    icon: mdi:video
+    heading_style: subtitle
+    visibility:
+      - condition: state
+        entity: sensor.balkon_window_l_battery
+        state: "999"
+    heading: 1.1.2
+column_span: 5

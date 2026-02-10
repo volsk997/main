@@ -1,0 +1,1148 @@
+type: grid
+cards:
+  - type: custom:webrtc-camera
+    url: c500
+    muted: true
+    ptz:
+      service: button.press
+      data_left:
+        entity_id: button.balkon_move_left
+      data_right:
+        entity_id: button.balkon_move_right
+      data_up:
+        entity_id: button.balkon_move_up
+      data_down:
+        entity_id: button.balkon_move_down
+    grid_options:
+      columns: full
+    card_mod:
+      style: |
+        @media (min-width: 1900px) and (max-width: 2600px){
+          ha-card {
+            padding-left: 15vh;
+            padding-right: 15vh;
+            background: none;
+          }
+        }
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#c500"
+        name: Улица
+        icon: mdi:cctv
+        margin_top_mobile: calc(100vh - 800px)
+        margin_top_desktop: calc(100vh - 750px)
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
+        show_header: false
+        close_by_clicking_outside: false
+        backdrop_blur: "5"
+        bg_blur: "100"
+        bg_opacity: "88"
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: Улица
+            double_tap_action:
+              action: none
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            icon: ""
+          - type: spacer
+          - type: back
+        layout_options:
+          grid_columns: full
+        card_mod:
+          style:
+            mushroom-back-chip:nth-child(3)$: |
+              ha-state-icon {
+                --card-mod-icon: mdi:close;
+              }
+            .: |
+              ha-card {
+                margin: 12px 0px 0px;
+                --chip-background: none;
+                --chip-border-width: 0;
+                --chip-box-shadow: none;
+                --chip-border-radius: 12px;
+                --chip-height: 40px;
+                --chip-padding: 14px;
+                --chip-spacing: -35px;
+                --chip-icon-size: 0.7em;
+                --chip-font-size: 0.6em;
+              }
+              }
+      - type: custom:bubble-card
+        card_type: separator
+        name: Датчики и устройства
+        icon: mdi:information
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: ""
+            content: ""
+            icon_color: ""
+            card_mod:
+              style: |
+                ha-card {
+                  weight: 2%;
+                  --chip-background: transparent !important;
+                  --chip-border-width: 0px;
+                  --chip-height: 9px;
+                }
+          - type: weather
+            entity: weather.pogoda
+            show_conditions: false
+            show_temperature: true
+            tap_action:
+              action: more-info
+            double_tap_action:
+              action: none
+            hold_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: template
+            icon: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} mdi:alert-circle
+
+              {% elif is_state(config.entity,'on')%} mdi:motion
+
+              {% else %} mdi:motion-outline
+
+              {% endif %}
+            icon_color: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} red 
+
+              {% elif is_state(config.entity,'on')%} 1 
+
+              {% else %} disabled
+
+              {% endif %}
+            content: |
+              {% if is_state(config.entity, 'unavailable')%} Недоступно
+              {% else %}
+
+                 {% set time = as_timestamp(now()) - as_timestamp(states.binary_sensor.balkon_cell_motion_detection.last_changed) %}
+                 {% set days = (time // 86400) | int(0)%}
+                 {% set hours = (time % 86400) // 3600 | int(0)%}
+                 {% set minutes = ((time % 86400) % 3600) //60 | int(0)%}
+                 {% set seconds = ((((time % 86400) % 3600) % 60)) | int(0) %}
+
+                 {% if days > 370%} Более года назад
+                 {% elif days > 185%} Более полугода назад
+                 {% elif days > 95%} Более трёх месяцев назад
+                 {% elif days > 62%} Более двух месяцев назад
+                 {% elif days > 31%} Более месяца назад
+                 {% elif days > 0 %} {{days| round()|format(morph='день', as_text=false) }} назад
+                 {% elif days == 0 %}
+                   {% if hours > 0 %} {{hours| round()|format(morph='час', as_text=false) }} назад
+                   {% elif hours == 0 %}
+                     {% if minutes > 0 %} {{minutes | round()|format(morph='минуту', as_text=false) }} назад
+                     {% elif minutes == 0 %}
+                       {% if seconds == 0 %} Только что
+                       {% elif seconds > 0 %} {{seconds| round()|format(morph='секунду', as_text=false) }} назад
+                       {% else %} Неизвестно
+                       {% endif %}
+                     {% endif %}
+                   {% else %} 
+                   {% endif %}
+                 {% else %} 
+                 {% endif %}
+              {% endif %}
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: binary_sensor.balkon_cell_motion_detection
+            card_mod:
+              style: |
+                ha-card {
+                  --text-color: 
+                      {% if is_state(config.entity,'on')%} 1 ;
+                      {% else %} rgba(var(--rgb-disabled), 1);
+                      {% endif %};
+                    }
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+                  
+          - type: template
+            icon: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} mdi:alert-circle
+
+              {% elif is_state(config.entity,'on')%} mdi:run-fast {% else %}
+              mdi:run
+
+              {% endif %}
+            icon_color: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} red 
+
+              {% elif is_state(config.entity,'on')%} 1 
+
+              {% else %} disabled
+
+              {% endif %}
+            content: |
+              {% if is_state(config.entity, 'unavailable')%} Недоступно
+              {% else %}
+
+                 {% set time = as_timestamp(now()) - as_timestamp(states.binary_sensor.balkon_person_detection.last_changed) %}
+                 {% set days = (time // 86400) | int(0)%}
+                 {% set hours = (time % 86400) // 3600 | int(0)%}
+                 {% set minutes = ((time % 86400) % 3600) //60 | int(0)%}
+                 {% set seconds = ((((time % 86400) % 3600) % 60)) | int(0) %}
+
+                 {% if days > 370%} Более года назад
+                 {% elif days > 185%} Более полугода назад
+                 {% elif days > 95%} Более трёх месяцев назад
+                 {% elif days > 62%} Более двух месяцев назад
+                 {% elif days > 31%} Более месяца назад
+                 {% elif days > 0 %} {{days| round()|format(morph='день', as_text=false) }} назад
+                 {% elif days == 0 %}
+                   {% if hours > 0 %} {{hours| round()|format(morph='час', as_text=false) }} назад
+                   {% elif hours == 0 %}
+                     {% if minutes > 0 %} {{minutes | round()|format(morph='минуту', as_text=false) }} назад
+                     {% elif minutes == 0 %}
+                       {% if seconds == 0 %} Только что
+                       {% elif seconds > 0 %} {{seconds| round()|format(morph='секунду', as_text=false) }} назад
+                       {% else %} Неизвестно
+                       {% endif %}
+                     {% endif %}
+                   {% else %} 
+                   {% endif %}
+                 {% else %} 
+                 {% endif %}
+              {% endif %}
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: binary_sensor.balkon_person_detection
+            card_mod:
+              style: |
+                ha-card {
+                  --text-color: 
+                      {% if is_state(config.entity,'on')%} 1 ;
+                      {% else %} rgba(var(--rgb-disabled), 1);
+                      {% endif %};
+                    }
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: template
+            icon: ""
+            content: ""
+            icon_color: ""
+            card_mod:
+              style: |
+                ha-card {
+                  weight: 10%;
+                  --chip-background: transparent !important;
+                  --chip-border-width: 0px;
+                  --chip-height: 10px;
+                }
+        alignment: start
+        card_mod:
+          style: |
+            ha-card {
+              opacity:100%;
+              --chip-border-radius: 50px;
+              --chip-border-width: {{states('input_number.s_card_border_width')|int(0)}}px  !important;
+              --chip-border-color: var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+
+              }
+            ha-card:hover {
+               opacity: 100%; }
+            ha-card > .chip-container {
+              --chip-background: rgba(var(--rgb-primary-text-color), 0.05);
+              flex-wrap: nowrap;
+              overflow-x: scroll;
+              overflow-y: hidden;
+              --chip-spacing: 10px;
+              --chip-height: 45px;
+              --chip-font-weight: bolder; 
+              margin-top: 5px;
+              margin-left: -17px;  
+              margin-right: -20px;
+              margin-bottom: 0px; 
+              padding-bottom: 10px;
+            }
+            ha-card > .chip-container > * {
+              flex-shrink: 0; 
+            }
+      - type: custom:bubble-card
+        card_type: separator
+        name: Зоны
+        icon: mdi:camera-control
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:car-multiple
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_option
+                  data:
+                    option: парковка
+                  target:
+                    entity_id: select.balkon_move_to_preset
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: Парковка
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_option
+                  data:
+                    option: парковка
+                  target:
+                    entity_id: select.balkon_move_to_preset
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:window-closed-variant
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_option
+                  data:
+                    option: под окном
+                  target:
+                    entity_id: select.balkon_move_to_preset
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: Под окном
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_option
+                  data:
+                    option: под окном
+                  target:
+                    entity_id: select.balkon_move_to_preset
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+        columns: 4
+      - type: custom:bubble-card
+        card_type: separator
+        name: Telegram
+        icon: phu:telegram
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: phu:telegram
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_photo
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: http://localhost:1984/api/frame.jpeg?src=c500
+                    caption: 📷 Сделано сейчас на балконе
+                    target: 787307239
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: Снимок
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_photo
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: http://localhost:1984/api/frame.jpeg?src=c500
+                    caption: 📷 Сделано сейчас на балконе
+                    target: 787307239
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: phu:telegram
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_video
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: >-
+                      http://localhost:1984/api/stream.mp4?src=c500&mp4=flac&duration=20
+                    caption: 🎥Видео с балкона
+                    target: 787307239
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: 20 секунд
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_video
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: >-
+                      http://localhost:1984/api/stream.mp4?src=c500&mp4=flac&duration=20
+                    caption: 🎥Видео с балкона
+                    target: 787307239
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: phu:telegram
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_video
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: >-
+                      http://localhost:1984/api/stream.mp4?src=c500&mp4=flac&duration=60
+                    caption: 🎥Видео с балкона
+                    target: 787307239
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: 60 секунд
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: telegram_bot.send_video
+                  target: {}
+                  data:
+                    authentication: digest
+                    url: >-
+                      http://localhost:1984/api/stream.mp4?src=c500&mp4=flac&duration=60
+                    caption: 🎥Видео с балкона
+                    target: 787307239
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+        columns: 4
+      - type: custom:bubble-card
+        card_type: separator
+        name: Настройки
+        icon: mdi:cog
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: |-
+                  {% if is_state(config.entity, 'off')%} mdi:eye
+                   {% else %}mdi:eye-off
+                   {% endif %}
+                badge_icon: ""
+                tap_action:
+                  action: toggle
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: switch.balkon_privacy
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                entity: switch.balkon_privacy
+                primary: Приватность
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: toggle
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'switch.balkon_privacy'%}
+                  {% set state_on = 'on' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: >-
+                  {% if states('select.balkon_night_vision_switching') == 'auto'
+                  %} mdi:theme-light-dark
+
+                  {% elif states('select.balkon_night_vision_switching') == 'on'
+                  %} fas:moon
+
+                  {% elif states('select.balkon_night_vision_switching') ==
+                  'off' %} fas:sun
+
+                  {% endif%}
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_next
+                  target:
+                    entity_id:
+                      - select.balkon_night_vision_switching
+                  data:
+                    cycle: true
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: select.balkon_night_vision_switching
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                entity: select.balkon_night_vision_switching
+                primary: >-
+                  {% if states('select.balkon_night_vision_switching') == 'auto'
+                  %} Авто
+
+                  {% elif states('select.balkon_night_vision_switching') == 'on'
+                  %} Ночной
+
+                  {% elif states('select.balkon_night_vision_switching') ==
+                  'off' %} Дневной
+
+                  {% endif%}
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: select.select_next
+                  target:
+                    entity_id:
+                      - select.balkon_night_vision_switching
+                  data:
+                    cycle: true
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'switch.balkon_auto_track'%}
+                  {% set state_on = 'on' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:arrow-expand-all
+                badge_icon: ""
+                tap_action:
+                  action: toggle
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: button.balkon_calibrate
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: Калибровка
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: toggle
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                entity: button.balkon_calibrate
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:restart
+                badge_icon: ""
+                tap_action:
+                  confirmation:
+                    text: Перезагрузить?
+                  action: toggle
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: button.balkon_reboot
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: Перезагрузка
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  confirmation:
+                    text: Перезагрузить?
+                  action: toggle
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                entity: button.balkon_reboot
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+        columns: 4
+    grid_options:
+      columns: full
+  - type: heading
+    icon: mdi:video
+    heading_style: subtitle
+    visibility:
+      - condition: state
+        entity: sensor.balkon_window_l_battery
+        state: "999"
+    heading: "1.2"
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        name: null
+        styles:
+          card:
+            - height: 100px
+            - background: transparent
+            - border: none
+        action: none
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: template
+            tap_action:
+              action: toggle
+            icon: |-
+              {% if is_state(config.entity, 'off')%} mdi:eye
+               {% else %}mdi:eye-off
+               {% endif %}
+            icon_color: |-
+              {% if is_state(config.entity, 'off')%} "1"
+              {% else %} red
+              {% endif %}
+            entity: switch.balkon_privacy
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style:
+                .: |
+                  {% set hover = 'true' %}
+                  {% set stating = 'true' %}
+                  {% set state_on = 'on' %}
+                  {% include 'chip_settings_style.jinja' %}
+          - type: template
+            icon: |-
+              {% if is_state(config.entity,'on')%} mdi:motion
+              {% else %} mdi:motion-outline
+              {% endif %}
+            icon_color: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} red 
+
+              {% elif is_state(config.entity,'on')%} 1 
+
+              {% else %} disabled
+
+              {% endif %}
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: binary_sensor.balkon_cell_motion_detection
+            card_mod:
+              style:
+                .: |
+                  {% set hover = 'true' %}
+                  {% set stating = 'false' %}
+                  {% set state_on = 'on' %}
+                  {% include 'chip_settings_style.jinja' %}
+          - type: template
+            icon: |-
+              {% if is_state(config.entity,'on')%} mdi:run-fast
+              {% else %} mdi:run
+              {% endif %}
+            icon_color: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} red 
+
+              {% elif is_state(config.entity,'on')%} 1 
+
+              {% else %} disabled
+
+              {% endif %}
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: binary_sensor.balkon_person_detection
+            card_mod:
+              style:
+                .: |
+                  {% set hover = 'true' %}
+                  {% set stating = 'false' %}
+                  {% set state_on = 'on' %}
+                  {% include 'chip_settings_style.jinja' %}
+          - type: template
+            icon: |-
+              {% if is_state(config.entity,'on')%} mdi:account-voice
+              {% else %} mdi:account-voice-off
+              {% endif %}
+            icon_color: >-
+              {% if states(config.entity) in ['unknown', 'unavailable', 'none'] 
+              %} red 
+
+              {% elif is_state(config.entity,'on')%} 1 
+
+              {% else %} disabled
+
+              {% endif %}
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: binary_sensor.balkon_noise
+            card_mod:
+              style:
+                .: |
+                  {% set hover = 'true' %}
+                  {% set stating = 'false' %}
+                  {% set state_on = 'on' %}
+                  {% include 'chip_settings_style.jinja' %}
+          - type: template
+            tap_action:
+              action: perform-action
+              perform_action: select.select_option
+              data:
+                option: парковка
+              target:
+                entity_id: select.balkon_move_to_preset
+            icon: mdi:car-multiple
+            icon_color: "1"
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style:
+                .: |
+                  {% set hover = 'true' %}
+                  {% set stating = 'false' %}
+                  {% set state_on = 'on' %}
+                  {% include 'chip_settings_style.jinja' %}
+          - type: template
+            tap_action:
+              action: perform-action
+              perform_action: select.select_option
+              data:
+                option: под окном
+              target:
+                entity_id: select.balkon_move_to_preset
+            icon: mdi:window-closed-variant
+            icon_color: "1"
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style:
+                .: |
+                  {% set hover = 'true' %}
+                  {% set stating = 'false' %}
+                  {% set state_on = 'on' %}
+                  {% include 'chip_settings_style.jinja' %}
+          - type: template
+            tap_action:
+              action: navigate
+              navigation_path: "#c500"
+            icon: mdi:dots-horizontal
+            icon_color: "1"
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style:
+                .: |
+                  {% set hover = 'true' %}
+                  {% set stating = 'false' %}
+                  {% set state_on = 'on' %}
+                  {% include 'chip_settings_style.jinja' %}
+        alignment: center
+        card_mod:
+          style:
+            mushroom-template-chip:nth-child(1)$: |
+              {% set opacity = 0 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(2)$: |
+              {% set opacity = 0 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(3)$: |
+              {% set opacity = 0 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(4)$: |
+              {% set opacity = 0 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(5)$: |
+              {% set opacity = 0 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(6)$: |
+              {% set opacity = 0 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            .: |
+
+              {% set max_width =150 %}
+              {% set chip_height = 40 %}
+              {% set chip_padding = 5 %}
+              {% set icon_size = 30 %}
+              {% set chip_spacing = 15 %}
+              {% include 'fixed_bottom_bar.jinja' %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               
+column_span: 8
