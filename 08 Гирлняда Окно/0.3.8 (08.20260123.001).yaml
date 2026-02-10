@@ -1,0 +1,976 @@
+type: grid
+cards:
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: heading
+          icon: mdi:information
+          heading: Статусная строка
+          heading_style: title
+          card_mod:
+            style: |
+              ha-card {
+                   background: rgba(200,100,0) !important;
+                 }
+    grid_options:
+      columns: 6
+      rows: auto
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:power
+            icon_color: |2-
+                    {%if is_state(config.entity,'on')%} red
+                    {%else %} 1
+                    {% endif %}
+            entity: switch.girlyand_window
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+                ha-card:hover {
+                  opacity: 1 }     
+                ha-card:active {
+                  scale: 0.9;
+                }  
+          - type: spacer
+          - type: template
+            icon: mdi:information
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: switch.girlyand_window
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+                ha-card:hover {
+                  opacity: 1 }     
+                ha-card:active {
+                  scale: 0.9;
+                }  
+        alignment: start
+        card_mod:
+          style: |
+            {% set top = 7 %}
+            {% set chip_height = 48 %}
+            {% include 'title_chips_scrollable.jinja' %}
+    card_mod:
+      style: |
+        {% set top = 100 %}
+        {% include 'fixed_settings.jinja' %}
+    grid_options:
+      columns: 6
+      rows: auto
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: heading
+          icon: mdi:view-dashboard
+          heading: Карта
+          heading_style: title
+          card_mod:
+            style: |
+              ha-card {
+                   background: rgba(200,0,100) !important;
+                 }
+    grid_options:
+      columns: 6
+      rows: auto
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |+
+
+            secondary: ""
+            icon: ""
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            hold_action:
+              action: none
+            card_mod:
+              style: |
+                {% set domain = '' %} 
+                {% set file = '/local/cards_img/girland_window.jpg' %}
+                {% set entity = 'switch.girlyand_window' %}
+                {% set state_on = 'on' %}
+
+                {% include 'cover_card_cover.jinja' %}
+          - type: custom:mushroom-template-card
+            primary: Гирлянда Окно
+            secondary: "{{state_translated(config.entity)}}"
+            icon: ""
+            entity: switch.girlyand_window
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style:
+                .: |
+                  {% include 'cover_device_name.jinja' %}
+                mushroom-state-info$: |
+                  .container {
+                   --card-secondary-font-size: 15px;
+                   --card-primary-font-size: 20px;
+                   --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+                  }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: mdi:minus
+                icon_color: |
+                  {% if is_state('switch.girlyand_window','on') %} 1
+                  {% else %} 120,120,120,0
+                  {% endif %}
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: minus
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% if is_state('switch.girlyand_window','on') %} 
+                        {% set hover = 'true' %}
+                      {% else %} 
+                        {% set hover = 'false' %}
+                      {% endif %}
+                      {% set stating = 'true' %}
+                      {% set state_on = 'on' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                entity: switch.girlyand_window
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: mdi:power
+                icon_color: |-
+                  {%if is_state('switch.girlyand_window','on')%} 255, 150,0
+                  {%else %} '1'
+                  {% endif %}
+                card_mod:
+                  style:
+                    .: >
+                      {% set hover = 'true' %}
+
+                      {% set stating = 'true' %}
+
+                      {% set state_on = 'on' %}
+
+                      {% set color = 'rgba(120,120,120,0.2)' %}
+
+                      {% set hover_color_off = 'rgba(120,120,120,0.3)
+                      !important' %}
+
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                icon: mdi:plus
+                icon_color: |
+                  {% if is_state('switch.girlyand_window','on') %} 1
+                  {% else %} 120,120,120,0
+                  {% endif %}
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: plus
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% if is_state('switch.girlyand_window','on') %} 
+                        {% set hover = 'true' %}
+                      {% else %} 
+                        {% set hover = 'false' %}
+                      {% endif %}
+                      {% set stating = 'true' %}
+                      {% set state_on = 'on' %}
+                      {% include 'chip_settings_style.jinja' %}
+            alignment: justify
+            card_mod:
+              style:
+                .: |
+                  {% include 'chip_buttons_big.jinja' %}
+        grid_options:
+          columns: 24
+          rows: auto
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: transparent !important;
+              filter: blur(0px) saturate(200%);
+              background-size: 100% 100%;
+            }
+            ha-card {
+
+            background-color: transparent !important;
+            padding: 0px;
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+
+            }
+    grid_options:
+      columns: 6
+      rows: auto
+    card_mod:
+      style: |
+        {% set top = 160 %}
+        {% include 'fixed_settings.jinja' %}
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: heading
+          icon: mdi:string-lights
+          heading: 0.3.8
+          heading_style: title
+          card_mod:
+            style: |
+              ha-card {
+                   background: rgba(100,0,200) !important;
+                 }
+    grid_options:
+      columns: 6
+      rows: auto
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#girland"
+        name: Торшер Дуо
+        icon: hue:bollard
+        margin_top_mobile: calc(100vh - 480px)
+        margin_top_desktop: calc(100vh - 430px)
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
+        show_header: false
+        close_by_clicking_outside: false
+        backdrop_blur: "5"
+        bg_blur: "100"
+        bg_opacity: "88"
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: Гирлянда Окно
+            double_tap_action:
+              action: none
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            icon: ""
+          - type: spacer
+          - type: back
+        layout_options:
+          grid_columns: full
+        card_mod:
+          style:
+            mushroom-back-chip:nth-child(3)$: |
+              ha-state-icon {
+                --card-mod-icon: mdi:close;
+              }
+            .: |
+              ha-card {
+                margin: 12px 0px 0px;
+                --chip-background: none;
+                --chip-border-width: 0;
+                --chip-box-shadow: none;
+                --chip-border-radius: 12px;
+                --chip-height: 40px;
+                --chip-padding: 14px;
+                --chip-spacing: -35px;
+                --chip-icon-size: 0.7em;
+                --chip-font-size: 0.6em;
+              }
+              }
+      - type: custom:bubble-card
+        card_type: separator
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+        name: Пресеты
+        icon: mdi:palette
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:numeric-1-circle
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 1
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 1
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Все режимы
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:numeric-2-circle
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 2
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 2
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Мерцание
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:numeric-3-circle
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 3
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 3
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Мигание
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:numeric-4-circle
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 4
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 4
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Затухание
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:numeric-5-circle
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 5
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 5
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Неровный
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:numeric-6-circle
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 6
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 6
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Плавный
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:numeric-7-circle
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 7
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 7
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Быстрый
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:numeric-8-circle
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 8
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    device: girland
+                    command: 8
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Непрерывный
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+        columns: 4
+  - type: markdown
+    content: |+
+
+
+
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+    text_only: true
+  - type: vertical-stack
+    cards:
+      - type: conditional
+        conditions:
+          - condition: state
+            entity: "12"
+            state: "12"
+        card:
+          type: vertical-stack
+          cards:
+            - type: heading
+              icon: mdi:lightbulb
+              heading: Бар
+              heading_style: title
+              card_mod:
+                style: |
+                  ha-card {
+                       background: rgba(100,100,60) !important;
+                     }
+        grid_options:
+          columns: 6
+          rows: auto
+      - type: custom:button-card
+        name: null
+        styles:
+          card:
+            - height: 100px
+            - background: transparent
+            - border: none
+        action: none
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: template
+            tap_action:
+              action: navigate
+              navigation_path: "#girland"
+            icon: mdi:dots-horizontal
+            icon_color: "1"
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style:
+                .: |
+                  {% set hover = 'true' %}
+                  {% set stating = 'false' %}
+                  {% include 'chip_settings_style.jinja' %}
+        alignment: center
+        card_mod:
+          style:
+            mushroom-template-chip:nth-child(1)$: |
+              {% set opacity = 0.3 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(2)$: |
+              {% set opacity = 0.3 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(3)$: |
+              {% set opacity = 0.3 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(4)$: |
+              {% set opacity = 0.3 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(5)$: |
+              {% set opacity = 0.3 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            mushroom-template-chip:nth-child(6)$: |
+              {% set opacity = 0.3 %}
+              {% include 'shadow_chip_icon.jinja' %}
+            .: |
+
+              {% set max_width =150 %}
+              {% set chip_height = 40 %}
+              {% set chip_padding = 5 %}
+              {% set icon_size = 30 %}
+              {% set chip_spacing = 20 %}
+              {% include 'fixed_bottom_bar.jinja' %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               
