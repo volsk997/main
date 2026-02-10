@@ -1,0 +1,793 @@
+type: grid
+cards:
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Статусная строка
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:clock
+            entity: input_number.period_raboty_osvezhitelia
+            content: "{{states(config.entity)|float(0)|round(0)|replace(\".\",\",\")}} мин."
+            icon_color: disabled
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+          - type: spacer
+          - type: template
+            icon: mdi:counter
+            entity: counter.osvezhitel
+            content: >-
+              {{states(config.entity)|float(0)|round(0)|replace(".",",")|format(morph='раз',
+              as_text=false)}}
+            icon_color: disabled
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+          - type: template
+            icon: >-
+              {% if states('sensor.air_fresh_vol')|int(0) > 87.5 %}
+              mdi:circle-slice-8 {% elif states('sensor.air_fresh_vol')|int(0) >
+              75 %} mdi:circle-slice-7 {% elif
+              states('sensor.air_fresh_vol')|int(0) > 62.5 %} mdi:circle-slice-6
+              {% elif states('sensor.air_fresh_vol')|int(0) > 50 %}
+              mdi:circle-slice-5 {% elif states('sensor.air_fresh_vol')|int(0) >
+              37.5 %} mdi:circle-slice-4 {% elif
+              states('sensor.air_fresh_vol')|int(0) > 25 %} mdi:circle-slice-3
+              {% elif states('sensor.air_fresh_vol')|int(0) > 12.5 %}
+              mdi:circle-slice-2 {% elif states('sensor.air_fresh_vol')|int(0) >
+              5 %} mdi:circle-slice-1 {% else %} mdi:circle-outline {% endif %}
+            entity: sensor.air_fresh_vol
+            content: "{{states(config.entity)|float(0)|round(1)|replace(\".\",\",\")}}%"
+            icon_color: disabled
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+          - type: template
+            icon: mdi:chart-line-variant
+            entity: sensor.prognoz_vremeni_osvezhitelia
+            content: "{{states(config.entity)}} дн."
+            icon_color: disabled
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  }
+        alignment: start
+        card_mod:
+          style: |
+            {% set top = 7 %}
+            {% set chip_height = 48 %}
+            {% set text_color = 'grey' %}
+            {% include 'title_chips_scrollable.jinja' %}
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 100px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          height: calc(100% - 40px) !important;
+          max-height: 60px !important;  /* 30px - отступ от краёв */
+          min-height: 50px !important;  /* Минимальная высота */
+          
+
+
+          height: 100vh !important;
+          z-index: 1 !important;
+          --chip-height: 60px;
+          --chip-spacing: 20px;
+          --chip-background: transparent;
+          --chip-icon-size: 35px; 
+          --chip-border-radius: 100px;
+          --chip-padding: 12px;
+          /* Визуальные стили ha-card */
+          background: rgba(0,0,0,0) !important;
+
+
+          padding: 0px 0px !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Карта
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+              - color: red
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: ""
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: more-info
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style: |
+                {% set domain = '' %}
+                {% set file = '/local/cards_img/fresh_air.png' %}
+                {% include 'cover_card_cover.jinja' %}
+          - type: custom:stack-in-card
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: |+
+
+                    secondary: ""
+                    icon: ""
+                    picture: ""
+                    badge_icon: ""
+                    badge_color: ""
+                    layout: vertical
+                    icon_color: ""
+                    tap_action:
+                      action: more-info
+                    double_tap_action:
+                      action: none
+                    fill_container: true
+                    card_mod:
+                      style: >
+                        {% set domain = '' %}
+
+                        {% set file = '/local/cards_img/fresh_air.png' %}
+
+                        {% set opacity_variable = 'filter:  opacity(50%) 
+                        !important;'%}
+
+                        {% include 'cover_card_cover.jinja' %}
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 35px;
+                    }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: spacer
+                  - type: template
+                    entity: switch.air_fresher
+                    tap_action:
+                      action: toggle
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    icon: fas:spray-can-sparkles
+                    icon_color: >-
+                      {%if is_state(config.entity,'on')%} blue {%else %} '1' {%
+                      endif %}
+                    card_mod:
+                      style: |
+                        {% set entity = 'switch.air_fresher' %}
+                        {% set state_on = 'on' %}
+                        {% set margin_mobile = '-30px 0px 0px 0px' %}
+                        {% set margin = '-55px 0px 0px 0px' %}
+                        {% include 'cover_card_center_button.jinja' %}
+                  - type: spacer
+                alignment: center
+                card_mod:
+                  style:
+                    mushroom-template-chip:nth-child(2)$: |
+                      {% if is_state('switch.air_fresher', 'on') %}
+                      {% set opacity = 0 %}
+                      {% else %}
+                      {% set opacity = 0.3 %}
+                      {% endif %}
+                      {% include 'shadow_chip_icon.jinja' %}
+                    .: |
+                      {% include 'cover_card_all_buttons_settings.jinja' %}
+            card_mod:
+              style: |
+                {% include 'cover_card_hover_stack.jinja' %}
+          - type: custom:mushroom-entity-card
+            entity: switch.air_fresher
+            icon_type: none
+            secondary_info: last-updated
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            tap_action:
+              action: none
+            layout: vertical
+            card_mod:
+              style:
+                .: |
+                  ha-card { 
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    background: none !important ;
+                    }
+                mushroom-state-info$: |
+                  .container {
+                   --card-secondary-font-size: 15px;
+                   --card-primary-font-size: 20px;
+                   --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+                  }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                tap_action:
+                  action: navigate
+                  navigation_path: "#fresh_air"
+                icon: mdi:dots-horizontal
+                icon_color: disabled
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      }
+            alignment: end
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style: |
+                {% include 'cover_card_options_button.jinja' %}
+        grid_options:
+          columns: 24
+          rows: auto
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: transparent !important;
+              filter: blur(0px) saturate(200%);
+              background-size: 100% 100%;
+            }
+            ha-card {
+
+            background-color: transparent !important;
+            padding: 0px;
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+
+            }
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 160px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          z-index: 1 !important;
+          /* Визуальные стили ha-card */
+          background: transparent !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#fresh_air"
+        name: Edifier R1280DB
+        icon: mdi:speaker
+        margin_top_mobile: calc(100vh - 460px)
+        margin_top_desktop: calc(100vh - 410px)
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
+        show_header: false
+        close_by_clicking_outside: false
+        backdrop_blur: "5"
+        bg_blur: "100"
+        bg_opacity: "88"
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: Освежитель
+            double_tap_action:
+              action: none
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            icon: ""
+          - type: spacer
+          - type: back
+        layout_options:
+          grid_columns: full
+        card_mod:
+          style:
+            mushroom-back-chip:nth-child(3)$: |
+              ha-state-icon {
+                --card-mod-icon: mdi:close;
+              }
+            .: |
+              ha-card {
+                margin: 12px 0px 0px;
+                --chip-background: none;
+                --chip-border-width: 0;
+                --chip-box-shadow: none;
+                --chip-border-radius: 12px;
+                --chip-height: 40px;
+                --chip-padding: 14px;
+                --chip-spacing: -35px;
+                --chip-icon-size: 0.7em;
+                --chip-font-size: 0.6em;
+              }
+              }
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:circle-slice-1
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: input_number.set_value
+                  target:
+                    entity_id: input_number.period_raboty_osvezhitelia
+                  data:
+                    value: 10
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: 10 Минут
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: input_number.set_value
+                  target:
+                    entity_id: input_number.period_raboty_osvezhitelia
+                  data:
+                    value: 10
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'input_number.period_raboty_osvezhitelia'%}
+                  {% set state_on = '10.0' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:circle-slice-3
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: input_number.set_value
+                  target:
+                    entity_id: input_number.period_raboty_osvezhitelia
+                  data:
+                    value: 20
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: 20 Минут
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: input_number.set_value
+                  target:
+                    entity_id: input_number.period_raboty_osvezhitelia
+                  data:
+                    value: 20
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'input_number.period_raboty_osvezhitelia' %}
+                  {% set state_on = '20.0' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:circle-slice-4
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: input_number.set_value
+                  target:
+                    entity_id: input_number.period_raboty_osvezhitelia
+                  data:
+                    value: 30
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                primary: 30 Минут
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: input_number.set_value
+                  target:
+                    entity_id: input_number.period_raboty_osvezhitelia
+                  data:
+                    value: 30
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'input_number.period_raboty_osvezhitelia'%}
+                  {% set state_on = '30.0' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+        columns: 4
+      - type: custom:bubble-card
+        card_type: separator
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+        name: Настройки
+        icon: mdi:cog
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:cup
+                tap_action:
+                  action: more-info
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                badge_icon: ""
+                entity: input_number.emkost_ballona_osvezhitelia
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: more-info
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                entity: input_number.emkost_ballona_osvezhitelia
+                primary: "{{states(config.entity)|round(0)}} "
+                secondary: Ёмкость
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'input_number.period_raboty_osvezhitelia'%}
+                  {% set state_on = '' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:restore-alert
+                tap_action:
+                  confirmation:
+                    text: Обнулить освежитель?
+                  action: perform-action
+                  perform_action: counter.reset
+                  target:
+                    entity_id: counter.osvezhitel
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                badge_icon: ""
+                entity: input_number.emkost_ballona_osvezhitelia
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                icon: ""
+                badge_icon: ""
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                tap_action:
+                  confirmation:
+                    text: Обнулить освежитель?
+                  action: perform-action
+                  perform_action: counter.reset
+                  target:
+                    entity_id: counter.osvezhitel
+                hold_action:
+                  action: none
+                entity: input_number.emkost_ballona_osvezhitelia
+                secondary: ""
+                primary: Сбросить
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% set entity = 'input_number.period_raboty_osvezhitelia'%}
+                  {% set state_on = '' %}
+
+                  {% include 'bubble_card_stack.jinja' %}
+        columns: 4
+    grid_options:
+      columns: full
+  - type: heading
+    icon: fas:spray-can-sparkles
+    heading: 2.1.3
+    heading_style: title
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+  - type: markdown
+    content: >+
+      **2.1.3**
+
+      1. Исправлена строка состояния
+
+
+
+      **2.1.2**
+
+      1. Исправлена подсветка в меню
+
+
+      **2.1.1**
+
+      1. Кнопки в обложке подчиняются теме
+
+
+      **2.1**
+
+      1. Добавлена теню вокруг пиктограмм кнопок управления плеером для
+      читаемости на высоких уровнях прозрачности
+
+      2. Добавлено затенение при наведении на обложку
+
+      3. Вынесение стилей кнопок выпажающего в отдельные файлы
+
+      4. Интеграция в системную тему
+
+      5. Вынесение стилей в отдельные файлы
+
+
+      **2.0.2**
+
+      1. Мелкие исправления
+
+
+      **2.0.1**
+
+      1. Испрвлена вёрстка кнопок управления на мобильных устройствах
+
+
+      **2.0**
+
+      1. Добавлена адаптация под широкие экраны
+
+      2. Добавлено фиксированное положение на экране
+
+      3. Новый дизайн меню функций
+
+
+
+
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+    text_only: true
