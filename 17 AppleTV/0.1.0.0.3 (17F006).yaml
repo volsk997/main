@@ -1,0 +1,986 @@
+type: grid
+cards:
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: template
+        icon: mdi:power
+        icon_color: |-
+          {% if is_state(config.entity, 'on')%} red
+          {% else %} disabled
+          {% endif %}
+        entity: switch.apple_tv_switch
+        tap_action:
+          action: toggle
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        card_mod:
+          style: |
+            ha-card:hover {
+              --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+              scale: 1.1;}
+      - type: spacer
+      - type: template
+        icon: |-
+          {% if state_attr(entity, 'source') == 'ПК'%} mdi:desktop-tower-monitor
+          {% else %} mdi:television
+          {% endif %}
+        icon_color: disabled
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        entity: media_player.samsung
+      - type: template
+        icon: |2-
+            {% if is_state_attr(config.entity, 'app_id', 'ru.kinopoisk')%} yandex:kinopoisk
+            {% elif is_state_attr(config.entity, 'app_id', 'com.google.ios.youtube')%} mdi:youtube
+            {% elif is_state_attr(config.entity, 'app_id', 'com.apple.TVAirPlay')%} mdi:cast-audio-variant
+            {% elif is_state_attr(config.entity, 'app_id', 'com.apple.TVWatchList')%} mdi:sleep
+            {% elif is_state_attr(config.entity, 'app_id', 'com.apple.TVMusic')%} mdi:sleep
+            {% elif is_state_attr(config.entity, 'app_id', 'org.videolan.vlc-ios')%} mdi:vlc
+            {% elif is_state_attr(config.entity, 'app_id', 'ru.ivi')%} phu:ivi-tv
+            {% else %} mdi:sleep
+            {% endif %}
+        icon_color: disabled
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        entity: media_player.gostinaia
+      - type: template
+        icon: mdi:information
+        icon_color: disabled
+        tap_action:
+          action: more-info
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        entity: media_player.gostinaia
+        card_mod:
+          style: |
+            ha-card:hover {
+              --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+              scale: 1.1;}
+    alignment: start
+    card_mod:
+      style: |
+        ha-card {
+          opacity:1000%;
+          --chip-height: 50px;
+          --chip-background: none;
+          --chip-border-radius: 50px;
+
+          background-color: transparent !important;
+          }
+        ha-card:hover {
+           opacity: 100%; }
+        ha-card > .chip-container {
+          flex-wrap: nowrap;
+          overflow-x: scroll;
+          overflow-y: hidden;
+          --chip-spacing: 0px;
+          --chip-height: 45px;
+          --chip-font-weight: bolder; 
+          --primary-tet-color: white;
+          margin-top: 5px;
+          margin-left: 0px;  
+          margin-right: 0px;
+          margin-bottom: 0px; 
+          padding-bottom: 0px;
+        }
+        ha-card > .chip-container > * {
+          flex-shrink: 0;
+        }
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-template-card
+        primary: |+
+
+        secondary: ""
+        icon: ""
+        entity: media_player.gostinaia
+        picture: ""
+        badge_icon: ""
+        badge_color: ""
+        layout: vertical
+        icon_color: ""
+        tap_action:
+          action: more-info
+        double_tap_action:
+          action: none
+        fill_container: true
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              {% if state_attr('media_player.gostinaia', 'entity_picture') == None %} background: url('/local/atv.png') center no-repeat;
+              {% else %} background: url( '{{ state_attr(config.entity, "entity_picture") }}') center no-repeat;
+              {% endif %}
+              background-size: cover;
+              margin: 0px 0px -20px 0px;
+              aspect-ratio: 1 / 1; 
+              border-radius: 30px;
+              }
+            ha-card {
+              border-radius: 30px; 
+              border: 2px outset rgba(0,0,0,0);}
+              border-width: 0px;
+      - type: custom:mushroom-template-card
+        primary: |-
+          {% if is_state(config.entity, 'playing')%} 
+            {% if is_state_attr(config.entity, 'app_id', 'ru.kinopoisk')%} Кинопоиск
+            {% elif is_state_attr(config.entity, 'app_id', 'com.google.ios.youtube')%} YouTube
+            {% elif is_state_attr(config.entity, 'app_id', 'com.apple.TVAirPlay')%} 
+              {% if state_attr(config.entity, 'media_title') == '' %} Airplay
+              {% else %} {{state_attr(config.entity, 'media_artist')}} 
+              {% endif %}
+            {% elif is_state_attr(config.entity, 'app_id', 'com.apple.TVWatchList')%} AppleTV+
+            {% elif is_state_attr(config.entity, 'app_id', 'com.apple.TVMusic')%} Apple Music
+            {% elif is_state_attr(config.entity, 'app_id', 'org.videolan.vlc-ios')%} VLC
+            {% elif is_state_attr(config.entity, 'app_id', 'ru.ivi')%} Иви
+            {% else %} Apple TV
+            {% endif %}
+            {% else %} Apple TV
+          {% endif %}
+        secondary: |
+          {% if is_state(config.entity, 'playing')%} 
+            {% if is_state_attr(config.entity, 'app_id', 'com.apple.TVAirPlay') and state_attr(config.entity, 'media_title') == '' %} 
+            {{state_attr(config.entity, 'app_name')}}
+            {% else %} 
+                     {% if state_attr(config.entity, 'media_title') == '' %}Без названия
+                     {% else %} {{state_attr(config.entity, 'media_title')}}
+                     {% endif %}
+            {% endif %}
+          {% elif is_state(config.entity, 'standby')%} Сон
+          {% elif is_state(config.entity, 'paused')%} Пауза
+          {% else %} Бездействие
+          {% endif %}
+        icon: ""
+        entity: media_player.gostinaia
+        picture: ""
+        badge_icon: ""
+        badge_color: ""
+        layout: vertical
+        icon_color: ""
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        fill_container: true
+        card_mod:
+          style:
+            .: |
+              ha-card { 
+                margin-top: 0px;
+                margin-left: 0px;
+                margin-right: 0px;
+                background: none !important ;
+                }
+            mushroom-state-info$: |
+              .container {
+               --card-secondary-font-size: 15px;
+               --card-primary-font-size: 20px;
+               --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+              }
+      - type: conditional
+        conditions:
+          - condition: state
+            entity: media_player.gostinaia
+            state_not: unavailable
+          - condition: state
+            entity: sensor.atv_app
+            state: com.apple.TVAirPlay
+        card:
+          entity: media_player.gostinaia
+          tap_action: none
+          hide:
+            icon: true
+            name: true
+            runtime: true
+            source: true
+            power: true
+            state_label: true
+            volume: true
+            info: true
+            progress: false
+            controls: true
+          more_info: false
+          type: custom:mini-media-player
+          toggle_power: false
+          group: true
+          volume_stateless: false
+          card_mod:
+            style:
+              mmp-progress$: |
+                paper-progress {
+                  {{ '--paper-progress-container-color: rgba(var(--rgb-indigo-color), 1) !important;' if is_state('media_player.yandex_station_m00en2100jayck', 'playing') }}
+                }
+              .: |
+                ha-card {
+                  margin-bottom: 30px;
+                  margin-left: 20px;
+                  margin-right: 20px;
+                  height: var(--mmp-progress-height);
+                  --mmp-accent-color: #505050;
+                  --ha-card-border-width: 0;
+                }
+      - type: custom:mushroom-media-player-card
+        entity: media_player.samsung
+        volume_controls:
+          - volume_set
+        layout: horizontal
+        primary_info: none
+        secondary_info: none
+        icon_type: none
+        card_mod:
+          style:
+            mushroom-media-player-volume-control$: |
+              mushroom-slider {
+                --main-color: #505050 !important;
+                --bg-color: #50505055 !important;
+                --control-height: 20px !important;
+
+              }
+            .: |
+              ha-card {
+                background: transparent;
+                opacity: 0%;
+                margin-left: 0px;
+                margin-right: 0px;
+                margin-top: -10px;
+                margin-bottom: -10px;
+                  }
+              ha-card:hover {
+                opacity: 100%;
+                width: 100%;
+                }
+      - type: custom:stack-in-card
+        cards:
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: menu
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: fas:chevron-left
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+              - type: template
+                icon: mdi:circle-small
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: up
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: home
+                hold_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: top_menu
+                double_tap_action:
+                  action: none
+                icon: fas:display
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+            alignment: justify
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 20px 18px 0px 18px;
+                      --chip-background: rgba(var(--rgb-disabled), 0);
+                      --chip-border-width: 0;
+                      --chip-box-shadow: none;
+                      --chip-border-radius: 15px;
+                      --chip-height: 45px;
+                      --chip-padding: 15px;
+                      --chip-spacing: 20px;
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: fas:volume-low
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.volume_down
+                  target:
+                    entity_id:
+                      - media_player.samsung
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+              - type: spacer
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: left
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: mdi:circle-small
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+              - type: template
+                icon: mdi:circle-medium
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: select
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: right
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: mdi:circle-small
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+              - type: spacer
+              - type: template
+                icon: fas:volume-high
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.volume_up
+                  target:
+                    entity_id: media_player.samsung
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+            alignment: center
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 18px 18px 20px 18px;
+                      --chip-background: rgba(var(--rgb-disabled), 0);
+                      --chip-border-width: 0;
+                      --chip-box-shadow: none;
+                      --chip-border-radius: 15px;
+                      --chip-height: 45px;
+                      --chip-padding: 15px;
+                      --chip-spacing: 20px;
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: mdi:rewind-10
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: skip_backward
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+              - type: template
+                icon: mdi:circle-small
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: down
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+              - type: template
+                icon: mdi:fast-forward-10
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.gostinaia
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command:
+                      - skip_forward
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      scale: 1.1;}
+            alignment: justify
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 0px 18px 10px 18px;
+                      --chip-background: rgba(var(--rgb-disabled), 0);
+                      --chip-border-width: 0;
+                      --chip-box-shadow: none;
+                      --chip-border-radius: 15px;
+                      --chip-height: 45px;
+                      --chip-padding: 15px;
+                      --chip-spacing: 20px;
+                }
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: media_player.gostinaia
+                state: playing
+            card:
+              type: custom:mushroom-chips-card
+              chips:
+                - type: spacer
+                - type: template
+                  icon: mdi:play
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  tap_action:
+                    action: perform-action
+                    perform_action: remote.send_command
+                    target:
+                      entity_id: remote.gostinaia
+                    data:
+                      num_repeats: 1
+                      delay_secs: 0.4
+                      hold_secs: 0
+                      command: play
+                  card_mod:
+                    style: |
+                      ha-card:hover {
+                        --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                        scale: 1.1;}
+                - type: template
+                  icon: mdi:pause
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  tap_action:
+                    action: perform-action
+                    perform_action: remote.send_command
+                    target:
+                      entity_id: remote.gostinaia
+                    data:
+                      num_repeats: 1
+                      delay_secs: 0.4
+                      hold_secs: 0
+                      command: pause
+                  card_mod:
+                    style: |
+                      ha-card:hover {
+                        --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                        scale: 1.1;}
+                - type: spacer
+              alignment: start
+              card_mod:
+                style: |
+                  ha-card {
+                       margin: 20px 18px 10px 18px;
+                        --chip-background: rgba(var(--rgb-disabled), 0.1);
+                        --chip-border-width: 0;
+                        --chip-box-shadow: none;
+                        --chip-border-radius: 35px;
+                        --chip-height: 65px;
+                        --chip-padding: 35px;
+                        --chip-spacing: 20px;
+                  }
+        card_mod:
+          style:
+            .: |
+              ha-card {
+                margin-top: 0px;
+                background: transparent;
+                opacity: 0%;
+                  }
+              ha-card:hover {
+                opacity: 100%;
+                width: 100%;
+                }
+      - type: custom:stack-in-card
+        cards:
+          - type: custom:stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: |+
+
+                secondary: ""
+                icon: ""
+                entity: media_player.gostinaia
+                picture: ""
+                badge_icon: ""
+                badge_color: ""
+                layout: vertical
+                icon_color: ""
+                tap_action:
+                  action: more-info
+                double_tap_action:
+                  action: none
+                fill_container: true
+                card_mod:
+                  style: |
+                    ha-card:before {
+                      transform: translate3d(0,0,0);
+                      -webkit-transform: translate3d(0,0,0);
+                      content: "";
+                      {% if state_attr('media_player.gostinaia', 'entity_picture') == None %} background: url('/local/atv.png') center no-repeat;
+                      {% else %} background: url( '{{ state_attr(config.entity, "entity_picture") }}') center no-repeat;
+                      {% endif %}
+                      background-size: cover;
+                      filter: blur(0px) saturate(100%) brightness(50%);
+                      margin: 0px 0px -20px 0px;
+                      aspect-ratio: 1 / 1; 
+                      border-radius: 30px;
+                      }
+                    ha-card {
+                      border-radius: 30px; 
+                      border: 2px outset rgba(0,0,0,0);}
+                      border-width: 0px;
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 35px; 
+                     }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: spacer
+              - type: template
+                icon: mdi:skip-previous
+                icon_color: white
+                tap_action:
+                  action: call-service
+                  service: media_player.media_previous_track
+                  target:
+                    entity_id: media_player.gostinaia
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;}
+              - type: spacer
+              - type: template
+                tap_action:
+                  action: call-service
+                  service: media_player.media_play_pause
+                  target:
+                    entity_id: media_player.gostinaia
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: >-
+                  {% if is_state('media_player.gostinaia', 'playing')
+                  %}mdi:pause {% elif is_state('media_player.gostinaia',
+                  'paused') %}mdi:play {% else %}mdi:alert-circle {% endif %}
+                icon_color: white
+                card_mod:
+                  style: |
+                    ha-card {
+                      margin: -30px 0px 0px 0px;
+                         --chip-border-radius: 50%;
+                         --chip-height: 125px;
+                      weight: 0px; }
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;}
+              - type: spacer
+              - type: template
+                icon: mdi:skip-next
+                icon_color: white
+                tap_action:
+                  action: call-service
+                  service: media_player.media_next_track
+                  target:
+                    entity_id: media_player.gostinaia
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;}
+              - type: spacer
+            alignment: center
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 20px 12px 20px 12px;
+                      opacity: 100%;
+                      --chip-background: rgba({{states('input_text.player_card_button_color')}});
+                      --chip-height: 65px;
+                      --chip-border-radius: 50%;
+                      --chip-spacing: 25px;
+                      position: absolute !important;
+                      left: 0px;
+                      right: 0px;
+                      top: 195px !important;
+                      background-color: none !important; }
+                ha-card:hover {
+                   opacity: 100%;
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: yandex:kinopoisk
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.select_source
+                  target:
+                    entity_id: media_player.gostinaia
+                  data:
+                    source: Кинопоиск
+                icon_color: white
+                content: ""
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;}
+              - type: template
+                icon: fab:vk
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.select_source
+                  target:
+                    entity_id: media_player.gostinaia
+                  data:
+                    source: VK Видео
+                icon_color: white
+                content: ""
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;}
+              - type: template
+                icon: mdi:youtube
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.select_source
+                  target:
+                    entity_id: media_player.gostinaia
+                  data:
+                    source: YouTube
+                icon_color: white
+                content: ""
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;}
+              - type: template
+                icon: mdi:vlc
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.select_source
+                  target:
+                    entity_id: media_player.gostinaia
+                  data:
+                    source: VLC
+                icon_color: white
+                content: ""
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba({{states('input_text.player_card_button_hover_color')}});
+                      scale: 1.1;}
+            alignment: justify
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 20px 12px 20px 12px;
+                      opacity: 100%;
+                      --chip-height: 50px;
+                      --chip-background: rgba({{states('input_text.player_card_button_color')}});
+                      --chip-border-radius: 50%;
+                      --chip-spacing: 25px;
+                      position: absolute !important;
+                      left: 0px;
+                      right: 0px;
+                      top: 418px !important;
+                      background-color: transparent !important;
+                      }
+                ha-card:hover {
+                   opacity: 100%;
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: bha:apple-tv
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.select_source
+                  target:
+                    entity_id: media_player.samsung
+                  data:
+                    source: Кабельная приставка
+                icon_color: >-
+                  {% if state_attr(config.entity, 'source') == 'Кабельная
+                  приставка'%} black
+
+                  {% else %} white
+
+                  {% endif %}
+                content: ""
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                entity: media_player.samsung
+                card_mod:
+                  style: |
+                    ha-card {
+                      --chip-background: 
+                        {% if state_attr(config.entity, 'source') == 'Кабельная приставка'%} rgba({{states('input_text.player_card_button_active_color')}})
+                        {% else %} rgba({{states('input_text.player_card_button_color')}});
+                        {% endif %};
+                    }
+                    ha-card:hover {
+                      --chip-background: 
+                        {% if state_attr(config.entity, 'source') == 'Кабельная приставка'%} rgba({{states('input_text.player_card_button_hover_active_color')}});  
+                        {% else %} rgba({{states('input_text.player_card_button_hover_color')}});
+                        {% endif %};
+                      scale: 1.1;  
+                    }
+              - type: template
+                icon: mdi:desktop-tower-monitor
+                tap_action:
+                  action: perform-action
+                  perform_action: media_player.select_source
+                  target:
+                    entity_id: media_player.samsung
+                  data:
+                    source: ПК
+                icon_color: |-
+                  {% if state_attr(entity, 'source') == 'ПК'%} blue
+                  {% else %} white
+                  {% endif %}
+                content: ""
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                entity: media_player.samsung
+                card_mod:
+                  style: |
+                    ha-card {
+                      --chip-background: 
+                        {% if state_attr(config.entity, 'source') == 'ПК'%} rgba({{states('input_text.player_card_button_active_color')}})
+                        {% else %}  rgba({{states('input_text.player_card_button_color')}});
+                        {% endif %};
+                    }
+                    ha-card:hover {
+                      --chip-background: 
+                        {% if state_attr(config.entity, 'source') == 'ПК'%} rgba({{states('input_text.player_card_button_hover_active_color')}});  
+                        {% else %}  rgba({{states('input_text.player_card_button_hover_color')}});
+                        {% endif %};
+                      scale: 1.1;  
+                    }
+            alignment: justify
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 8px 12px 20px 12px;
+                      opacity: 100%;
+                      --chip-height: 50px;
+                      --chip-background: rgba({{states('input_text.player_card_button_color')}});
+                      --chip-border-radius: 50%;
+                      --chip-spacing: 25px;
+                      position: absolute !important;
+                      left: 0px;
+                      right: 0px;
+                      top: 8px !important;
+                      background-color: transparent !important;
+                      }
+                ha-card:hover {
+                   opacity: 100%;
+        card_mod:
+          style: |
+            ha-card {
+              opacity:0%;
+              --chip-height: 50px;
+              --chip-background: rgba({{states('input_text.player_card_button_color')}});
+              --chip-border-radius: 30px;
+              position: absolute !important;
+              border-radius: 30px;
+              top: 0px !important;
+              left: 0px;
+              right: 0px;
+              background-color: transparent !important;
+              }
+            ha-card:hover {
+               opacity: 100%; }
+    card_mod:
+      style: |
+        ha-card:before {
+          transform: translate3d(0,0,0);
+          -webkit-transform: translate3d(0,0,0);
+          content: "";
+          position: absolute;
+          height: 100%;
+          width: 100%;
+
+          background: transparent !important;
+          filter: blur(0px) saturate(200%);
+          background-size: 100% 100%;
+        }
+        ha-card {
+
+        background-color: transparent !important;
+        padding: 0px;
+          transform: translate3d(0,0,0);
+          -webkit-transform: translate3d(0,0,0);
+
+        }
+  - type: heading
+    icon: bha:apple-tv
+    heading_style: title
+    heading: 1.0.0.3
+    visibility:
+      - condition: state
+        entity: sensor.balkon_window_l_battery
+        state: "890"
