@@ -1,0 +1,243 @@
+type: grid
+cards:
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: template
+        tap_action:
+          action: more-info
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        entity: binary_sensor.vibro_vibration
+        content: "{% include 'last_changed_calc.jinja' %}"
+        icon: mdi:vibrate
+    alignment: end
+    card_mod:
+      style: |
+        ha-card {
+              --chip-background: none;
+              --chip-spacing: 0px;
+              --chip-border-radius: 100px;
+            }
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: template
+        tap_action:
+          action: more-info
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        entity: input_number.kopilka
+        icon: mdi:pig-variant
+        content: "{{states(config.entity)|int }} руб."
+    card_mod:
+      style: |
+        ha-card {
+              --chip-background: none;
+              --chip-spacing: 0px;
+              --chip-border-radius: 100px;
+              --chip-height: 100px; 
+              --chip-font-weight: 300; 
+              --chip-font-size: 50px; 
+            }
+  - square: true
+    type: grid
+    cards:
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: 5
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "+5"
+        card_mod:
+          style: |
+            ha-card{
+              text-size: 100px;
+            }
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: 10
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "+10"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: 50
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "+50"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: 100
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "+100"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: 200
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "+200"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: 500
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "+500"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: 1000
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "+1000"
+    columns: 4
+  - type: custom:mushroom-empty-card
+    grid_options:
+      columns: 12
+      rows: 1
+  - square: true
+    type: grid
+    cards:
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: -5
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "-5"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: -10
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "-10"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: -50
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "-50"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: -100
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "-100"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: -200
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "-200"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: -500
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "-500"
+      - show_name: true
+        show_icon: true
+        type: button
+        icon: ""
+        tap_action:
+          action: perform-action
+          perform_action: script.unknown_4
+          data:
+            howmuch: -1000
+        grid_options:
+          columns: 3
+          rows: 2
+        name: "-1000"
+    columns: 4
