@@ -1,0 +1,485 @@
+type: grid
+cards:
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Статусная строка
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: switch.domofon_otkryvat_na_sleduiushchii_zvonok
+                state: "on"
+            chip:
+              type: template
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              icon: mdi:phone-clock
+              card_mod:
+                style: |
+                  ha-card {
+                    opacity: 0.4 }   
+          - type: spacer
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: switch.domofon_otkliuchit_trubku_domofona
+                state: "on"
+            chip:
+              type: template
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              icon: ion:volume-mute
+              entity: switch.domofon_otkliuchit_trubku_domofona
+              card_mod:
+                style: |
+                  ha-card {
+                    opacity: 0.4 }   
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: switch.domofon_vsegda_sbrasyvat
+                state: "on"
+            chip:
+              type: template
+              content: ""
+              icon: mdi:phone-missed
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              entity: switch.domofon_vsegda_sbrasyvat
+              card_mod:
+                style: |
+                  ha-card {
+                    opacity: 0.4 }   
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: switch.domofon_otkryvat_vsegda
+                state: "on"
+            chip:
+              type: template
+              content: ""
+              icon: mdi:phone-check
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              entity: switch.domofon_otkryvat_vsegda
+              card_mod:
+                style: |
+                  ha-card {
+                    opacity: 0.4 }   
+          - type: template
+            icon: mdi:information
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: sensor.domofon_sostoianie_linii
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+                ha-card:hover {
+                  opacity: 1 }     
+                ha-card:active {
+                  scale: 0.8;
+                }  
+        alignment: end
+        card_mod:
+          style: |
+            {% set top = 7 %}
+            {% set chip_height = 48 %}
+            {% include 'title_chips_scrollable.jinja' %}
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 100px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          height: calc(100% - 40px) !important;
+          max-height: 60px !important;  /* 30px - отступ от краёв */
+          min-height: 50px !important;  /* Минимальная высота */
+          
+
+
+          height: 100vh !important;
+          z-index: 1 !important;
+          --chip-height: 60px;
+          --chip-spacing: 20px;
+          --chip-background: transparent !important;
+          --chip-icon-size: 35px; 
+          --chip-border-radius: 100px;
+          --chip-padding: 12px;
+          /* Визуальные стили ha-card */
+          background: rgba(0,0,0,0) !important;
+
+
+          padding: 0px 0px !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Карта
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+              - color: red
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |+
+
+            secondary: ""
+            icon: ""
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            hold_action:
+              action: none
+            card_mod:
+              style: |
+                {% set domain = '' %}
+                {% set file = '/local/cards_img/domofon.jpeg' %} 
+                {% set entity = 'binary_sensor.domofon_vkhodiashchii_zvonok' %}
+                {% set state_on = 'on' %}
+
+                {% include 'cover_card_cover.jinja' %}
+          - type: custom:mushroom-template-card
+            secondary: "{% include 'last_changed_calc.jinja' %}"
+            icon: ""
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            entity: binary_sensor.domofon_vkhodiashchii_zvonok
+            primary: Домофон
+            card_mod:
+              style:
+                .: |
+                  {% include 'cover_device_name.jinja' %}
+                mushroom-state-info$: |
+                  .container {
+                   --card-secondary-font-size: 15px;
+                   --card-primary-font-size: 20px;
+                   --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+                  }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon_color: >-
+                  {% if
+                  is_state('switch.domofon_otkliuchit_trubku_domofona','on')%}
+                  blue {% else %} '1' {% endif %}
+                icon: >-
+                  {% if
+                  is_state('switch.domofon_otkliuchit_trubku_domofona','on')%}
+                  ion:volume-mute {% else %} ion:volume-high {% endif %}
+                entity: switch.domofon_otkliuchit_trubku_domofona
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'true' %}
+                      {% set state_on = 'on' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                entity: button.domofon_propustit
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: >-
+                  {% if is_state('binary_sensor.domofon_vkhodiashchii_zvonok',
+                  'on')%} fas:phone {% else %} fas:lock-open {% endif %}
+                icon_color: |2-
+                    {% if is_state('binary_sensor.domofon_vkhodiashchii_zvonok', 'on')%} green
+                    {% else %} 120,120,120,0.1
+                    {% endif %}
+                card_mod:
+                  style:
+                    .: |
+                      ha-card:hover {
+                       {% if is_state('binary_sensor.domofon_vkhodiashchii_zvonok', 'on')%}
+                       --chip-background: {{(states('input_text.s_card_background_off_hover')) }};
+                      }
+                       {% else %} {% endif %}
+              - type: template
+                icon: >-
+                  {% if is_state('binary_sensor.domofon_vkhodiashchii_zvonok',
+                  'on')%} fas:phone-slash {% else %} fas:lock {% endif %}
+                icon_color: |2-
+                    {% if is_state('binary_sensor.domofon_vkhodiashchii_zvonok', 'on')%} red
+                    {% else %} 120,120,120,0.1
+                    {% endif %}
+                entity: button.domofon_otkazat
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      ha-card:hover {
+                       {% if is_state('binary_sensor.domofon_vkhodiashchii_zvonok', 'on')%}
+                       --chip-background: {{(states('input_text.s_card_background_off_hover')) }};
+                      }
+                       {% else %} {% endif %}
+              - type: template
+                icon_color: >-
+                  {% if
+                  is_state('switch.domofon_otkryvat_na_sleduiushchii_zvonok','on')%}
+                  blue {% else %} '1' {%endif %}
+                icon: "{{states[config.entity].attributes.icon}}"
+                entity: switch.domofon_otkryvat_na_sleduiushchii_zvonok
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'true' %}
+                      {% set state_on = 'on' %}
+                      {% include 'chip_settings_style.jinja' %}
+            alignment: justify
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --chip-background: none !important;
+                    --chip-border-radius: 1000px;
+                    --chip-height: 90px;
+                    --chip-spacing:0px;
+
+                    margin: 20px 0px 0px;
+                    }
+                  @media (min-width: 1150px) {
+                  ha-card {
+                    margin: 20px {{space|default(150)}}px 0px  ;
+                  }
+          - type: custom:bubble-card
+            card_type: separator
+            styles: |
+              .bubble-line {
+                background: var(--primary-text-color);
+                opacity: 0.1;
+                margin: 40px;
+              }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                entity: switch.domofon_otkryvat_vsegda
+                tap_action:
+                  action: toggle
+                icon: "{{states[config.entity].attributes.icon}}"
+                icon_color: |-
+                  {% if is_state(config.entity, 'off')%} "1"
+                  {% else %} blue
+                  {% endif %}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'true' %}
+                      {% set state_on = 'on' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                entity: switch.domofon_vsegda_sbrasyvat
+                tap_action:
+                  action: toggle
+                icon: "{{states[config.entity].attributes.icon}}"
+                icon_color: |-
+                  {% if is_state(config.entity, 'off')%} "1"
+                  {% else %} red
+                  {% endif %}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'true' %}
+                      {% set state_on = 'on' %}
+                      {% include 'chip_settings_style.jinja' %}
+              - type: template
+                entity: switch.domofon_vkliuchit_indikatsiiu
+                tap_action:
+                  action: toggle
+                icon: "{{states[config.entity].attributes.icon}}"
+                icon_color: |-
+                  {% if is_state(config.entity, 'off')%} "1"
+                  {% else %} orange
+                  {% endif %}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'true' %}
+                      {% set state_on = 'on' %}
+                      {% include 'chip_settings_style.jinja' %}
+            alignment: center
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    --chip-background: none !important;
+                    --chip-border-radius: 1000px;
+                    --chip-height: 60px;
+                    --chip-spacing:20px;
+                    margin-top: 0px;
+        grid_options:
+          columns: 24
+          rows: auto
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: transparent !important;
+              filter: blur(0px) saturate(200%);
+              background-size: 100% 100%;
+            }
+            ha-card {
+
+            background-color: transparent !important;
+            padding: 0px;
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+
+            }
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 160px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          z-index: 1 !important;
+          /* Визуальные стили ha-card */
+          background: transparent !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: heading
+    icon: mdi:soundbar
+    heading: 0.3.2b1
+    heading_style: title
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+  - type: markdown
+    content: |+
+
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+    text_only: true

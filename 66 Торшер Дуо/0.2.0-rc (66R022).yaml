@@ -1,0 +1,1661 @@
+type: grid
+cards:
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Статусная строка
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:power
+            icon_color: |2-
+                    {%if is_state(config.entity,'on')%} red
+                    {%else %} disabled
+                    {% endif %}
+            entity: light.torsher_2
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  scale: 1.1;}
+          - type: spacer
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: light.yeelight_colorb_0xed432a3
+                state: "on"
+            chip:
+              type: template
+              tap_action:
+                action: more-info
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              icon: mdi:circle
+              icon_color: "{{state_attr(config.entity, 'rgb_color')}}"
+              entity: light.yeelight_colorb_0xed432a3
+              card_mod:
+                style: |
+                  ha-card:hover {
+                    --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                    scale: 1.1;}
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: light.yeelight_colorb_0x1b11995d
+                state: "on"
+            chip:
+              type: template
+              tap_action:
+                action: more-info
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              icon: mdi:circle
+              icon_color: "{{state_attr(config.entity, 'rgb_color')}}"
+              entity: light.yeelight_colorb_0x1b11995d
+              card_mod:
+                style: |
+                  ha-card:hover {
+                    --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                    scale: 1.1;}
+          - type: template
+            icon: mdi:information
+            icon_color: disabled
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: light.torsher_2
+            card_mod:
+              style: |
+                ha-card:hover {
+                  --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                  scale: 1.1;}
+        alignment: start
+        card_mod:
+          style: |
+            ha-card {
+              opacity:1000%;
+              --chip-height: 50px;
+              --chip-background: none;
+              --chip-border-radius: 50px;
+              --primary-text-color: rgba(var(--rgb-disabled)); ;
+
+              background-color: transparent !important;
+              }
+            ha-card:hover {
+               opacity: 100%; }
+            ha-card > .chip-container {
+              flex-wrap: nowrap;
+              overflow-x: scroll;
+              overflow-y: hidden;
+              --chip-spacing: 0px;
+              --chip-height: 45px;
+              --chip-font-weight: bolder; 
+
+              padding-bottom: 40px;
+              padding-right: 10px;
+              padding-top: 10px;
+              margin-bottom: 20px;
+            }
+            ha-card > .chip-container > * {
+              flex-shrink: 0;
+            }
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 100px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(100% - 40px) !important;
+          max-width: 950px !important;
+          height: calc(100% - 40px) !important;
+          max-height: 60px !important;  /* 30px - отступ от краёв */
+          min-height: 50px !important;  /* Минимальная высота */
+          
+
+
+          height: 100vh !important;
+          z-index: 1 !important;
+          --chip-height: 60px;
+          --chip-spacing: 20px;
+          --chip-background: transparent;
+          --chip-icon-size: 35px; 
+          --chip-border-radius: 100px;
+          --chip-padding: 12px;
+          /* Визуальные стили ha-card */
+          background: rgba(0,0,0,0) !important;
+
+
+          padding: 0px 0px !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:button-card
+          name: Карта
+          styles:
+            card:
+              - height: 1px
+              - background: transparent
+              - border: none
+              - color: red
+          action: none
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |+
+
+            secondary: ""
+            icon: ""
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: more-info
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card:before {
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  content: "";
+                        {%if is_state('light.yeelight_colorb_0x1b11995d','on') and
+                  is_state('light.yeelight_colorb_0xed432a3','on') %}
+                    {%if state_attr('light.yeelight_colorb_0x1b11995d','rgb_color') == state_attr('light.yeelight_colorb_0xed432a3','rgb_color') %}
+                           background: linear-gradient(180deg, rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')|replace ("(","")|replace (")","")}},0.8), rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')|replace ("(","")|replace (")","")}},0.5) 100%);
+                    {% else %} 
+                           background: linear-gradient(180deg, rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')|replace ("(","")|replace (")","")}},0.8), rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')|replace ("(","")|replace (")","")}},0.8) 100%);
+                    {% endif%}
+                  {%elif is_state('light.yeelight_colorb_0x1b11995d','on') and
+                  is_state('light.yeelight_colorb_0xed432a3','off') %}
+                     background: linear-gradient(180deg, rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')|replace ("(","")|replace (")","")}},0.8), rgba(40,40,40,0.5) 90%);
+                  {%elif is_state('light.yeelight_colorb_0x1b11995d','off') and
+                  is_state('light.yeelight_colorb_0xed432a3','on') %}
+                     background: linear-gradient(180deg, rgba(40,40,40,0.5), rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')|replace ("(","")|replace (")","")}},0.8) 150%);
+                  {% else %}
+                     background: linear-gradient(180deg, rgba(90,90,90,0.1), rgba(0,0,0,1) 100%);
+                  {% endif %}
+                  
+                  background-size: cover;
+                  margin: 0px 0px -20px 0px;
+                  aspect-ratio: 1 / 1; 
+                  border-radius: 30px;
+                  }
+                ha-card {
+                  border-radius: 30px; 
+                  border: 2px outset rgba(0,0,0,0);}
+                  border-width: 0px;
+          - type: custom:stack-in-card
+            cards:
+              - type: custom:stack-in-card
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: |+
+
+                    secondary: ""
+                    icon: ""
+                    entity: media_player.yandex_station_m00en2100jayck
+                    picture: ""
+                    badge_icon: ""
+                    badge_color: ""
+                    layout: vertical
+                    icon_color: ""
+                    tap_action:
+                      action: more-info
+                    double_tap_action:
+                      action: none
+                    fill_container: true
+                    card_mod:
+                      style: |
+                        ha-card:before {
+                          transform: translate3d(0,0,0);
+                          -webkit-transform: translate3d(0,0,0);
+                          
+                          content: "";
+                                {%if is_state('light.yeelight_colorb_0x1b11995d','on') and
+                          is_state('light.yeelight_colorb_0xed432a3','on') %}
+                            {%if state_attr('light.yeelight_colorb_0x1b11995d','rgb_color') == state_attr('light.yeelight_colorb_0xed432a3','rgb_color') %}
+                                   background: linear-gradient(180deg, rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')|replace ("(","")|replace (")","")}},0.8), rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')|replace ("(","")|replace (")","")}},0.5) 100%);
+                            {% else %} 
+                                   background: linear-gradient(180deg, rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')|replace ("(","")|replace (")","")}},0.8), rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')|replace ("(","")|replace (")","")}},0.8) 100%);
+                            {% endif%}
+                          {%elif is_state('light.yeelight_colorb_0x1b11995d','on') and
+                          is_state('light.yeelight_colorb_0xed432a3','off') %}
+                             background: linear-gradient(180deg, rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')|replace ("(","")|replace (")","")}},0.8), rgba(40,40,40,0.5) 90%);
+                          {%elif is_state('light.yeelight_colorb_0x1b11995d','off') and
+                          is_state('light.yeelight_colorb_0xed432a3','on') %}
+                             background: linear-gradient(180deg, rgba(40,40,40,0.5), rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')|replace ("(","")|replace (")","")}},0.8) 150%);
+                          {% else %}
+                             background: linear-gradient(180deg, rgba(90,90,90,0.1), rgba(0,0,0,1) 100%);
+                          {% endif %}
+                          filter:  opacity(50%)  !important;
+                          background-size: cover;
+                          margin: 0px 0px -20px 0px;
+                          filter: blur(0px) saturate(100%) brightness(50%);
+                          aspect-ratio: 1 / 1; 
+                          border-radius: 30px;
+                          }
+                        ha-card {
+                          border-radius: 30px; 
+                          border: 2px outset rgba(0,0,0,0);}
+                          border-width: 0px;
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 35px;
+                    }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: spacer
+                  - type: template
+                    entity: light.torsher_2
+                    tap_action:
+                      action: toggle
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    icon: mdi:power
+                    icon_color: >-
+                      {%if is_state('light.torsher_2','on')%}
+                      {{state_attr(config.entity,'rgb_color')}}
+
+                      {%else %} '1'
+
+                      {% endif %}
+                    card_mod:
+                      style: |
+                        ha-card {
+                          margin: -55px 0px 0px 0px;
+                          --chip-height: 220px;  /* Значение для ПК */
+                          weight: 0px; 
+                          --chip-background: transparent;
+                          --chip-padding: -20px;
+                          background: 
+                          {% if is_state(config.entity, 'on') %} rgba(255,255,255,1) !important;;
+                          {% else %}rgba(var(--rgb-card-background-color), 0.5) !important;
+                          {% endif %}
+                          backdrop-filter: blur(10px) !important;
+                          -webkit-backdrop-filter: blur(10px) !important;
+                          box-shadow: 0px 20px 40px 5px rgba(0, 0, 0, 0.7) !important;
+                          border: 1px solid var(--ha-card-border-color, rgba(var(--rgb-primary-text-color),0.1)) !important;
+                          display: flex !important;
+                          flex-direction: column !important;
+                          justify-content: center !important;
+                          align-items: center !important;
+                          transition: all 0.3s ease !important;
+                        }
+                        ha-card:hover {
+                          scale: 1.1;
+                        }
+
+                        /* Для мобильных (ширина экрана ≤ 600px) */
+                        @media (max-width: 1150px) {
+                          ha-card {
+                            --chip-height: 125px !important;
+                            margin: -30px 0px 0px 0px;
+                          }
+                        }
+                  - type: spacer
+                alignment: center
+                card_mod:
+                  style: |
+                    ha-card {
+                      margin: 20px 12px 20px 12px;
+                      opacity: 100%;
+                      --chip-background: rgba({{states('input_text.player_card_button_color')}});
+                      --chip-border-radius: 10000px;
+                      --chip-spacing: 25px;
+                      position: absolute !important;
+                      left: 0px;
+                      right: 0px;
+                      top: 53% !important;
+                      transform: translate(0%, -70%);
+                      background-color: none !important;
+                      --chip-height: 110px; /* Значение по умолчанию (для ПК) */
+                    }
+                    ha-card:hover {
+                      opacity: 100%;
+                    }
+
+                    /* Для узких экранов (телефонов) */
+                    @media (max-width: 1150px) {
+                      ha-card {
+                        --chip-height: 65px !important;
+                        top: 50% !important;
+                      }
+                    }
+            card_mod:
+              style: |
+                ha-card {
+                  opacity:0%;
+                  --chip-height: 50px;
+                  --chip-background: transparent !important;
+                  --chip-border-radius: 30px;
+                  position: absolute !important;
+                  border-radius: 30px;
+                  top: 0px !important;
+                  left: 0px;
+                  right: 0px;
+                  background-color: transparent !important;
+                  
+                  }
+                ha-card:hover {
+                   opacity: 100%; }
+          - type: custom:mushroom-template-card
+            primary: Торшер Дуо
+            secondary: "{{state_translated(config.entity)}}"
+            icon: ""
+            entity: light.torsher_2
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style:
+                .: |
+                  ha-card { 
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    background: none !important ;
+                    }
+                mushroom-state-info$: |
+                  .container {
+                   --card-secondary-font-size: 15px;
+                   --card-primary-font-size: 20px;
+                   --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+                  }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                tap_action:
+                  action: navigate
+                  navigation_path: "#torsher_duo"
+                icon: mdi:dots-horizontal
+                icon_color: disabled
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(var(--rgb-primary-text-color), 0.1);
+                      }
+            alignment: end
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style: |
+                ha-card {
+                  margin-top: 0px;
+                  --chip-font-size: 0.3em;
+                  --chip-icon-size: 0.55em;
+                  --chip-height: 55px;
+                  --chip-background: transparent;
+                  --chip-icon-size: 40px;
+                  --chip-padding: 8px;
+                  --chip-border-radius: 100px;
+                  --chip-spacing: 5px;
+        grid_options:
+          columns: 24
+          rows: auto
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: transparent !important;
+              filter: blur(0px) saturate(200%);
+              background-size: 100% 100%;
+            }
+            ha-card {
+
+            background-color: transparent !important;
+            padding: 0px;
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+
+            }
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 160px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          z-index: 1 !important;
+          /* Визуальные стили ha-card */
+          background: transparent !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#torsher_duo"
+        name: Торшер Дуо
+        icon: hue:bollard
+        margin_top_mobile: calc(100vh - 700px)
+        margin_top_desktop: calc(100vh - 650px)
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
+        show_header: false
+        close_by_clicking_outside: false
+        backdrop_blur: "5"
+        bg_blur: "100"
+        bg_opacity: "88"
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: Торшер Дуо
+            double_tap_action:
+              action: none
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            icon: ""
+          - type: spacer
+          - type: back
+        layout_options:
+          grid_columns: full
+        card_mod:
+          style:
+            mushroom-back-chip:nth-child(3)$: |
+              ha-state-icon {
+                --card-mod-icon: mdi:close;
+              }
+            .: |
+              ha-card {
+                margin: 12px 0px 0px;
+                --chip-background: none;
+                --chip-border-width: 0;
+                --chip-box-shadow: none;
+                --chip-border-radius: 12px;
+                --chip-height: 40px;
+                --chip-padding: 14px;
+                --chip-spacing: -35px;
+                --chip-icon-size: 0.7em;
+                --chip-font-size: 0.6em;
+              }
+              }
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Верхний
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: toggle
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: light.yeelight_colorb_0x1b11995d
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 0px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-light-card
+                entity: light.yeelight_colorb_0x1b11995d
+                use_light_color: false
+                secondary_info: none
+                primary_info: none
+                layout: vertical
+                show_brightness_control: false
+                icon_type: none
+                show_color_temp_control: false
+                show_color_control: true
+                card_mod:
+                  style:
+                    mushroom-state-info$: ""
+                    .: |
+                      ha-card { 
+                        margin-top: -15px;
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  
+                  
+                  {% if is_state('light.yeelight_colorb_0x1b11995d','on') %}
+                  background-color: rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')| replace("(","") | replace(")","")}}, 0.7);
+                  {% else %} 
+                  background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                  {% endif %}
+                  
+
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Нижний
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: toggle
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: light.yeelight_colorb_0xed432a3
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 0px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-light-card
+                entity: light.yeelight_colorb_0xed432a3
+                use_light_color: false
+                secondary_info: none
+                primary_info: none
+                layout: vertical
+                show_brightness_control: false
+                icon_type: none
+                show_color_temp_control: false
+                show_color_control: true
+                card_mod:
+                  style:
+                    mushroom-state-info$: ""
+                    .: |
+                      ha-card { 
+                        margin-top: -15px;
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  
+                  
+                  {% if is_state('light.yeelight_colorb_0xed432a3','on') %}
+                  background-color: rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')| replace("(","") | replace(")","")}}, 0.7);
+                  {% else %} 
+                  background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                  {% endif %}
+                  
+
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Один цвет
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: toggle
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                entity: light.torsher_2
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 0px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-light-card
+                entity: light.torsher_2
+                use_light_color: false
+                secondary_info: none
+                primary_info: none
+                layout: vertical
+                show_brightness_control: false
+                icon_type: none
+                show_color_control: true
+                show_color_temp_control: false
+                card_mod:
+                  style:
+                    mushroom-state-info$: ""
+                    .: |
+                      ha-card { 
+                        margin-top: -15px;
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  
+                  {% if is_state('light.torsher_2','on') %}
+                  background-color: rgba({{state_attr('light.torsher_2','rgb_color')| replace("(","") | replace(")","")}}, 0.7);
+                  {% else %} 
+                  background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                  {% endif %}
+                  
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Яркость
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: none
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 0px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-light-card
+                entity: light.torsher_2
+                use_light_color: true
+                secondary_info: none
+                primary_info: none
+                layout: vertical
+                show_brightness_control: true
+                icon_type: none
+                show_color_control: false
+                show_color_temp_control: false
+                card_mod:
+                  style:
+                    mushroom-state-info$: ""
+                    .: |
+                      ha-card { 
+                        margin-top: -15px;
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  
+                  {% if is_state('light.torsher_2','on') %}
+                  background-color: rgba({{state_attr('light.torsher_2','rgb_color')| replace("(","") | replace(")","")}}, 0.7);
+                  {% else %} 
+                  background-color: rgba(var(--rgb-primary-text-color), 0.05);
+                  {% endif %}
+                  
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+        columns: 2
+      - type: custom:bubble-card
+        card_type: separator
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+        name: Пресеты
+        icon: mdi:palette
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.torsher_2
+                  data:
+                    rgb_color:
+                      - 255
+                      - 0
+                      - 0
+                icon_color: "1"
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-template-card
+                primary: Красный
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.torsher_2
+                  data:
+                    rgb_color:
+                      - 255
+                      - 0
+                      - 0
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  background: url('/local/images/torsh/red.png') center no-repeat;
+                  background-size: 100%;
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533656304
+                  target: {}
+                icon_color: "1"
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-template-card
+                primary: Синий
+                secondary: Красный
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533656304
+                  target: {}
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  background: url('/local/images/torsh/r-b.png') center no-repeat;
+                  background-size: 100%;
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533780753
+                  target: {}
+                icon_color: "1"
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-template-card
+                primary: Синий
+                secondary: Белый
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533780753
+                  target: {}
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  background: url('/local/images/torsh/w-b.png') center no-repeat;
+                  background-size: 100%;
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533851034
+                  target: {}
+                icon_color: "1"
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-template-card
+                primary: Синий
+                secondary: Зелёный
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533851034
+                  target: {}
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  background: url('/local/images/torsh/g-b.png') center no-repeat;
+                  background-size: 100%;
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533926442
+                  target: {}
+                icon_color: "1"
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-template-card
+                primary: Оранжевый
+                secondary: Жёлтый
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533926442
+                  target: {}
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  background: url('/local/images/torsh/y-o.png') center no-repeat;
+                  background-size: 100%;
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689841764449
+                  target: {}
+                icon_color: "1"
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-template-card
+                primary: Сиреневый
+                secondary: Жёлтый
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689841764449
+                  target: {}
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  background: url('/local/images/torsh/y-p.png') center no-repeat;
+                  background-size: 100%;
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533996451
+                  target: {}
+                icon_color: "1"
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-template-card
+                primary: Тёплый
+                secondary: Холодный
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533996451
+                  target: {}
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  background: url('/local/images/torsh/c-w.png') center no-repeat;
+                  background-size: 100%;
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lightbulb
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.torsher_2
+                  data:
+                    effect: Slowdown
+                icon_color: "1"
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        --shape-color: none !important;
+                        --icon-symbol-size:28px;
+                        padding-right: 100px;
+
+                      }
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) ;
+                      } 
+              - type: custom:mushroom-template-card
+                primary: Цветной
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.torsher_2
+                  data:
+                    effect: Slowdown
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .secondary {
+                        position: absolute;
+                        top: -10% !important;
+                        left: 10px;
+                        }
+                      .container {
+                       --card-secondary-font-size: 13.5px;
+                       --card-secondary-font-weight: bolder;
+                    .: |
+                      ha-card { 
+                        background-color: rgba(255,255,255,0) }};
+                      }  
+            card_mod:
+              style: |
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+                ha-card:before {
+                  content: "";
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  right: -50%;
+                  bottom: -50%;
+                  background: url('/local/images/torsh/slowdown.png') center no-repeat;
+                  background-size: 100%;
+                  filter: blur(30px) saturate(200%) opacity(35%);
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  z-index: 0;
+                }
+                ha-card:hover {
+                  background-color: rgba(var(--rgb-primary-text-color), 0.1);
+                }
+                  
+        columns: 4
+  - type: heading
+    icon: hue:bollard
+    heading: 2.0rc
+    heading_style: title
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"

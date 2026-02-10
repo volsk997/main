@@ -1,0 +1,376 @@
+type: grid
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:stack-in-card
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:layout-card
+                layout_type: custom:grid-layout
+                layout:
+                  grid-template-columns: 380px auto
+                  margin: "-4px -4px -8px -4px;"
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: Торшер Дуо
+                    secondary: "{{state_translated(config.entity)}}"
+                    icon: ""
+                    picture: ""
+                    badge_icon: ""
+                    badge_color: ""
+                    layout: horizontal
+                    icon_color: ""
+                    tap_action:
+                      action: more-info
+                    double_tap_action:
+                      action: none
+                    fill_container: true
+                    entity: light.torsher_2
+                    card_mod:
+                      style:
+                        .: |
+                          ha-card { 
+                            margin-top: 15px;
+                            margin-left: 25px;
+                            margin-right: 0px;
+                            background: transparent ;
+                            }
+                        mushroom-state-info$: |
+                          .container {
+                           --card-secondary-font-size: 12px;
+                           --card-primary-font-size: 18px;
+                           --card-secondary-color: rgba(255,255,255,0.7);
+                          }
+          - type: custom:mushroom-light-card
+            entity: light.yeelight_colorb_0x1b11995d
+            use_light_color: true
+            name: Верхний свет
+            show_color_control: true
+            layout: horizontal
+            icon: hue:bulb-filament-alt-hung
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {  
+                  --control-border-radius: 150px;
+                  margin-top: 10px;
+                  margin-left: 20px;
+                  margin-right: 20px;
+                  margin-bottom: 5px;
+                  background-color: rgba(255,255,255,0) }};
+
+                }
+          - type: custom:mushroom-light-card
+            entity: light.yeelight_colorb_0xed432a3
+            use_light_color: true
+            name: Нижний свет
+            layout: horizontal
+            show_color_control: true
+            icon: hue:bulb-filament-alt
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {  
+                  --control-border-radius: 150px;
+                  margin-left: 20px;
+                  margin-right: 20px;
+                  margin-bottom: 0px;
+                  background-color: rgba(255,255,255,0) }};
+
+                }
+          - type: custom:mushroom-light-card
+            entity: light.torsher_2
+            use_light_color: true
+            name: Один цвет
+            show_brightness_control: false
+            layout: horizontal
+            show_color_temp_control: false
+            show_color_control: true
+            icon: hue:bollard
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
+            card_mod:
+              style: |
+                ha-card {  
+                  --control-border-radius: 150px;
+                  margin-bottom: 0px;
+                  margin-left: 20px;
+                  margin-right: 20px;
+                  background-color: rgba(255,255,255,0) }};
+
+                }
+          - type: custom:mushroom-light-card
+            entity: light.torsher_2
+            use_light_color: false
+            name: Яркость
+            show_brightness_control: true
+            layout: horizontal
+            icon: mdi:brightness-4
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {  
+                  --control-border-radius: 150px;
+                  margin-bottom: 0px;
+                  margin-left: 20px;
+                  margin-right: 20px;
+                  background-color: rgba(255,255,255,0) }};
+
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: ""
+                picture: local/images/torsh/red.png
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.torsher_2
+                  data:
+                    rgb_color:
+                      - 255
+                      - 0
+                      - 0
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(50,50,50,1);
+                      scale: 1.1;}
+              - type: template
+                icon: ""
+                picture: local/images/torsh/r-b.png
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533656304
+                  target: {}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(50,50,50,1);
+                      scale: 1.1;}
+              - type: template
+                icon: ""
+                picture: local/images/torsh/w-b.png
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533780753
+                  target: {}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(50,50,50,1);
+                      scale: 1.1;}
+              - type: template
+                icon: ""
+                picture: local/images/torsh/g-b.png
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533851034
+                  target: {}
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(50,50,50,1);
+                      scale: 1.1;}
+              - type: template
+                icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533926442
+                  target: {}
+                hold_action:
+                  action: none
+                picture: local/images/torsh/y-o.png
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(50,50,50,1);
+                      scale: 1.1;}
+              - type: template
+                icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689841764449
+                  target: {}
+                hold_action:
+                  action: none
+                picture: local/images/torsh/y-p.png
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(50,50,50,1);
+                      scale: 1.1;}
+              - type: template
+                icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: script.1689533996451
+                  target: {}
+                hold_action:
+                  action: none
+                picture: local/images/torsh/c-w.png
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(50,50,50,1);
+                      scale: 1.1;}
+              - type: template
+                icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.torsher_2
+                  data:
+                    effect: Slowdown
+                hold_action:
+                  action: none
+                picture: local/images/torsh/slowdown.png
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(50,50,50,1);
+                      scale: 1.1;}
+            alignment: center
+            card_mod:
+              style: |
+                ha-card {
+                  margin-top: 10px;
+                  margin-left: 20px;
+                  margin-right: 20px;
+                  margin-bottom: 0px;
+                  --chip-font-size: 0.3em;
+                  --chip-height: 45px;
+                  --chip-padding: 20px;
+                  --chip-border-radius: 100px;
+                  --chip-background: rgba(31,31,31,1);
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.torshery_gruppa
+                  data:
+                    brightness_pct: 100
+                icon: mdi:brightness-4
+                content: 100% ›
+                icon_color: |
+                  {{state_attr('light.torsher_2', 'rgb_color')}}
+                card_mod:
+                  style: |
+                    ha-card:hover {
+                      --chip-background: rgba(255,255,255,0.15);
+                       }
+            alignment: start
+            card_mod:
+              style: |
+                ha-card > .chip-container {
+                  height: 60px;
+                  flex-wrap: nowrap;
+                  overflow-x: scroll;
+                  overflow-y: hidden;
+                  --chip-spacing: 10px;
+                  --chip-height: 45px;
+                  --chip-background: rgba(255,255,255,0.1) ;
+                  --chip-font-weight: normal; 
+                  --chip-font-size: 14px; 
+                  margin-top: 20px;
+                  margin-left: 30px;  
+                  margin-right: -20px;
+                  margin-bottom: 20px; 
+                  padding-bottom: 0px;
+                }
+                ha-card > .chip-container > * {
+                  flex-shrink: 0;
+                }
+        card_mod:
+          style: >
+            ha-card {
+
+            {%if is_state('light.yeelight_colorb_0x1b11995d','on') and
+            is_state('light.yeelight_colorb_0xed432a3','on') %}
+              {%if state_attr('light.yeelight_colorb_0x1b11995d','rgb_color') == state_attr('light.yeelight_colorb_0xed432a3','rgb_color') %}
+                     background: linear-gradient(180deg, rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')|replace ("(","")|replace (")","")}},0.5), rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')|replace ("(","")|replace (")","")}},0.2) 100%);
+              {% else %} 
+                     background: linear-gradient(180deg, rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')|replace ("(","")|replace (")","")}},0.5), rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')|replace ("(","")|replace (")","")}},0.5) 100%);
+              {% endif%}
+            {%elif is_state('light.yeelight_colorb_0x1b11995d','on') and
+            is_state('light.yeelight_colorb_0xed432a3','off') %}
+               background: linear-gradient(180deg, rgba({{state_attr('light.yeelight_colorb_0x1b11995d','rgb_color')|replace ("(","")|replace (")","")}},0.5), rgba(40,40,40,0.5) 90%);
+            {%elif is_state('light.yeelight_colorb_0x1b11995d','off') and
+            is_state('light.yeelight_colorb_0xed432a3','on') %}
+               background: linear-gradient(180deg, rgba(40,40,40,0.5), rgba({{state_attr('light.yeelight_colorb_0xed432a3','rgb_color')|replace ("(","")|replace (")","")}},0.5) 150%);
+            {% else %}
+               background: linear-gradient(180deg, rgba(90,90,90,0.5), rgba(0,0,0,0.5) 200%);
+            {% endif %}
+
+            }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+        visibility:
+          - condition: screen
+            media_query: "(min-width: 1280px)"
+    grid_options:
+      columns: 24
+      rows: auto
+  - type: heading
+    icon: mdi:lightbulb
+    heading_style: title
+    heading: 0.12.2
+    visibility:
+      - condition: state
+        entity: sensor.balkon_window_l_battery
+        state: "890"
+    badges: []
+column_span: 1

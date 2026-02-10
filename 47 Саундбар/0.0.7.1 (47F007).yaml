@@ -1,0 +1,583 @@
+type: grid
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:stack-in-card
+        cards:
+          - type: custom:mushroom-media-player-card
+            icon: mdi:play
+            use_media_info: true
+            show_volume_level: false
+            media_controls: []
+            volume_controls: []
+            fill_container: false
+            icon_type: none
+            primary_info: none
+            secondary_info: none
+            entity: media_player.samsung
+            card_mod:
+              style: |
+                mushroom-shape-icon {
+                  display: flex;
+                  {% set media_type = state_attr(config.entity, 'media_content_type') %}
+                  {% if media_type == 'tvshow' %}
+                    --card-mod-icon: mdi:television-classic;
+                    animation: flicker 1s linear infinite alternate;
+                  {% elif media_type == 'movie' %}
+                    --card-mod-icon: mdi:movie-roll;
+                    animation: spin 2s linear infinite reverse;
+                  {% elif media_type == 'music' %}
+                    --card-mod-icon: mdi:music;
+                    animation: beat 1.3s ease-out infinite both;
+                  {% elif media_type == 'playlist' %}
+                    --card-mod-icon: mdi:music;
+                    animation: beat 1.3s ease-out infinite both;
+                  {% else %}
+                    --card-mod-icon: mdi:play;
+                  {% endif %}
+
+                  {{ 'animation: none;' if not is_state(config.entity, 'off') }}
+
+                }
+                ha-card {
+                  --ha-card-border-width: 0;
+                }
+                ha-card:before {
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  content: "";
+
+                  background: url('/local/samsung.jpg') center no-repeat;
+                  border-radius: 10px;
+                  background-size: cover;
+                  margin: 0px 0px 10px 0px;
+                  {% set media_type = state_attr(config.entity, 'media_content_type') %}
+                  {% if media_type == 'tvshow' %}
+                    aspect-ratio: 16 / 9;
+                  {% elif media_type == 'movie' %}
+                    aspect-ratio: 2 / 3;
+                  {% else %}
+                    aspect-ratio: 1 / 1;
+                  {% endif %}
+                }
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:layout-card
+                layout_type: custom:grid-layout
+                layout:
+                  grid-template-columns: auto 70px
+                  margin: "-4px -4px -8px -4px;"
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: Samsung HW-B550
+                    secondary: "{{state_translated(config.entity)}}"
+                    icon: ""
+                    picture: ""
+                    badge_icon: ""
+                    badge_color: ""
+                    layout: horizontal
+                    icon_color: ""
+                    tap_action:
+                      action: more-info
+                    double_tap_action:
+                      action: none
+                    fill_container: true
+                    entity: media_player.samsung
+                    card_mod:
+                      style:
+                        .: |
+                          ha-card { 
+                            margin-top: 0px;
+                            margin-left: 0px;
+                            margin-right: 0px;
+                            background: transparent ;
+                            }
+                        mushroom-state-info$: |
+                          .container {
+                           --card-secondary-font-size: 12px;
+                           --card-primary-font-size: 18px;
+                           --card-secondary-color: rgba(255,255,255,0.7);
+                          }
+                  - type: custom:mushroom-template-card
+                    primary: ""
+                    secondary: ""
+                    entity: input_boolean.akustika
+                    tap_action:
+                      action: perform-action
+                      perform_action: remote.send_command
+                      target:
+                        entity_id: remote.universal_remote
+                      data:
+                        num_repeats: 1
+                        delay_secs: 0.4
+                        hold_secs: 0
+                        command: power
+                        device: b550
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    icon: fas:power-off
+                    icon_color: red
+                    picture: "{{state_attr(config.entity,'entity_picture')}}"
+                    layout: horizontal
+                    card_mod:
+                      style:
+                        mushroom-shape-icon$: |
+                          .shape {
+                            --shape-color: white;
+                          }
+                        .: |
+                          ha-card {
+                          margin-top: 0px;
+                            --icon-border-radius: 40% !important;
+                            --icon-size: 45px;
+                            background: none;
+                          }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: ""
+                content: ""
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card {
+                      weight: 10%;
+                      --chip-background: transparent;
+                      --chip-height: 15px;
+                    }
+              - type: template
+                icon: mdi:music-circle
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: sound_mode
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                content: SOUNDE MODE
+                icon_color: ""
+              - type: template
+                entity: input_boolean.karaoke_gostinaia
+                icon: mdi:tune-variant
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: ch_level
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                content: CH LEVEL
+              - type: template
+                entity: input_boolean.karaoke_gostinaia
+                icon: mdi:gradient-horizontal
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: tone_control
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                content: TONE CONTROL
+              - type: template
+                icon: ""
+                content: ""
+                icon_color: ""
+                card_mod:
+                  style: |
+                    ha-card {
+                      weight: 10%;
+                      --chip-background: transparent;
+                      --chip-height: 10px;
+                    }
+            alignment: start
+            card_mod:
+              style: |
+                ha-card > .chip-container {
+                  height: 60px;
+                  flex-wrap: nowrap;
+                  overflow-x: scroll;
+                  overflow-y: hidden;
+                  --chip-spacing: 10px;
+                  --chip-height: 45px;
+                  --chip-background: rgba(255,255,255,0.1) ;
+                  --chip-font-weight: normal; 
+                  --chip-font-size: 14px; 
+                  margin-top: 5px;
+                  margin-left: -20px;  
+                  margin-right: -20px;
+                  margin-bottom: -20px; 
+                  padding-bottom: 0px;
+                }
+                ha-card > .chip-container > * {
+                  flex-shrink: 0;
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: mute
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: mdi:volume-mute
+              - type: template
+                icon: mdi:circle-small
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: up
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: source
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: mdi:import
+            alignment: justify
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 0px 12px 10px 12px;
+                      --chip-background: rgba(var(--rgb-disabled), 0);
+                      --chip-border-width: 0;
+                      --chip-box-shadow: none;
+                      --chip-border-radius: 15px;
+                      --chip-height: 60px;
+                      --chip-padding: 15px;
+                      --chip-spacing: 10px;
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: vol-
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: mdi:volume-medium
+              - type: spacer
+              - type: template
+                icon: mdi:circle-small
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: left
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: play
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      margin: -8px 0px 0px 0px;
+                         --chip-background: rgba(255,255,255);
+                         --chip-border-radius: 40%;
+                         --chip-height: 75px;
+                         --chip-padding: 20px;
+                    }   
+                icon: mdi:play-pause
+                icon_color: black
+              - type: template
+                icon: mdi:circle-small
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: right
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: spacer
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: vol+
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: mdi:volume-high
+            alignment: center
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 0px 12px 0px 12px;
+                      --chip-background: rgba(var(--rgb-disabled), 0);
+                      --chip-border-width: 0;
+                      --chip-box-shadow: none;
+                      --chip-border-radius: 15px;
+                      --chip-height: 60px;
+                      --chip-padding: 15px;
+                      --chip-spacing: 10px;
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: mdi:information
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: info
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: template
+                icon: mdi:circle-small
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: down
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: template
+                icon: mdi:bluetooth-connect
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: bt
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+            alignment: justify
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 0px 12px 0px 12px;
+                      --chip-background: rgba(var(--rgb-disabled), 0);
+                      --chip-border-width: 0;
+                      --chip-box-shadow: none;
+                      --chip-border-radius: 15px;
+                      --chip-height: 60px;
+                      --chip-padding: 15px;
+                      --chip-spacing: 10px;
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: bass-
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: ""
+                content: BASS-
+              - type: template
+                icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: bass+
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                content: BASS+
+            alignment: center
+            card_mod:
+              style: |
+                ha-card {
+                     margin: 10px 0px 20px 8px;
+                      --chip-background: rgba(255,255,255,0.1);
+                      --chip-height: 50px;
+                      --chip-padding: 20px;
+                      --chip-spacing: 20px;
+                }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: template
+                icon: mdi:cog
+                icon_color: 255,255,255,0.4
+                tap_action:
+                  action: perform-action
+                  perform_action: remote.send_command
+                  target:
+                    entity_id: remote.universal_remote
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    command: settings
+                    device: b550
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                entity: ""
+            alignment: end
+            card_mod:
+              style: |
+                ha-card {
+                  --primary-text-color: rgba(255,255,255,0.4);
+                  position: absolute !important;
+                  bottom: 0px !important;
+                  right: 0px !important;
+
+                  background-color: none !important;
+                  --chip-background: none !important;
+                  --chip-height: 50px !important;
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: url('/local/samsung.jpg') center no-repeat;
+              filter: blur(400px) saturate(0%);
+              background-size: 100% 100%;
+            }
+            ha-card {
+              padding: 20px;
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+            }

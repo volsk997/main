@@ -1,0 +1,1583 @@
+type: grid
+cards:
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: heading
+          icon: mdi:information
+          heading: Статусная строка
+          heading_style: title
+          card_mod:
+            style: |
+              ha-card {
+                   background: rgba(200,100,0) !important;
+                 }
+    grid_options:
+      columns: 6
+      rows: auto
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:power
+            icon_color: |2-
+                    {%if is_state(config.entity,'on')%} red
+                    {%else %} 1
+                    {% endif %}
+            entity: light.embi_lampa
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+                ha-card:hover {
+                  opacity: 1 }     
+                ha-card:active {
+                  scale: 0.8;
+                }  
+          - type: spacer
+          - type: template
+            icon: mdi:information
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: light.embi_lampa
+            card_mod:
+              style: |
+                ha-card {
+                  opacity: 0.4 }   
+                ha-card:hover {
+                  opacity: 1 }     
+                ha-card:active {
+                  scale: 0.8;
+                }  
+        alignment: start
+        card_mod:
+          style: |
+            {% set top = 7 %}
+            {% set chip_height = 48 %}
+            {% include 'title_chips_scrollable.jinja' %}
+    grid_options:
+      columns: 6
+      rows: auto
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 100px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          height: calc(100% - 40px) !important;
+          max-height: 60px !important;  /* 30px - отступ от краёв */
+          min-height: 50px !important;  /* Минимальная высота */
+          
+
+
+          height: 100vh !important;
+          z-index: 1 !important;
+          --chip-height: 60px;
+          --chip-spacing: 20px;
+          --chip-background: transparent !important;
+          --chip-icon-size: 35px; 
+          --chip-border-radius: 100px;
+          --chip-padding: 12px;
+          /* Визуальные стили ha-card */
+          background: rgba(0,0,0,0) !important;
+
+
+          padding: 0px 0px !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: heading
+          icon: mdi:view-dashboard
+          heading: Карта
+          heading_style: title
+          card_mod:
+            style: |
+              ha-card {
+                   background: rgba(200,0,100) !important;
+                 }
+    grid_options:
+      columns: 6
+      rows: auto
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |+
+
+            secondary: ""
+            icon: ""
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            hold_action:
+              action: none
+            card_mod:
+              style: |
+                {% set domain = '' %} 
+                {% set file = '/local/cards_img/ambi.png' %}
+                {% set entity = 'light.embi_lampa' %}
+                {% set state_on = 'on' %}
+
+                {% include 'cover_card_cover.jinja' %}
+          - type: custom:mushroom-template-card
+            primary: Эмби-лампа
+            secondary: "{{state_translated(config.entity)}}"
+            icon: ""
+            entity: light.embi_lampa
+            picture: ""
+            badge_icon: ""
+            badge_color: ""
+            layout: vertical
+            icon_color: ""
+            tap_action:
+              action: none
+            double_tap_action:
+              action: none
+            fill_container: true
+            card_mod:
+              style:
+                .: |
+                  {% include 'cover_device_name.jinja' %}
+                mushroom-state-info$: |
+                  .container {
+                   --card-secondary-font-size: 15px;
+                   --card-primary-font-size: 20px;
+                   --card-secondary-color: rgba(var(--rgb-primary-text-color), 0.6);
+                  }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: spacer
+              - type: template
+                entity: light.yandex_ambi
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                icon: mdi:power
+                icon_color: |-
+                  {%if is_state('light.embi_lampa','on')%} 255, 150,0
+                  {%else %} '1'
+                  {% endif %}
+                card_mod:
+                  style:
+                    .: >
+                      {% set hover = 'true' %}
+
+                      {% set stating = 'true' %}
+
+                      {% set color = 'rgba(120,120,120,0.2)' %}
+
+                      {% set hover_color_off = 'rgba(120,120,120,0.3)
+                      !important' %}
+
+                      {% set state_on = 'on' %}
+
+                      {% include 'chip_settings_style.jinja' %}
+              - type: spacer
+            alignment: justify
+            card_mod:
+              style:
+                .: |
+                  {% include 'chip_buttons_big.jinja' %}
+          - type: custom:bubble-card
+            card_type: separator
+            styles: |
+              .bubble-line {
+                background: var(--primary-text-color);
+                opacity: 0.1;
+                margin: 40px;
+              }
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    margin: {{left|default(0)}}px 150px 0px;
+                  }
+                  @media (max-width: 1150px) {
+                    ha-card {
+                      margin: {{left|default(0)}}px {{space|default(0)}}px 0px;
+                    }
+                  }
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: media_player.gostinaia
+                    state_not: standby1
+                chip:
+                  type: template
+                  entity: sensor.appletv_app
+                  tap_action:
+                    action: perform-action
+                    perform_action: light.turn_on
+                    target:
+                      entity_id: light.embi_lampa
+                    data:
+                      effect: Огонь
+                  icon: mdi:fire
+                  icon_color: "1"
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'false' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: media_player.gostinaia
+                    state_not: standby1
+                chip:
+                  type: template
+                  tap_action:
+                    action: perform-action
+                    perform_action: light.turn_on
+                    target:
+                      entity_id: light.embi_lampa
+                    data:
+                      effect: Лава лампа
+                  icon: mdi:lava-lamp
+                  icon_color: "1"
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'false' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: media_player.gostinaia
+                    state_not: standby1
+                chip:
+                  type: template
+                  tap_action:
+                    action: perform-action
+                    perform_action: light.turn_on
+                    target:
+                      entity_id: light.embi_lampa
+                    data:
+                      effect: Северное Сияние
+                  icon: mdi:blur
+                  icon_color: "1"
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'false' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: media_player.gostinaia
+                    state_not: standby1
+                chip:
+                  type: template
+                  tap_action:
+                    action: perform-action
+                    perform_action: light.turn_on
+                    target:
+                      entity_id: light.embi_lampa
+                    data:
+                      effect: Романтика
+                  icon: mdi:emoticon-kiss-outline
+                  icon_color: "1"
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'false' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: media_player.gostinaia
+                    state_not: standby1
+                chip:
+                  type: template
+                  tap_action:
+                    action: perform-action
+                    perform_action: light.turn_on
+                    target:
+                      entity_id: light.embi_lampa
+                    data:
+                      effect: Радуга
+                  icon: mdi:looks
+                  icon_color: "1"
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  card_mod:
+                    style:
+                      .: |
+                        {% set hover = 'true' %}
+                        {% set stating = 'false' %}
+                        {% include 'chip_settings_style.jinja' %}
+              - type: template
+                tap_action:
+                  action: navigate
+                  navigation_path: "#ambi"
+                icon: mdi:dots-horizontal
+                icon_color: "1"
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style:
+                    .: |
+                      {% set hover = 'true' %}
+                      {% set stating = 'false' %}
+                      {% include 'chip_settings_style.jinja' %}
+            alignment: center
+            layout_options:
+              grid_columns: full
+            card_mod:
+              style:
+                .: |
+
+                  {% include 'chip_buttons_small.jinja' %}
+        grid_options:
+          columns: 24
+          rows: auto
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: transparent !important;
+              filter: blur(0px) saturate(200%);
+              background-size: 100% 100%;
+            }
+            ha-card {
+
+            background-color: transparent !important;
+            padding: 0px;
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+
+            }
+    grid_options:
+      columns: 6
+      rows: auto
+    card_mod:
+      style: |
+        ha-card {
+          /* Стили ha-card */
+          position: fixed !important;
+          top: 160px !important;
+          left: calc(50vw + var(--mdc-drawer-width, 0px)/2) !important;
+          transform: translateX(-50%) !important;
+          width: calc(90vw - var(--mdc-drawer-width, 0px)) !important;
+          max-width: 950px !important;
+          min-width: 450px !important;
+          z-index: 1 !important;
+          /* Визуальные стили ha-card */
+          background: transparent !important;
+
+          
+          /* Выравнивание содержимого */
+
+          
+          /* Анимация */
+          transition: all 0.3s ease !important;
+        }
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: "12"
+        state: "12"
+    card:
+      type: vertical-stack
+      cards:
+        - type: heading
+          icon: cil:apple-homepod
+          heading: 0.3.5-a1
+          heading_style: title
+          card_mod:
+            style: |
+              ha-card {
+                   background: rgba(100,0,200) !important;
+                 }
+    grid_options:
+      columns: 6
+      rows: auto
+  - type: vertical-stack
+    cards:
+      - type: custom:bubble-card
+        card_type: pop-up
+        hash: "#ambi"
+        name: Торшер Дуо
+        icon: hue:bollard
+        margin_top_mobile: calc(100vh - 880px)
+        margin_top_desktop: calc(100vh - 830px)
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
+        show_header: false
+        close_by_clicking_outside: false
+        backdrop_blur: "5"
+        bg_blur: "100"
+        bg_opacity: "88"
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: Яндекс Эмби-лампа
+            double_tap_action:
+              action: none
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            icon: ""
+          - type: spacer
+          - type: back
+        layout_options:
+          grid_columns: full
+        card_mod:
+          style:
+            mushroom-back-chip:nth-child(3)$: |
+              ha-state-icon {
+                --card-mod-icon: mdi:close;
+              }
+            .: |
+              ha-card {
+                margin: 12px 0px 0px;
+                --chip-background: none;
+                --chip-border-width: 0;
+                --chip-box-shadow: none;
+                --chip-border-radius: 12px;
+                --chip-height: 40px;
+                --chip-padding: 14px;
+                --chip-spacing: -35px;
+                --chip-icon-size: 0.7em;
+                --chip-font-size: 0.6em;
+              }
+              }
+      - type: custom:bubble-card
+        card_type: separator
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+        name: Пресеты
+        icon: mdi:palette
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:party-popper
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Вечеринка
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Вечеринка
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Вечеринка
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:blur
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Северное Сияние
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Северное Сияние
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Северное Сияние
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:equalizer
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Эквалайзер
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Эквалайзер
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Эквалайзер
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:gamepad
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Игра
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Игра
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Игра
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:emoticon-kiss-outline
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Романтика
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Романтика
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Романтика
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:fire
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Огонь
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Огонь
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Огонь
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lava-lamp
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Лава Лампа
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Лава Лампа
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Лава Лампа
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: fas:moon
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Ночник
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Ночник
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Ночник
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:theme-light-dark
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Циркадный
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Циркадный
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Циркадный
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:weather-sunset-down
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Закат
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Закат
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Закат
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:weather-sunset-up
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Рассвет
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Рассвет
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Рассвет
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:book
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Чтение
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Чтение
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Чтение
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:looks
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Радуга
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Радуга
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Радуга
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:lungs
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Дыхание
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Дыхание
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Дыхание
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:pulse
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Пульс
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Пульс
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Пульс
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:view-parallel
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Маятник
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Романтика
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Маятник
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:weather-sunny
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Лето
+                icon_color: "1"
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                layout: horizontal
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      {% include 'bubble_card_icon.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+              - type: custom:mushroom-template-card
+                secondary: ""
+                icon: ""
+                badge_icon: ""
+                tap_action:
+                  action: perform-action
+                  perform_action: light.turn_on
+                  target:
+                    entity_id: light.embi_lampa
+                  data:
+                    effect: Лето
+                icon_color: ""
+                layout: horizontal
+                double_tap_action:
+                  action: none
+                badge_color: ""
+                fill_container: true
+                picture: ""
+                hold_action:
+                  action: none
+                primary: Лето
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      {% include 'bubble_card_text.jinja' %}
+                    .: |
+                      {% include 'mushroom_ha_card_transparent.jinja' %}
+            card_mod:
+              style:
+                .: |
+                  {% include 'bubble_card_stack.jinja' %}
+        columns: 4
+      - type: custom:bubble-card
+        card_type: separator
+        styles: |
+          .bubble-line {
+            background: var(--primary-text-color);
+            opacity: 0.1;
+          }
+        name: Эффект по умолчанию
+        icon: mdi:palette
+      - type: custom:mushroom-select-card
+        entity: input_select.embi_lampa_po_umolchaniiu
+        primary_info: none
+        secondary_info: none
+        icon_type: none
+  - type: markdown
+    content: |+
+
+
+
+    visibility:
+      - condition: state
+        entity: "1233"
+        state: "12121"
+    text_only: true
