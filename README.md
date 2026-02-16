@@ -6,7 +6,7 @@
 3. [YMPlayer Card](https://github.com/volsk997/18_YMPlayer) - dashboard card for yandex station media player
 4. [AirFryer Card](https://github.com/volsk997/57_FryerCard) - dashboard card for fryer (Xiaomi Air Friyer 6.5L)
 5. [TorchDuo Card](https://github.com/volsk997/66_TorchDuoCard) - dashboard card for duallamp torch
-6. [AirFresher](https://github.com/volsk997/57_AirFresherCard) - dashboard card for air fresher
+6. [AirFresher](https://github.com/volsk997/11_AirFresherCard) - dashboard card for air fresher
 7. [Speaker Card](https://github.com/volsk997/12_SpeakerCard) - dashboard card for PC speaker
 8. [Climate Card](https://github.com/volsk997/27_ClimateCard) - dashboard card for climate
 9. [YandexGyver Card](https://github.com/volsk997/56_YandexGyverLamp) - dashboard card for Yandex Ambilight lamp
