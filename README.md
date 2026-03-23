@@ -12,6 +12,7 @@
 9. [YandexGyver Card](https://github.com/volsk997/56_YandexGyverLamp) - dashboard card for Yandex Ambilight lamp
 10. [AppleTV Card](https://github.com/volsk997/17_AppleTVCard) - dashboard card for AppleTV
 11. [IntercomCard](https://github.com/volsk997/87_IntercomCard) - Intercom Card
+12. [Homepod Card](https://github.com/volsk997/Homepod_card) - dashboard card for Apple Homepod
 
 
 # Dashboards
